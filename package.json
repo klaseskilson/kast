@@ -2,7 +2,7 @@
   "name": "kast",
   "private": true,
   "scripts": {
-    "start": "meteor run",
+    "start": "meteor run --settings settings.json",
     "lint": "eslint --ext .js,.jsx . || `exit 0`",
     "pretest": "npm run lint --silent",
     "test": "meteor test --driver-package practicalmeteor:mocha --port 3100"

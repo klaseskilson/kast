@@ -3,3 +3,7 @@ node_modules/
 
 # intellij projects
 .idea
+
+# dont share our secrets with the internet
+settings.json
+settings.production.json
