@@ -2,9 +2,21 @@
   "name": "kast",
   "private": true,
   "scripts": {
-    "start": "meteor run"
+    "start": "meteor run",
+    "lint": "eslint --ext .js,.jsx . || `exit 0`",
+    "pretest": "npm run lint --silent",
+    "test": "meteor test --driver-package practicalmeteor:mocha --port 3100"
   },
   "dependencies": {
-    "meteor-node-stubs": "~0.2.0"
+    "meteor-node-stubs": "~0.2.0",
+    "react": "^0.14.8",
+    "react-dom": "^0.14.8",
+    "react-mounter": "^1.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^2.6.0",
+    "eslint-config-airbnb": "^6.2.0",
+    "eslint-plugin-meteor": "^3.4.0",
+    "eslint-plugin-react": "^4.2.3"
   }
 }
