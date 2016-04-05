@@ -4,12 +4,23 @@ import { mount } from 'react-mounter';
 
 // import our components
 import Layout from '/imports/ui/layouts/Layout.jsx';
-import Welcome from '/imports/ui/components/welcome.jsx';
+import WelcomePage from '/imports/ui/pages/WelcomePage.jsx';
+import SignInPage from '/imports/ui/pages/SignInPage.jsx';
 
 FlowRouter.route('/', {
+  name: 'home',
   action() {
     mount(Layout, {
-      content: (<Welcome name="User" />),
+      content: (<WelcomePage name="User" />),
+    });
+  },
+});
+
+FlowRouter.route('/sign_in', {
+  name: 'signIn',
+  action() {
+    mount(Layout, {
+      content: (<SignInPage />),
     });
   },
 });

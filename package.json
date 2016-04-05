@@ -7,9 +7,13 @@
     "pretest": "npm run lint --silent",
     "test": "meteor test --driver-package practicalmeteor:mocha --port 3100"
   },
+  "cssModules": {
+    "extensions": ["scss", "sass"]
+  },
   "dependencies": {
     "meteor-node-stubs": "~0.2.0",
     "react": "^0.14.8",
+    "react-addons-pure-render-mixin": "^0.14.8",
     "react-dom": "^0.14.8",
     "react-mounter": "^1.1.0"
   },

@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
+import Header from '/imports/ui/components/header/Header.jsx';
 
 // define and export our Layout component
 const Layout = ({ content }) => (
   <div>
+    <Header />
     <h1>Kast</h1>
     <hr />
     <div>{content}</div>
@@ -10,7 +12,7 @@ const Layout = ({ content }) => (
 );
 
 Layout.propTypes = {
-  content: React.PropTypes.object.isRequired,
+  content: PropTypes.object.isRequired,
 };
 
 export default Layout;
