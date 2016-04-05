@@ -1,10 +1,10 @@
 import React from 'react';
 
 // define and export our Welcome component
-const Welcome = ({ name }) => (
+const WelcomePage = ({ name }) => (
   <div>
     Hello, {name}.
   </div>
 );
 
-export default Welcome;
+export default WelcomePage;
