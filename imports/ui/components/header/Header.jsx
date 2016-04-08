@@ -4,9 +4,11 @@ import { createContainer } from 'meteor/react-meteor-data';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import UserMenu from './UserMenu.jsx';
+import MainMenu from './MainMenu.jsx';
 
 const Header = () => (
   <header className="main-header">
+    <MainMenu />
     {
       this.currentUser ?
       <UserMenu user={ this.currentUser } /> :
