@@ -6,12 +6,12 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import UserMenu from './UserMenu.jsx';
 import MainMenu from './MainMenu.jsx';
 
-const Header = () => (
+const Header = ({ currentUser }) => (
   <header className="main-header">
     <MainMenu />
     {
-      this.currentUser ?
-      <UserMenu user={ this.currentUser } /> :
+      currentUser ?
+      <UserMenu user={currentUser} /> :
       <a href={FlowRouter.path('signIn')}>Sign in</a>
     }
   </header>

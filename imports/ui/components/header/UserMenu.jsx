@@ -1,9 +1,11 @@
 import React, { PropTypes } from 'react';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 
-const UserMenu = () => (
-  <div>
-    { this.props.user.name }
-  </div>
+const UserMenu = ({ user }) => (
+  <nav className="usermenu">
+    { user.username }
+    <a href={FlowRouter.path('signOut')}>Sign out</a>
+  </nav>
 );
 
 UserMenu.propTypes = {
