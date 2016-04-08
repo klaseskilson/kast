@@ -11,7 +11,7 @@ FlowRouter.route('/', {
   name: 'home',
   action() {
     mount(Layout, {
-      content: (<WelcomePage name="User" />),
+      content: (<WelcomePage />),
     });
   },
 });

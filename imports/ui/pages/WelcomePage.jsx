@@ -1,9 +1,9 @@
 import React from 'react';
 
 // define and export our Welcome page
-const WelcomePage = ({ name }) => (
+const WelcomePage = () => (
   <div>
-    Hello, {name}.
+    Hello!
   </div>
 );
 
