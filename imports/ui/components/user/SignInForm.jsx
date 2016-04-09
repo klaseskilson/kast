@@ -14,6 +14,20 @@ class SignInForm extends Component {
   }
 
   /**
+   * Callback to use on callback attempt
+   * @param {Error} error
+   */
+  loginCallback(error) {
+    if (error) {
+      this.setState({
+        message: error.reason || error.message,
+      });
+    } else {
+      FlowRouter.go('home');
+    }
+  }
+
+  /**
    * send a meteor sign in request
    * @param event
    */
@@ -25,16 +39,6 @@ class SignInForm extends Component {
     if (!username || !password) return;
 
     Meteor.loginWithPassword(username, password, this.loginCallback);
-  }
-
-  loginCallback(error) {
-    if (error) {
-      this.setState({
-        message: error.reason || error.message,
-      });
-    } else {
-      FlowRouter.go('home');
-    }
   }
 
   signInWithFacebook() {

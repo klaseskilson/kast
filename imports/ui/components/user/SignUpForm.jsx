@@ -4,10 +4,12 @@ import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
+import { Spinner } from '../common.jsx';
+
 class SignUpForm extends Component {
   constructor(props) {
     super(props);
-    this.state = { message: '' };
+    this.state = { message: '', loading: false, };
     this.signUp = this.signUp.bind(this);
   }
 
@@ -23,10 +25,15 @@ class SignUpForm extends Component {
 
     if (!username || !password || !email) return;
 
+    this.setState({
+      loading: true,
+    });
+
     Accounts.createUser({ username, password, email }, error => {
       if (error) {
         this.setState({
           message: error.reason,
+          loading: false,
         });
       } else {
         Meteor.loginWithPassword(username, password, () => {
@@ -44,6 +51,7 @@ class SignUpForm extends Component {
         <input type="text" ref="username" placeholder="Username..." required />
         <input type="password" ref="password" placeholder="Password..." required />
         <button>
+          <Spinner loading={this.state.loading} icon="check-circle" />
           Sign up
         </button>
       </form>

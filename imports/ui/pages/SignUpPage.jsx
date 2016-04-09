@@ -1,4 +1,5 @@
 import React from 'react';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import SignUpForm from '/imports/ui/components/user/SignUpForm.jsx';
 
@@ -6,6 +7,7 @@ import SignUpForm from '/imports/ui/components/user/SignUpForm.jsx';
 const SignUpPage = () => (
   <div>
     <SignUpForm />
+    <a href={FlowRouter.path('signIn')}>Sign in</a>
   </div>
 );
 
