@@ -25,8 +25,9 @@ accounts-password
 accounts-facebook
 accounts-google
 msavin:mongol
-fourseven:scss
 johnantoni:meteor-normalize
 service-configuration
 react-meteor-data
 fortawesome:fontawesome
+stevezhu:lodash
+check

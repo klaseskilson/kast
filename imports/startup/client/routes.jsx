@@ -8,6 +8,7 @@ import Layout from '/imports/ui/layouts/Layout.jsx';
 import WelcomePage from '/imports/ui/pages/WelcomePage.jsx';
 import SignInPage from '/imports/ui/pages/SignInPage.jsx';
 import SignUpPage from '/imports/ui/pages/SignUpPage.jsx';
+import SettingsPage from '/imports/ui/pages/SettingsPage.jsx';
 
 FlowRouter.route('/', {
   name: 'home',
@@ -41,6 +42,16 @@ FlowRouter.route('/sign_out', {
   action() {
     Meteor.logout(() => {
       FlowRouter.go('home');
+    });
+  },
+});
+
+
+FlowRouter.route('/settings', {
+  name: 'settings',
+  action() {
+    mount(Layout, {
+      content: (<SettingsPage />),
     });
   },
 });

@@ -5,8 +5,6 @@ import Header from '/imports/ui/components/header/Header.jsx';
 const Layout = ({ content }) => (
   <div>
     <Header />
-    <h1>Kast</h1>
-    <hr />
     <div>{content}</div>
   </div>
 );
