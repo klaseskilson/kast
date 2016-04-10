@@ -2,20 +2,24 @@
   "name": "kast",
   "private": true,
   "scripts": {
+    "prestart": "set NODE_ENV=development",
     "start": "meteor run --settings settings.json",
     "lint": "eslint --ext .js,.jsx . || `exit 0`",
     "pretest": "npm run lint --silent",
     "test": "meteor test --driver-package practicalmeteor:mocha --port 3100"
   },
   "cssModules": {
-    "extensions": ["scss", "sass"]
+    "extensions": [
+      "scss",
+      "sass"
+    ]
   },
   "dependencies": {
     "meteor-node-stubs": "~0.2.0",
-    "react": "^0.14.8",
-    "react-addons-pure-render-mixin": "^0.14.8",
-    "react-dom": "^0.14.8",
-    "react-mounter": "^1.1.0"
+    "react": "^15.0.1",
+    "react-addons-pure-render-mixin": "^15.0.1",
+    "react-dom": "^15.0.1",
+    "react-mounter": "^1.2.0"
   },
   "devDependencies": {
     "eslint": "^2.6.0",
