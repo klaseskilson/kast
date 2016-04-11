@@ -1,8 +1,12 @@
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { Meteor } from 'meteor/meteor';
+import { Accounts } from 'meteor/accounts-base';
 import { check } from 'meteor/check';
 
 import './users.js';
+
+const loginError = new Meteor.Error('users.updateUser.notLoggedIn',
+  'Must be logged in to update user.');
 
 export const updateUser = new ValidatedMethod({
   name: 'users.updateUser',
@@ -15,8 +19,7 @@ export const updateUser = new ValidatedMethod({
   run({ key, value }) {
     if (!this.userId) {
       // Throw errors with a specific error code
-      throw new Meteor.Error('users.updateUser.notLoggedIn',
-        'Must be logged in to update user.');
+      throw loginError;
     }
 
     const update = {};
@@ -25,5 +28,23 @@ export const updateUser = new ValidatedMethod({
     Meteor.users.update(this.userId, {
       $set: update,
     });
+  },
+});
+
+export const setUsername = new ValidatedMethod({
+  name: 'user.setUsername',
+
+  validate(newUsername) {
+    check(newUsername, String);
+  },
+
+  run(newUsername) {
+    if (!this.userId) {
+      throw loginError;
+    }
+
+    if (!Meteor.isServer) return;
+
+    Accounts.setUsername(this.userId, newUsername);
   },
 });

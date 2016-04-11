@@ -18,7 +18,7 @@ const MainMenu = ({ currentRoute }) => {
           const path = FlowRouter.path(route);
           const className = `nav--entry ${currentRouteName === route ? 'nav--entry--active' : ''}`;
           return (
-            <a href={path} className={className}>{title}</a>
+            <a href={path} className={className} key={path}>{title}</a>
           );
         })
       }

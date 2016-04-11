@@ -4,11 +4,11 @@ import { _ } from 'meteor/stevezhu:lodash';
 import { createContainer } from 'meteor/react-meteor-data';
 
 import { Spinner } from '../components/common.jsx';
-import { updateUser } from '../../api/users/methods.js';
+import { updateUser, setUsername } from '../../api/users/methods.js';
 
-const debouncedUpdate = _.debounce((params, onStart, onFinished) => {
+const debouncedUpdate = _.debounce((method, params, onStart, onFinished) => {
   onStart();
-  updateUser.call(params, onFinished);
+  method.call(params, onFinished);
 }, 1000);
 
 class SettingsPage extends Component {
@@ -18,6 +18,7 @@ class SettingsPage extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.startUpdate = this.startUpdate.bind(this);
     this.finishedUpdate = this.finishedUpdate.bind(this);
+    this.handleUsername = this.handleUsername.bind(this);
   }
 
   handleChange(event) {
@@ -26,15 +27,23 @@ class SettingsPage extends Component {
 
     // use Lodash's update to update object by using a `nested.key.like.this`
     _.update(user, name, () => value);
-    this.setState({
-      user,
-    });
+    this.setState({ user });
 
     // avoid clogging server with method calls, update only once
-    debouncedUpdate({
+    debouncedUpdate(updateUser, {
       key: name,
       value,
     }, this.startUpdate, this.finishedUpdate);
+  }
+
+  handleUsername(event) {
+    const user = this.state.user;
+    const { value } = event.target;
+
+    // use Lodash's update to update object by using a `nested.key.like.this`
+    user.username = value;
+    this.setState({ user });
+    debouncedUpdate(setUsername, value, this.startUpdate, this.finishedUpdate);
   }
 
   startUpdate() {
@@ -69,12 +78,8 @@ class SettingsPage extends Component {
         { message ? (<p>{message}</p>) : ''}
         { user ? (
           <form onSubmit={event => event.preventDefault()}>
-            <input value={profileName}
-              ref="profile.name"
-              name="profile.name"
-              placeholder="Your name..."
-              onChange={this.handleChange}
-            />
+            <input value={profileName} name="profile.name" placeholder="Your name..." onChange={this.handleChange} />
+            <input value={user.username || ''} name="username" placeholder="Username..." onChange={this.handleUsername} />
           </form>
         ) : 'loading...'}
         {JSON.stringify(user)}
