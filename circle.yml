@@ -8,3 +8,8 @@ dependencies:
 checkout:
   post:
     - git submodule update --init
+deployment:
+  staging:
+    branch: master
+    heroku:
+      appname: kast-staging

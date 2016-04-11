@@ -2,6 +2,8 @@
 
 > :notes: The missing podcast app
 
+[![Circle CI](https://circleci.com/gh/klaseskilson/kast.svg?style=svg&circle-token=fa082b934dc94ab50ea184871ef32619346b8436)](https://circleci.com/gh/klaseskilson/kast)
+
 ## Getting started
 
 This is a `Meteor 1.3` app. First, you need to [install Meteor](https://meteor.com/install). When you've done that, copy the contents of [`settings.example.json`](settings.example.json) to `settings.json`, and enter the empty fields in that file. This file contains client IDs and secrets to the external services used in the app. Then run
