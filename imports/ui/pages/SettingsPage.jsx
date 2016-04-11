@@ -60,6 +60,7 @@ class SettingsPage extends Component {
 
   render() {
     const { user, loading, message } = this.state;
+    const profileName = user.profile && user.profile.name || '';
     return (
       <div>
         <h1>
@@ -68,7 +69,7 @@ class SettingsPage extends Component {
         { message ? (<p>{message}</p>) : ''}
         { user ? (
           <form onSubmit={event => event.preventDefault()}>
-            <input value={user.profile.name}
+            <input value={profileName}
               ref="profile.name"
               name="profile.name"
               placeholder="Your name..."
