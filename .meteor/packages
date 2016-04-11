@@ -31,3 +31,6 @@ react-meteor-data
 fortawesome:fontawesome
 stevezhu:lodash
 check
+practicalmeteor:chai
+xolvio:cleaner
+dburles:factory

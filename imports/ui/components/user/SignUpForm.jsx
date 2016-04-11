@@ -9,7 +9,7 @@ import { Spinner } from '../common.jsx';
 class SignUpForm extends Component {
   constructor(props) {
     super(props);
-    this.state = { message: '', loading: false, };
+    this.state = { message: '', loading: false };
     this.signUp = this.signUp.bind(this);
   }
 

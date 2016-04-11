@@ -4,3 +4,7 @@ import { Meteor } from 'meteor/meteor';
 Meteor.users.deny({
   update() { return true; },
 });
+
+Meteor.users.allow({
+  insert() { return Meteor.isTest; },
+});

@@ -2,6 +2,8 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 
+import './users.js';
+
 export const updateUser = new ValidatedMethod({
   name: 'users.updateUser',
 
