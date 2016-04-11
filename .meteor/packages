@@ -35,3 +35,4 @@ practicalmeteor:chai
 xolvio:cleaner
 dburles:factory
 dispatch:mocha-phantomjs
+meteorhacks:kadira
