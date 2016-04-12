@@ -11,9 +11,11 @@
   },
   "cssModules": {
     "extensions": [
+      "mss",
       "scss",
       "sass"
-    ]
+    ],
+    "enableSassCompilation": true
   },
   "dependencies": {
     "meteor-node-stubs": "~0.2.0",
