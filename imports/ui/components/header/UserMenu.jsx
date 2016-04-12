@@ -25,21 +25,30 @@ const loggedOutMenuItems = [
 
 const UserMenu = ({ user, currentRoute }) => {
   const routeName = currentRoute.route.name;
-  const loggedInContent = user && (
-    <nav className={styles.common}>
-      <div className={styles['nav-item']}>
-        { user.username }
-      </div>
-      { loggedInMenuItems.map(routeMap.bind(this, routeName, styles)) }
-    </nav>
-  );
-  const loggedOutContent = (
-    <nav className={styles.common}>
-      { loggedOutMenuItems.map(routeMap.bind(this, routeName, styles)) }
-    </nav>
-  );
+  const menuItems = [];
+  if (user) {
+    menuItems.push({
+      route: 'profile',
+      title: user.username || user.profile.name || 'Profile',
+    }, {
+      route: 'settings',
+      title: 'Settings',
+    }, {
+      route: 'signOut',
+      title: 'Sign out',
+    });
+  } else {
+    menuItems.push({
+      route: 'signIn',
+      title: 'Sign in',
+    });
+  }
 
-  return user ? loggedInContent : loggedOutContent;
+  return (
+    <nav className={styles.common}>
+      { menuItems.map(routeMap.bind(this, routeName, styles)) }
+    </nav>
+  );
 };
 
 UserMenu.propTypes = {
