@@ -5,6 +5,9 @@
   background: transparent;
   transition: all 0.3s ease;
   cursor: pointer;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100px;
 
   &:focus,
   &:hover {
@@ -14,5 +17,6 @@
   }
   &:focus {
     border-color: $teal;
+    max-width: 250px;
   }
 }
