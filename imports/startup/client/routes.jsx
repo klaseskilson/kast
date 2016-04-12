@@ -11,9 +11,12 @@ import SignUpPage from '/imports/ui/pages/SignUpPage.jsx';
 import SettingsPage from '/imports/ui/pages/SettingsPage.jsx';
 import SearchPage from '/imports/ui/pages/SearchPage.jsx';
 
+const setTitle = title => document.title = title ? `${title} - Kast` : 'Kast';
+
 FlowRouter.route('/', {
   name: 'home',
   action() {
+    setTitle('');
     mount(Layout, {
       content: (<WelcomePage />),
     });
@@ -23,6 +26,7 @@ FlowRouter.route('/', {
 FlowRouter.route('/sign_in', {
   name: 'signIn',
   action() {
+    setTitle('Sign in');
     mount(Layout, {
       content: (<SignInPage />),
     });
@@ -32,6 +36,7 @@ FlowRouter.route('/sign_in', {
 FlowRouter.route('/sign_up', {
   name: 'signUp',
   action() {
+    setTitle('Sign up')
     mount(Layout, {
       content: (<SignUpPage />),
     });
@@ -50,6 +55,7 @@ FlowRouter.route('/sign_out', {
 FlowRouter.route('/settings', {
   name: 'settings',
   action() {
+    setTitle('Settings');
     mount(Layout, {
       content: (<SettingsPage />),
     });
@@ -61,6 +67,7 @@ FlowRouter.route('/search/:search', {
   action() {
     let { search } = FlowRouter.current().params;
     search = decodeURIComponent(search.replace(/\+/g, '%20'));
+    setTitle(`"${search}" - Search`);
     mount(Layout, {
       content: (<SearchPage searchString={search} />),
     });
