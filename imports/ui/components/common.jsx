@@ -35,6 +35,9 @@ export const Container = ({ children, extraClass }) => (
 );
 
 Container.propTypes = {
-  children: PropTypes.array.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.object,
+  ]).isRequired,
   extraClass: PropTypes.string,
 };
