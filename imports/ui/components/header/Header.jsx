@@ -1,19 +1,22 @@
 import React, { PropTypes } from 'react';
-import { Meteor } from 'meteor/meteor';
-import { createContainer } from 'meteor/react-meteor-data';
-import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import UserMenu from './UserMenu.jsx';
 import MainMenu from './MainMenu.jsx';
+import SearchForm from './SearchForm.jsx';
+import { Container } from '../common.jsx';
 
-const Header = ({ currentUser }) => (
-  <header className="main-header">
-    <MainMenu />
-    {
-      currentUser ?
-      <UserMenu user={currentUser} /> :
-      <a href={FlowRouter.path('signIn')}>Sign in</a>
-    }
+import header from './Header.mss';
+import menu from './Menu.mss';
+
+const Header = () => (
+  <header className={header.mainHeader}>
+    <Container extraClass={menu.container}>
+      <MainMenu />
+      <div className={menu.container}>
+        <SearchForm />
+        <UserMenu />
+      </div>
+    </Container>
   </header>
 );
 
@@ -21,9 +24,4 @@ Header.propTypes = {
   currentUser: PropTypes.object,
 };
 
-export default createContainer(() => {
-  const currentUser = Meteor.user();
-  return {
-    currentUser,
-  };
-}, Header);
+export default Header;

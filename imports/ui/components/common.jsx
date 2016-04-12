@@ -1,5 +1,15 @@
 import React, { PropTypes } from 'react';
 
+import styles from './common.mss';
+
+/**
+ * create a font-awesome spinning icon if loading is true, otherwise use the icon
+ * class provided in icon
+ * @param {boolean} loading
+ * @param {String} icon
+ * @returns {XML}
+ * @constructor
+ */
 export const Spinner = ({ loading, icon }) => {
   const className = `fa fa-${loading ? 'circle-o-notch fa-spin' : icon}`;
   return (
@@ -10,4 +20,21 @@ export const Spinner = ({ loading, icon }) => {
 Spinner.propTypes = {
   loading: PropTypes.bool.isRequired,
   icon: PropTypes.string.isRequired,
+};
+
+/**
+ * container for making it easy to width-limit component's content
+ * @param {Array.<Component>} children
+ * @param {String} [extraClass='']
+ * @constructor
+ */
+export const Container = ({ children, extraClass }) => (
+  <div className={`${styles.container} ${extraClass || ''}`}>
+    {children}
+  </div>
+);
+
+Container.propTypes = {
+  children: PropTypes.array.isRequired,
+  extraClass: PropTypes.string,
 };

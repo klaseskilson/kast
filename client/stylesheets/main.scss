@@ -1,0 +1,14 @@
+body, html {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  font-family: Roboto, 'Open Sans', sans-serif;
+  background: #f7f7f7;
+  background: radial-gradient(ellipse at center, #f7f7f7 0%, #e0e0e0 100%);
+}
+
+.flex {
+  display: flex;
+}

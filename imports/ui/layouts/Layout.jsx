@@ -1,11 +1,14 @@
 import React, { PropTypes } from 'react';
-import Header from '/imports/ui/components/header/Header.jsx';
+import Header from '../components/header/Header.jsx';
+
+import styles from './Layout.mss';
+const { wrapper } = styles;
 
 // define and export our Layout component
 const Layout = ({ content }) => (
-  <div>
+  <div className={wrapper}>
     <Header />
-    <div>{content}</div>
+    <main>{content}</main>
   </div>
 );
 
