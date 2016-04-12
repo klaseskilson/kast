@@ -9,6 +9,7 @@ import WelcomePage from '/imports/ui/pages/WelcomePage.jsx';
 import SignInPage from '/imports/ui/pages/SignInPage.jsx';
 import SignUpPage from '/imports/ui/pages/SignUpPage.jsx';
 import SettingsPage from '/imports/ui/pages/SettingsPage.jsx';
+import SearchPage from '/imports/ui/pages/SearchPage.jsx';
 
 FlowRouter.route('/', {
   name: 'home',
@@ -46,12 +47,22 @@ FlowRouter.route('/sign_out', {
   },
 });
 
-
 FlowRouter.route('/settings', {
   name: 'settings',
   action() {
     mount(Layout, {
       content: (<SettingsPage />),
+    });
+  },
+});
+
+FlowRouter.route('/search/:search', {
+  name: 'search',
+  action() {
+    let { search } = FlowRouter.current().params;
+    search = decodeURIComponent(search.replace(/\+/g, '%20'));
+    mount(Layout, {
+      content: (<SearchPage searchString={search} />),
     });
   },
 });

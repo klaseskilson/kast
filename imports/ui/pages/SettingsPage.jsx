@@ -78,7 +78,9 @@ class SettingsPage extends Component {
             />
           </form>
         ) : 'loading...'}
-        {JSON.stringify(user)}
+        <pre>
+          {JSON.stringify(user)}
+        </pre>
       </div>
     );
   }

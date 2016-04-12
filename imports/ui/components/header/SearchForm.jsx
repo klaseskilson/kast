@@ -1,8 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import { _ } from 'meteor/stevezhu:lodash';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import styles from './SearchForm.mss';
+
+const urlEncode = str => encodeURIComponent(str)
+  .replace(/[!'()*]/g, c => '%' + c.charCodeAt(0).toString(16));
+
 
 class SearchForm extends Component {
   constructor(props) {
@@ -25,8 +30,11 @@ class SearchForm extends Component {
     this.search(search);
   }
 
-  search(search) {
-    console.log(search);
+  search(searchString) {
+    const search = urlEncode(searchString);
+    if (search !== '') {
+      FlowRouter.go('search', { search });
+    }
   }
 
   render() {
