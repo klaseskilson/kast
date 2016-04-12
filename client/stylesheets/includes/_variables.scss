@@ -1,7 +1,11 @@
 // colors
-$black: #111;
+@import './_colors';
 
-// metrics
-$padding-horizontal: 15px;
-$padding-vertical: ($padding-horizontal / 2);
+// general metrics
+$padding-large: 15px;
+$padding-horizontal: $padding-large;
+$padding-vertical: ($padding-large / 2);
 $padding: $padding-vertical $padding-horizontal;
+
+// specific metrics
+$header-border-width: 3px;

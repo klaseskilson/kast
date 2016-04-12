@@ -3,19 +3,39 @@ import { Meteor } from 'meteor/meteor';
 import { FlowRouter, path } from 'meteor/kadira:flow-router';
 import { createContainer } from 'meteor/react-meteor-data';
 
+import { routeMap } from './routeWatcher.jsx';
 import styles from './Menu.mss';
 
-const UserMenu = ({ user }) => {
+const loggedInMenuItems = [
+  {
+    route: 'settings',
+    title: 'Settings',
+  },
+  {
+    route: 'signOut',
+    title: 'Sign out',
+  },
+];
+const loggedOutMenuItems = [
+  {
+    route: 'signIn',
+    title: 'Sign in',
+  },
+];
+
+const UserMenu = ({ user, currentRoute }) => {
+  const routeName = currentRoute.route.name;
   const loggedInContent = user && (
-    <nav className={styles.userMenu}>
-      { user.username }
-      <a href={FlowRouter.path('settings')}>Settings</a>
-      <a href={FlowRouter.path('signOut')}>Sign out</a>
+    <nav className={styles.common}>
+      <div className={styles['nav-item']}>
+        { user.username }
+      </div>
+      { loggedInMenuItems.map(routeMap.bind(this, routeName, styles)) }
     </nav>
   );
   const loggedOutContent = (
-    <nav className={styles.userMenu}>
-      <a href={FlowRouter.path('signIn')}>Sign in</a>
+    <nav className={styles.common}>
+      { loggedOutMenuItems.map(routeMap.bind(this, routeName, styles)) }
     </nav>
   );
 
@@ -26,7 +46,7 @@ UserMenu.propTypes = {
   user: PropTypes.object,
 };
 
-export default createContainer(() => {
+export default createContainer(({ currentRoute }) => {
   const user = Meteor.user();
-  return { user };
+  return { user, currentRoute };
 }, UserMenu);

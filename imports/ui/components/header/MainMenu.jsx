@@ -2,6 +2,9 @@ import React, { PropTypes } from 'react';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { createContainer } from 'meteor/react-meteor-data';
 
+import { routeMap } from './routeWatcher.jsx';
+import styles from './Menu.mss';
+
 const menuItems = [
   {
     route: 'home',
@@ -10,16 +13,10 @@ const menuItems = [
 ];
 
 const MainMenu = ({ currentRoute }) => {
-  const currentRouteName = currentRoute.route.name;
+  const routeName = currentRoute.route.name;
   return (
-    <nav className="main-menu">
-      {
-        menuItems.map(({ title, route }) => {
-          const path = FlowRouter.path(route);
-          const className = `nav--entry ${currentRouteName === route ? 'nav--entry--active' : ''}`;
-          return (<a href={path} className={className} key={path}>{title}</a>);
-        })
-      }
+    <nav className={styles.common}>
+      { menuItems.map(routeMap.bind(this, routeName, styles)) }
     </nav>
   );
 };
@@ -28,9 +25,4 @@ MainMenu.propTypes = {
   currentRoute: PropTypes.object.isRequired,
 };
 
-export default createContainer(() => {
-  FlowRouter.watchPathChange();
-  return {
-    currentRoute: FlowRouter.current(),
-  };
-}, MainMenu);
+export default MainMenu;

@@ -12,3 +12,8 @@ body {
 .flex {
   display: flex;
 }
+
+// no borders on inputs!
+input {
+  border: none;
+}

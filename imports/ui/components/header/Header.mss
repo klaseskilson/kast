@@ -2,5 +2,6 @@
 
 .mainHeader {
   background: rgba(#fff, 0.5);
-  padding: $padding;
+  padding: 0;
 }
+
