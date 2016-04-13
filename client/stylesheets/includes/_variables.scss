@@ -3,8 +3,9 @@
 
 // general metrics
 $padding-large: 15px;
+$padding-small: ($padding-large * 2/3);
 $padding-horizontal: $padding-large;
-$padding-vertical: ($padding-large / 2);
+$padding-vertical: $padding-small;
 $padding: $padding-vertical $padding-horizontal;
 
 // specific metrics
