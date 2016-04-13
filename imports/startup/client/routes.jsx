@@ -11,6 +11,8 @@ import SignUpPage from '/imports/ui/pages/SignUpPage.jsx';
 import SettingsPage from '/imports/ui/pages/SettingsPage.jsx';
 import SearchPage from '/imports/ui/pages/SearchPage.jsx';
 
+import { urlDecode } from '/imports/helpers/urlHelpers.js';
+
 const setTitle = title => document.title = title ? `${title} - Kast` : 'Kast';
 
 FlowRouter.route('/', {
@@ -66,7 +68,7 @@ FlowRouter.route('/search/:search', {
   name: 'search',
   action() {
     let { search } = FlowRouter.current().params;
-    search = decodeURIComponent(search.replace(/\+/g, '%20'));
+    search = urlDecode(search);
     setTitle(`"${search}" - Search`);
     mount(Layout, {
       content: (<SearchPage searchString={search} />),

@@ -36,3 +36,4 @@ xolvio:cleaner
 dburles:factory
 dispatch:mocha-phantomjs
 meteorhacks:kadira
+http

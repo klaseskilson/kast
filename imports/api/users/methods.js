@@ -1,7 +1,7 @@
-import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import { check } from 'meteor/check';
+import { ValidatedMethod } from 'meteor/mdg:validated-method';
 
 import './users.js';
 

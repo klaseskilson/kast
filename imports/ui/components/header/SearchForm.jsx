@@ -4,16 +4,13 @@ import { createContainer } from 'meteor/react-meteor-data';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { _ } from 'meteor/stevezhu:lodash';
 
+import { urlEncode, urlDecode } from '/imports/helpers/urlHelpers.js';
 import styles from './SearchForm.mss';
-
-const urlEncode = str => encodeURIComponent(str)
-  .replace(/[!'()*]/g, c => '%' + c.charCodeAt(0).toString(16));
-
 
 class SearchForm extends Component {
   constructor(props) {
     super(props);
-    this.state = { search: props.search || '' };
+    this.state = { search: urlDecode(props.search) || '' };
     this.onType = this.onType.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.search = this.search.bind(this);
