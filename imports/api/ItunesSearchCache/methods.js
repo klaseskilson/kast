@@ -22,7 +22,8 @@ ItunesSearchCache.methods.search = new ValidatedMethod({
       return ItunesSearchCache.methods.getCacheForSearch(search).searchContent;
     }
 
-    const searchUrl = `https://itunes.apple.com/search?media=podcast&limit=20&term=${search}`;
+    const searchUrl = `https://itunes.apple.com/search?` +
+      `media=podcast&limit=20&entity=podcast&term=${search}`;
     try {
       const request = HTTP.get(searchUrl);
       if (request.statusCode === 200) {

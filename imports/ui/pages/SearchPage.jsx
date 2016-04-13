@@ -4,12 +4,12 @@ import { createContainer } from 'meteor/react-meteor-data';
 
 import { Container } from '../components/common.jsx';
 import ItunesSearch from '../components/podcasts/ItunesSearch.jsx';
+import Library from '../components/podcasts/Library.jsx';
 
 const SearchPage = ({ searchString }) => (
   <Container>
     <h1>Searching for <em>{searchString}</em></h1>
-    <h2>Your library</h2>
-    <h2>iTunes podcasts search</h2>
+    <Library search={searchString} />
     <ItunesSearch search={searchString} />
   </Container>
 );

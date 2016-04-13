@@ -41,3 +41,9 @@ Container.propTypes = {
   ]).isRequired,
   extraClass: PropTypes.string,
 };
+
+export const NothingFound = () => (
+  <div className={styles.nothingFound}>
+    We found nothing :(
+  </div>
+);

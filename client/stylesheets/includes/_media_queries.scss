@@ -1,0 +1,181 @@
+/**
+ * This file contains media query mixins
+ *
+ * Author: Klas Eskilson <hello@klaseskilson.se>
+ *
+ * Example
+ *
+ *    h1 {
+ *      font-face: sans-serif;
+ *
+ *      @include phone() {
+ *        color: red;
+ *      }
+ *    }
+ *
+ *    Renders:
+ *
+ *    h1 {
+ *      font-face: sans-serif;
+ *    }
+ *    @media only screen and (max-width: 768px) {
+ *      h1 {
+ *        color: red;
+ *      }
+ *    }
+ */
+
+/*******************************************************************************
+ * Default width settins
+ ******************************************************************************/
+$xs-max: 768px !default;
+$s-max: 992px !default;
+$m-max: 1200px !default;
+
+/*******************************************************************************
+ * "private" functions
+ ******************************************************************************/
+
+/**
+ * general, single-param (min/max) media query mixin
+ * @param  length   $width          the width to toggle
+ * @param  string   $mode: "max"    which media query widht-mode to toggle
+ */
+@mixin _single-mq($width, $mode: "max") {
+  @media only screen and (#{$mode}-width: $width) {
+    @content;
+  }
+}
+
+/**
+ * general, double-param (min & max) media query mixin
+ * @param  length   $min            the min width to toggle
+ * @param  length   $max            the max width to toggle
+ * @param  string   $mode: "max"    which media query widht-mode to toggle
+ */
+@mixin _double-mq($min, $max) {
+  @media only screen and (min-width: $min) and (max-width: $max) {
+    @content;
+  }
+}
+
+/*******************************************************************************
+ * above / below / between
+ ******************************************************************************/
+
+/**
+ * media query for every width above $min
+ * @param  length   $min   the min width to toggle
+ */
+@mixin above($min) {
+  @include _single-mq($min, "min") {
+    @content;
+  }
+}
+
+/**
+ * media query for every width below $max
+ * @param  length   $max   the max width to toggle
+ */
+@mixin below($max) {
+  @include _single-mq($max, "max") {
+    @content;
+  }
+}
+
+/**
+ * media query for every width between $min and $max
+ * @param  length   $min   the min width to toggle
+ * @param  length   $max   the max width to toggle
+ */
+@mixin between($min, $max) {
+  @include _double-mq($min, $max) {
+    @content;
+  }
+}
+
+/*******************************************************************************
+ * readable
+ ******************************************************************************/
+
+/**
+ * tiny media query
+ * @param  length   $max: $xs-max    the width to toggle
+ */
+@mixin tiny($max: $xs-max) {
+  @include _single-mq($max, "max") {
+    @content;
+  }
+}
+
+/**
+ * small media query
+ * @param  length   $min: $xs-max    the min width
+ * @param  length   $max: $xs-max    the max width
+ */
+@mixin small($min: $xs-max, $max: $s-max) {
+  @include _double-mq($min, $max) {
+    @content;
+  }
+}
+
+/**
+ * medium media query
+ * @param  length   $min: $xs-max    the min width
+ * @param  length   $max: $xs-max    the max width
+ */
+@mixin medium($min: $s-max, $max: $m-max) {
+  @include _double-mq($min, $max) {
+    @content;
+  }
+}
+
+/**
+ * large media query
+ * @param  length   $width: $xs-max    the width to toggle
+ */
+@mixin large($min: $m-max) {
+  @include _single-mq($min, "min") {
+    @content;
+  }
+}
+
+/*******************************************************************************
+ * device-ish
+ ******************************************************************************/
+
+/**
+ * mobile phone media query
+ */
+@mixin phone() {
+  @include _single-mq($xs-max, "max") {
+    @content;
+  }
+}
+
+/**
+ * tablet media query
+ */
+@mixin tablet() {
+  @include _double-mq($xs-max, $s-max) {
+    @content;
+  }
+}
+
+/**
+ * laptop media query
+ */
+@mixin laptop {
+  @include _double-mq($s-max, $m-max) {
+    @content;
+  }
+}
+
+/**
+ * desktop media query
+ */
+@mixin desktop() {
+  @include _single-mq($m-max, "min") {
+    @content;
+  }
+}

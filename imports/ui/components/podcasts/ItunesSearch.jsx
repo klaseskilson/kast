@@ -2,9 +2,11 @@ import React, { Component, PropTypes } from 'react';
 import { Meteor } from 'meteor/meteor';
 
 import { urlEncode } from '/imports/helpers/urlHelpers.js';
-import { Spinner } from '/imports/ui/components/common.jsx';
+import { Spinner, NothingFound } from '/imports/ui/components/common.jsx';
 import PodcastBox from '/imports/ui/components/podcasts/PodcastBox.jsx';
 import ItunesSearchCache from '/imports/api/ItunesSearchCache/methods.js';
+
+import styles from './ItunesSearch.mss';
 
 class ItunesSearch extends Component {
   constructor(props) {
@@ -26,7 +28,6 @@ class ItunesSearch extends Component {
       // snap!
     } else {
       this.setState({ loading: false, searchResult: results.results });
-      console.log(results);
     }
   }
 
@@ -41,20 +42,37 @@ class ItunesSearch extends Component {
 
   resultList() {
     const { searchResult } = this.state;
-    //return (<span>{searchResult.length} results!</span>);
-    return (
-      <div>
-        lol
-        { searchResult.map(podcast => (<PodcastBox podcast={podcast} key={podcast.collectionId} />)) }
+
+    // calculate if we should fill the search result with dummy content (ugly and hacky)
+    let rest = searchResult.length % 4;
+    const dummies = [];
+    while (rest--) {
+      dummies.push((<article> </article>));
+    }
+
+    // return list of found podcasts or the NothingFound-component
+    return searchResult.length === 0 ? (<NothingFound />) : (
+      <div className={styles.searchResults}>
+        { searchResult.map(podcast => (
+          <PodcastBox podcast={podcast} key={podcast.collectionId} />
+        )) }
+        { dummies }
       </div>
     );
   }
 
   render() {
     const { loading } = this.state;
-    return this.state.loading ?
-      (<Spinner loading={loading} icon="" />) :
-      this.resultList();
+    return (
+      <div>
+        <h2>iTunes podcasts search</h2>
+        {
+          this.state.loading ?
+            (<Spinner loading={loading} icon="" />) :
+            this.resultList()
+        }
+      </div>
+    );
   }
 }
 
