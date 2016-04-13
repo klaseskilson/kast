@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor';
 
 import { urlEncode } from '/imports/helpers/urlHelpers.js';
 import { Spinner } from '/imports/ui/components/common.jsx';
-//import { PodcastBox } from '/imports/ui/components/podcasts/PodcastBox.jsx';
+import PodcastBox from '/imports/ui/components/podcasts/PodcastBox.jsx';
 import ItunesSearchCache from '/imports/api/ItunesSearchCache/methods.js';
 
 class ItunesSearch extends Component {
@@ -41,12 +41,13 @@ class ItunesSearch extends Component {
 
   resultList() {
     const { searchResult } = this.state;
-    return (<span>{searchResult.length} results!</span>);
-    //return (
-    //  <div>
-    //    { searchResult.map(podcast => <PodcastBox podcast={podcast} key={podcast.id} />) }
-    //  </div>
-    //);
+    //return (<span>{searchResult.length} results!</span>);
+    return (
+      <div>
+        lol
+        { searchResult.map(podcast => (<PodcastBox podcast={podcast} key={podcast.collectionId} />)) }
+      </div>
+    );
   }
 
   render() {

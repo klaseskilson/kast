@@ -18,11 +18,17 @@ ItunesSearchCache.methods.search = new ValidatedMethod({
   run(search) {
     if (this.isSimulation) return [];
 
-    const searchUrl = `https://itunes.apple.com/search?media=podcast&term=${search}`;
+    if (ItunesSearchCache.methods.hasCacheForSearch(search)) {
+      return ItunesSearchCache.methods.getCacheForSearch(search).searchContent;
+    }
+
+    const searchUrl = `https://itunes.apple.com/search?media=podcast&limit=20&term=${search}`;
     try {
       const request = HTTP.get(searchUrl);
       if (request.statusCode === 200) {
-        return EJSON.parse(request.content);
+        const content = EJSON.parse(request.content);
+        ItunesSearchCache.methods.setCacheForSearch(search, content);
+        return content;
       }
       throw new Meteor.Error('failed-search', `Failed searching iTunes: ${request.statusCode}`);
     } catch (error) {
