@@ -1,7 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Meteor } from 'meteor/meteor';
 
-import { urlEncode } from '/imports/helpers/urlHelpers.js';
 import { Spinner, NothingFound } from '/imports/ui/components/common.jsx';
 import PodcastBox from '/imports/ui/components/podcasts/PodcastBox.jsx';
 import ItunesSearchCache from '/imports/api/ItunesSearchCache/methods.js';
@@ -12,15 +10,20 @@ class ItunesSearch extends Component {
   constructor(props) {
     super(props);
     this.state = { searchResults: [], loading: true };
-    this.searchItunes = this.searchItunes.bind(this);
     this.handleSearchResult = this.handleSearchResult.bind(this);
     this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
+    this.searchItunes = this.searchItunes.bind(this);
     this.resultList = this.resultList.bind(this);
   }
 
-  searchItunes(searchString) {
-    ItunesSearchCache.methods.search.call(searchString, this.handleSearchResult);
+  componentDidMount() {
+    this.searchItunes(this.props.search);
+  }
+
+  componentWillReceiveProps(newProps) {
+    this.setState({ loading: true });
+    this.searchItunes(newProps.search);
   }
 
   handleSearchResult(error, results) {
@@ -31,13 +34,8 @@ class ItunesSearch extends Component {
     }
   }
 
-  componentWillReceiveProps(newProps) {
-    this.setState({ loading: true });
-    this.searchItunes(newProps.search);
-  }
-
-  componentDidMount() {
-    this.searchItunes(this.props.search);
+  searchItunes(searchString) {
+    ItunesSearchCache.methods.search.call(searchString, this.handleSearchResult);
   }
 
   resultList() {

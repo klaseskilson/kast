@@ -10,11 +10,12 @@ import styles from './SearchForm.mss';
 class SearchForm extends Component {
   constructor(props) {
     super(props);
-    this.state = { search: urlDecode(props.search) || '' };
+    const search = props.search && urlDecode(props.search) || '';
+    this.state = { search };
     this.onType = this.onType.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.search = this.search.bind(this);
-    this.debouncedSearch = _.debounce(search => this.search(search), 1500);
+    this.debouncedSearch = _.debounce(searchString => this.search(searchString), 1500);
   }
 
   onType(event) {

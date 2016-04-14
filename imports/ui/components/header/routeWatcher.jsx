@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
 export const routeMap = (routeName, styles, { title, route }) => {

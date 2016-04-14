@@ -38,6 +38,7 @@ ItunesSearchCache.methods.getCacheForSearch = searchString => {
 ItunesSearchCache.methods.setCacheForSearch = (searchString, searchContent) => {
   const createdAt = new Date();
 
+  // eslint-disable-next-line no-console
   console.info('Setting cache for iTunes search', searchString, 'at', createdAt);
 
   // clean cache

@@ -1,27 +1,9 @@
 import React, { PropTypes } from 'react';
 import { Meteor } from 'meteor/meteor';
-import { FlowRouter, path } from 'meteor/kadira:flow-router';
 import { createContainer } from 'meteor/react-meteor-data';
 
 import { routeMap } from './routeWatcher.jsx';
 import styles from './Menu.mss';
-
-const loggedInMenuItems = [
-  {
-    route: 'settings',
-    title: 'Settings',
-  },
-  {
-    route: 'signOut',
-    title: 'Sign out',
-  },
-];
-const loggedOutMenuItems = [
-  {
-    route: 'signIn',
-    title: 'Sign in',
-  },
-];
 
 const UserMenu = ({ user, currentRoute }) => {
   const routeName = currentRoute.route.name;

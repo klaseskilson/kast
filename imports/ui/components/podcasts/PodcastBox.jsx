@@ -15,13 +15,12 @@ class PodcastBox extends Component {
         </h3>
         <h4 title={artistName}>{artistName}</h4>
         <a href={path}>
-          <i className="fa fa-"></i>
-          More info
+          <i className="fa fa-info-circle"></i> More info
         </a>
       </article>
     );
   }
-};
+}
 
 PodcastBox.propTypes = {
   podcast: PropTypes.object.isRequired,

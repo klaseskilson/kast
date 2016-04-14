@@ -13,7 +13,7 @@ import SearchPage from '/imports/ui/pages/SearchPage.jsx';
 
 import { urlDecode } from '/imports/helpers/urlHelpers.js';
 
-const setTitle = title => document.title = title ? `${title} - Kast` : 'Kast';
+const setTitle = title => (document.title = title ? `${title} - Kast` : 'Kast');
 
 FlowRouter.route('/', {
   name: 'home',
@@ -38,7 +38,7 @@ FlowRouter.route('/sign_in', {
 FlowRouter.route('/sign_up', {
   name: 'signUp',
   action() {
-    setTitle('Sign up')
+    setTitle('Sign up');
     mount(Layout, {
       content: (<SignUpPage />),
     });
