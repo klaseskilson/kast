@@ -10,6 +10,7 @@ import SignInPage from '/imports/ui/pages/SignInPage.jsx';
 import SignUpPage from '/imports/ui/pages/SignUpPage.jsx';
 import SettingsPage from '/imports/ui/pages/SettingsPage.jsx';
 import SearchPage from '/imports/ui/pages/SearchPage.jsx';
+import PodcastPage from '/imports/ui/pages/PodcastPage.jsx';
 
 import { urlDecode } from '/imports/helpers/urlHelpers.js';
 
@@ -25,7 +26,17 @@ FlowRouter.route('/', {
   },
 });
 
-FlowRouter.route('/sign_in', {
+const userRoutes = FlowRouter.group({
+  prefix: '/user',
+  name: 'user',
+});
+
+const podcastRoutes = FlowRouter.group({
+  prefix: '/podcasts',
+  name: 'podcasts',
+});
+
+userRoutes.route('/sign_in', {
   name: 'signIn',
   action() {
     setTitle('Sign in');
@@ -35,7 +46,7 @@ FlowRouter.route('/sign_in', {
   },
 });
 
-FlowRouter.route('/sign_up', {
+userRoutes.route('/sign_up', {
   name: 'signUp',
   action() {
     setTitle('Sign up');
@@ -45,7 +56,7 @@ FlowRouter.route('/sign_up', {
   },
 });
 
-FlowRouter.route('/sign_out', {
+userRoutes.route('/sign_out', {
   name: 'signOut',
   action() {
     Meteor.logout(() => {
@@ -54,7 +65,7 @@ FlowRouter.route('/sign_out', {
   },
 });
 
-FlowRouter.route('/settings', {
+userRoutes.route('/settings', {
   name: 'settings',
   action() {
     setTitle('Settings');
@@ -64,7 +75,7 @@ FlowRouter.route('/settings', {
   },
 });
 
-FlowRouter.route('/search/:search', {
+podcastRoutes.route('/search/:search', {
   name: 'search',
   action() {
     let { search } = FlowRouter.current().params;
@@ -72,6 +83,16 @@ FlowRouter.route('/search/:search', {
     setTitle(`"${search}" - Search`);
     mount(Layout, {
       content: (<SearchPage searchString={search} />),
+    });
+  },
+});
+
+podcastRoutes.route('/itunes/:collectionId', {
+  name: 'itunes',
+  action() {
+    const collectionId = FlowRouter.getParam('collectionId');
+    mount(Layout, {
+      content: (<PodcastPage collectionId={collectionId} />),
     });
   },
 });

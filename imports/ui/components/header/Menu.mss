@@ -1,5 +1,9 @@
 @import 'client/stylesheets/includes/_variables';
 
+/**
+ * used by all menus in header
+ */
+
 $border-width: $header-border-width;
 
 .container {
@@ -8,8 +12,10 @@ $border-width: $header-border-width;
 }
 
 .nav-item-sizes {
-  padding: $padding-large;
-  padding-bottom: ($padding-large - $border-width);
+  padding-left: $padding-large;
+  padding-right: $padding-large;
+  padding-top: ($padding-large + $border-width);
+  padding-bottom: ($padding-large - 2 * $border-width);
   border-bottom: $border-width solid transparent;
   font-size: .9rem;
 }

@@ -5,8 +5,8 @@ import styles from './PodcastBox.mss';
 
 class PodcastBox extends Component {
   render() {
-    const { collectionName, artistName, artworkUrl100 } = this.props.podcast;
-    const path = FlowRouter.path('itunesPodcast');
+    const { collectionName, artistName, artworkUrl100, collectionId } = this.props.podcast;
+    const path = FlowRouter.path('itunes', { collectionId });
     return (
       <article className={styles.podcastBox}>
         <img src={artworkUrl100} alt={collectionName} />
@@ -15,7 +15,7 @@ class PodcastBox extends Component {
         </h3>
         <h4 title={artistName}>{artistName}</h4>
         <a href={path}>
-          <i className="fa fa-info-circle"></i> More info
+          <i className="fa fa-list"></i> Episodes
         </a>
       </article>
     );

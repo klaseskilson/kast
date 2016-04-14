@@ -1,7 +1,15 @@
+@import 'client/stylesheets/includes/_variables';
+
+$header-height: unquote("calc(#{2 * $padding-large + $header-border-width} + .9rem)");
+
 .wrapper {
   width: 100%;
 }
 
-.layout {
+.mainLayout {
+  font-size: 1em;
+}
 
+.mainLayout > :first-child {
+  padding-top: $header-height;
 }

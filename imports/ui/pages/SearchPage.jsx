@@ -6,9 +6,11 @@ import Library from '../components/podcasts/Library.jsx';
 
 const SearchPage = ({ searchString }) => (
   <Container>
-    <h1>Searching for <em>{searchString}</em></h1>
-    <Library search={searchString} />
-    <ItunesSearch search={searchString} />
+    <div>
+      <h1>Searching for <em>{searchString}</em></h1>
+      <Library search={searchString} />
+      <ItunesSearch search={searchString} />
+    </div>
   </Container>
 );
 
