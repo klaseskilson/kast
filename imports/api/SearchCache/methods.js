@@ -4,12 +4,12 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { HTTP } from 'meteor/http';
 import { EJSON } from 'meteor/ejson';
 
-import ItunesSearchCache from './ItunesSearchCache.js';
+import SearchCache from './SearchCache.js';
 
-ItunesSearchCache.methods = ItunesSearchCache.methods || {};
+SearchCache.methods = SearchCache.methods || {};
 
-ItunesSearchCache.methods.search = new ValidatedMethod({
-  name: 'ItunesSearchCache.methods.search',
+SearchCache.methods.search = new ValidatedMethod({
+  name: 'SearchCache.methods.search',
 
   validate(search) {
     check(search, String);
@@ -18,17 +18,17 @@ ItunesSearchCache.methods.search = new ValidatedMethod({
   run(search) {
     if (this.isSimulation) return [];
 
-    if (ItunesSearchCache.methods.hasCacheForSearch(search)) {
-      return ItunesSearchCache.methods.getCacheForSearch(search).searchContent;
-    }
-
     const searchUrl = 'https://itunes.apple.com/search?' +
       `media=podcast&limit=20&entity=podcast&term=${search}`;
+    if (SearchCache.methods.hasCacheForSearch(searchUrl)) {
+      return SearchCache.methods.getCacheForSearch(searchUrl).searchContent;
+    }
+
     try {
       const request = HTTP.get(searchUrl);
       if (request.statusCode === 200) {
         const content = EJSON.parse(request.content);
-        ItunesSearchCache.methods.setCacheForSearch(search, content);
+        SearchCache.methods.setCacheForSearch(searchUrl, content);
         return content;
       }
       throw new Meteor.Error('failed-search', `Failed searching iTunes: ${request.statusCode}`);
@@ -38,4 +38,4 @@ ItunesSearchCache.methods.search = new ValidatedMethod({
   },
 });
 
-export default ItunesSearchCache;
+export default SearchCache;

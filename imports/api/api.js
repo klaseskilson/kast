@@ -1,3 +1,3 @@
 // import all api methods
 import './users/methods.js';
-import './ItunesSearchCache/methods.js';
+import './SearchCache/methods.js';

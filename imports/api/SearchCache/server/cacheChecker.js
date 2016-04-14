@@ -1,30 +1,30 @@
-import ItunesSearchCache from '../ItunesSearchCache.js';
+import SearchCache from '../SearchCache.js';
 
-ItunesSearchCache.methods = ItunesSearchCache.methods || {};
+SearchCache.methods = SearchCache.methods || {};
 
 const halfDay = 12 * 60 * 60 * 1000;
 
-ItunesSearchCache.methods.hasCacheForSearch = searchString => {
+SearchCache.methods.hasCacheForSearch = searchUrl => {
   // only accept cache that is less than half a day old
   const halfDayAgo = new Date();
   halfDayAgo.setTime(Date.now() - halfDay);
 
   // use count method to look for cache
-  return ItunesSearchCache.find({
-    searchString,
+  return SearchCache.find({
+    searchUrl,
     createdAt: {
       $gt: halfDayAgo,
     },
   }).count() > 0;
 };
 
-ItunesSearchCache.methods.getCacheForSearch = searchString => {
+SearchCache.methods.getCacheForSearch = searchUrl => {
   const halfDayAgo = new Date();
   halfDayAgo.setTime(Date.now() - halfDay);
 
   // find cache by date and search string
-  return ItunesSearchCache.findOne({
-    searchString,
+  return SearchCache.findOne({
+    searchUrl,
     createdAt: {
       $gt: halfDayAgo,
     },
@@ -35,22 +35,22 @@ ItunesSearchCache.methods.getCacheForSearch = searchString => {
   });
 };
 
-ItunesSearchCache.methods.setCacheForSearch = (searchString, searchContent) => {
+SearchCache.methods.setCacheForSearch = (searchUrl, searchContent) => {
   const createdAt = new Date();
 
   // eslint-disable-next-line no-console
-  console.info('Setting cache for iTunes search', searchString, 'at', createdAt);
+  console.info('Setting cache for iTunes search', searchUrl, 'at', createdAt);
 
   // clean cache
-  ItunesSearchCache.remove({
+  SearchCache.remove({
     createdAt: {
       $lt: createdAt,
     },
   });
 
   // insert new cache
-  return ItunesSearchCache.insert({
-    searchString,
+  return SearchCache.insert({
+    searchUrl,
     searchContent,
     createdAt,
   });
