@@ -45,7 +45,7 @@ class ItunesSearch extends Component {
     let rest = searchResult.length % 4;
     const dummies = [];
     while (rest--) {
-      dummies.push((<article> </article>));
+      dummies.push((<article key={`dummy-${rest}`}> </article>));
     }
 
     // return list of found podcasts or the NothingFound-component

@@ -87,7 +87,7 @@ podcastRoutes.route('/search/:search', {
   },
 });
 
-podcastRoutes.route('/itunes/:collectionId', {
+podcastRoutes.route('/itunes/:collectionId/:slug', {
   name: 'itunes',
   action() {
     const collectionId = FlowRouter.getParam('collectionId');
