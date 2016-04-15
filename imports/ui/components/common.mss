@@ -6,3 +6,12 @@
 
 .nothingFound {
 }
+
+.fadeInLoader {
+  opacity: 1;
+  transition: opacity 1s ease;
+
+  &.loading {
+    opacity: 0;
+  }
+}

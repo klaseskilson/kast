@@ -1,18 +1,24 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 
-import { Container, Spinner } from '../components/common.jsx';
+import { Container, Spinner, FadeInLoader } from '../components/common.jsx';
 import Podcasts from '../../api/Podcasts/Podcasts.js';
 
-const PodcastPage = ({ loading, podcast }) => (
-  <Container>
-    <h1>{ loading ? <Spinner loading={loading} icon="nah" /> : 'loaded' }</h1>
-    <pre>
-      {JSON.stringify(podcast)}
-    </pre>
-  </Container>
-);
+class PodcastPage extends Component {
+  render() {
+    const { loading, podcast } = this.props;
+    return (
+      <FadeInLoader loading={loading}>
+        {!podcast ? null : (
+          <Container>
+            <h1>{podcast.collectionName}</h1>
+          </Container>
+        )}
+      </FadeInLoader>
+    );
+  }
+}
 
 PodcastPage.propTypes = {
   loading: PropTypes.bool.isRequired,

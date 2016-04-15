@@ -47,3 +47,20 @@ export const NothingFound = () => (
     We found nothing :(
   </div>
 );
+
+export const FadeInLoader = ({ children, loading }) => (
+  <div>
+    {loading ? <Container><i className="fa fa-circle-o-notch fa-spin fa-5x"></i></Container> : null}
+    <div className={`${styles.fadeInLoader} ${loading ? styles.loading : ''}`}>
+      {loading ? null : children}
+    </div>
+  </div>
+);
+
+FadeInLoader.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.object,
+  ]),
+  loading: PropTypes.bool,
+};
