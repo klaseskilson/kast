@@ -41,15 +41,10 @@ SearchCache.methods.setCacheForSearch = (searchUrl, searchContent) => {
   // eslint-disable-next-line no-console
   console.info('Setting cache for iTunes search', searchUrl, 'at', createdAt);
 
-  // clean cache
-  SearchCache.remove({
-    createdAt: {
-      $lt: createdAt,
-    },
-  });
-
-  // insert new cache
-  return SearchCache.insert({
+  // upsert cache cache
+  return SearchCache.upsert({
+    searchUrl,
+  }, {
     searchUrl,
     searchContent,
     createdAt,
