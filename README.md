@@ -1,8 +1,8 @@
 # Kast
 
-> :notes: The missing podcast app
+> :hear_no_evil: The missing podcast app
 
-[![Circle CI](https://circleci.com/gh/klaseskilson/kast/tree/develop.svg?style=svg&circle-token=fa082b934dc94ab50ea184871ef32619346b8436)](https://circleci.com/gh/klaseskilson/kast)
+[![Circle CI](https://circleci.com/gh/klaseskilson/kast/tree/develop.svg?style=svg)](https://circleci.com/gh/klaseskilson/kast)
 [![Dependency Status](https://david-dm.org/klaseskilson/kast.svg)](https://david-dm.org/klaseskilson/kast)
 
 [Deployed staging](https://kast-staging.herokuapp.com/)
