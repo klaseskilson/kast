@@ -1,12 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
+import { prettyUrl } from '../../../helpers/urlHelpers.js';
+
 import styles from './PodcastBox.mss';
 
 class PodcastBox extends Component {
   render() {
     const { collectionName, artistName, artworkUrl100, collectionId } = this.props.podcast;
-    const path = FlowRouter.path('itunes', { collectionId });
+    const slug = prettyUrl(collectionName);
+    const path = FlowRouter.path('itunes', { collectionId, slug });
     return (
       <article className={styles.podcastBox}>
         <img src={artworkUrl100} alt={collectionName} />

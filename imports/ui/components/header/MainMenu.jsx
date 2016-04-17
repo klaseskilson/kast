@@ -6,7 +6,7 @@ import styles from './Menu.mss';
 const menuItems = [
   {
     route: 'home',
-    title: 'Home',
+    title: 'Kast',
   },
 ];
 

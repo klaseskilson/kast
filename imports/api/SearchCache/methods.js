@@ -6,8 +6,6 @@ import { EJSON } from 'meteor/ejson';
 
 import SearchCache from './SearchCache.js';
 
-SearchCache.methods = SearchCache.methods || {};
-
 SearchCache.methods.search = new ValidatedMethod({
   name: 'SearchCache.methods.search',
 

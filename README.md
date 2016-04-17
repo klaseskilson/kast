@@ -1,8 +1,8 @@
 # Kast
 
-> :notes: The missing podcast app
+> :hear_no_evil: The missing podcast app
 
-[![Circle CI](https://circleci.com/gh/klaseskilson/kast.svg?style=svg&circle-token=fa082b934dc94ab50ea184871ef32619346b8436)](https://circleci.com/gh/klaseskilson/kast)
+[![Circle CI](https://circleci.com/gh/klaseskilson/kast/tree/develop.svg?style=svg)](https://circleci.com/gh/klaseskilson/kast)
 [![Dependency Status](https://david-dm.org/klaseskilson/kast.svg)](https://david-dm.org/klaseskilson/kast)
 
 [Deployed staging](https://kast-staging.herokuapp.com/)
@@ -67,4 +67,4 @@ For CSS, Sass will be used. (I had the ambition to use [CSS Modules](https://git
 
 #### Deployment
 
-The application will be hosted and deployed through **Heroku**, using MLab as a MongoDB service. It will also use Kadira APM to monitor performance. I have experience of running applications through Heroku since before, and have had a smooth experience.
+The application will be hosted and deployed through **Heroku**, using MLab as a MongoDB service. It will also use Kadira APM to monitor performance. I have experience of running applications through Heroku since before, and have had a smooth experience. The application is [deployed through CricleCI](https://circleci.com/gh/klaseskilson/kast) continuous integration service.

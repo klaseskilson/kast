@@ -12,3 +12,6 @@ export const urlEncode = str => encodeURIComponent(str)
  * @return {String}
  */
 export const urlDecode = str => decodeURIComponent(str.replace(/\+/g, '%20'));
+
+export const prettyUrl = str => str.toLowerCase()
+  .replace(/\s/g, '-').replace(/[^0-9a-zA-Z\-]/g, '');
