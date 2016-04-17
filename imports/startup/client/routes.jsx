@@ -14,7 +14,25 @@ import PodcastPage from '/imports/ui/pages/PodcastPage.jsx';
 
 import { urlDecode } from '/imports/helpers/urlHelpers.js';
 
+import Podcasts from '/imports/api/Podcasts/Podcasts.js';
+
+/**
+ * set page title
+ * @param {String} title
+ */
 const setTitle = title => (document.title = title ? `${title} - Kast` : 'Kast');
+
+/**
+ * set page title from subscription
+ * @param {String} sub name of subscription
+ * @param param
+ * @param {function} titleMethod method to find title
+ */
+const setDataTitle = (sub, param, titleMethod) => {
+  Meteor.subscribe(sub, param, () => {
+    setTitle(titleMethod());
+  });
+};
 
 FlowRouter.route('/', {
   name: 'home',
@@ -91,6 +109,10 @@ podcastRoutes.route('/itunes/:collectionId/:slug', {
   name: 'itunes',
   action() {
     const collectionId = FlowRouter.getParam('collectionId');
+    setDataTitle('Podcasts.pubs.collection', collectionId, () => {
+      const { collectionName } = Podcasts.findOne({ collectionId });
+      return collectionName;
+    });
     mount(Layout, {
       content: (<PodcastPage collectionId={collectionId} />),
     });
