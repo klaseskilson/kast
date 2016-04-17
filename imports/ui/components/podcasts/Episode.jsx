@@ -5,7 +5,13 @@ import { createContainer } from 'meteor/react-meteor-data';
 import Episodes from '../../../api/Episodes/Episodes.js';
 import { FadeInLoader } from '../common.jsx';
 
-const Episode = ({ episode }) => null;
+const Episode = ({ episode }) => (
+  <article><h2>{episode.title}</h2></article>
+);
+
+Episode.propTypes = {
+  episode: PropTypes.object.isRequired,
+};
 
 const EpisodeList = ({ loading, episodes }) => (
   <FadeInLoader loading={loading}>
@@ -31,4 +37,4 @@ export default createContainer(({ podcastId }) => {
     loading,
     episodes,
   };
-}, EpisodeList)
+}, EpisodeList);

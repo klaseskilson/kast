@@ -4,11 +4,11 @@ import Episodes from '../Episodes.js';
 
 Episodes.pubs = {};
 
-Episodes.pubs.all = Meteor.publish('Episodes.pubs.all', podcastId => {
+Meteor.publish('Episodes.pubs.all', podcastId => {
   const search = Episodes.find({ podcastId });
 
   if (search.count() === 0) {
-
+    Episodes.methods.import.call(podcastId);
   }
 
   return search;
