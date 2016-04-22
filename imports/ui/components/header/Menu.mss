@@ -1,4 +1,4 @@
-@import 'client/stylesheets/includes/_variables';
+@import 'client/stylesheets/includes/_variables.scss';
 
 /**
  * used by all menus in header

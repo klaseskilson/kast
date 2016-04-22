@@ -1,5 +1,5 @@
-@import 'client/stylesheets/includes/_variables',
-        'client/stylesheets/includes/_mixins';
+@import 'client/stylesheets/includes/_variables.scss',
+        'client/stylesheets/includes/_mixins.scss';
 
 $image-size: 100px;
 $image-offset: ($image-size / 2);

@@ -1,4 +1,4 @@
-@import 'client/stylesheets/includes/_variables';
+@import 'client/stylesheets/includes/_variables.scss';
 
 .textField {
   composes: nav-item-sizes from './Menu.mss';

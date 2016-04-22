@@ -1,5 +1,5 @@
-@import 'client/stylesheets/includes/_mixins',
-        'client/stylesheets/includes/_variables';
+@import 'client/stylesheets/includes/_mixins.scss',
+        'client/stylesheets/includes/_variables.scss';
 
 .searchResults {
   display: flex;

@@ -11,9 +11,7 @@
   },
   "cssModules": {
     "extensions": [
-      "mss",
-      "scss",
-      "sass"
+      "mss"
     ],
     "enableSassCompilation": true
   },

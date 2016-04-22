@@ -38,3 +38,4 @@ dispatch:mocha-phantomjs
 meteorhacks:kadira
 http
 aldeed:simple-schema
+fourseven:scss
