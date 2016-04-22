@@ -5,9 +5,22 @@ import { createContainer } from 'meteor/react-meteor-data';
 import Episodes from '../../../api/Episodes/Episodes.js';
 import { FadeInLoader } from '../common.jsx';
 
-const Episode = ({ episode }) => (
-  <article><h2>{episode.title}</h2></article>
-);
+import styles from './Episode.mss';
+
+const Episode = ({ episode }) => {
+  const { title, description, image } = episode;
+  return (
+    <article className={styles.episode}>
+      <div className={styles.image}>
+        { image ? <img src={image} alt={title} /> : null }
+      </div>
+      <div className={styles.info}>
+        <h2>{title}</h2>
+        { description ? <p>{description}</p> : null }
+      </div>
+    </article>
+  );
+};
 
 Episode.propTypes = {
   episode: PropTypes.object.isRequired,

@@ -3,6 +3,7 @@
 
 // general metrics
 $padding-large: 15px;
+$padding-huge: 3 * $padding-large;
 $padding-small: ($padding-large * 2/3);
 $padding-horizontal: $padding-large;
 $padding-vertical: $padding-small;
@@ -10,3 +11,5 @@ $padding: $padding-vertical $padding-horizontal;
 
 // specific metrics
 $header-border-width: 3px;
+$header-height-unquote: "#{2 * $padding-large + $header-border-width} + .9rem";
+$header-height: unquote("calc(#{$header-height-unquote})");

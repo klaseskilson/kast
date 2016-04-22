@@ -64,3 +64,23 @@ FadeInLoader.propTypes = {
   ]),
   loading: PropTypes.bool,
 };
+
+export const FancyHeader = ({ children, background, extraClass }) => (
+  <header className={styles.fancyHeader}>
+    {background ? (
+      <div className={styles.blurredBackground} style={{backgroundImage: `url(${background})`}}></div>
+    ) : null}
+    <Container extraClass={extraClass}>
+      {children || null}
+    </Container>
+  </header>
+);
+
+FancyHeader.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.object,
+  ]),
+  background: PropTypes.string,
+  extraClass: PropTypes.string,
+};

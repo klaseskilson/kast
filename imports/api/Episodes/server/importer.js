@@ -26,13 +26,17 @@ Episodes.methods.import = new ValidatedMethod({
     const request = HTTP.get(feedUrl);
 
     if (request.statusCode === 200) {
-      // parse using podcast parsing library
       parsePodcast(request.content, (err, data) => {
         if (err) {
           // eslint-disable-next-line no-console
           console.error(`Error parsing feed ${feedUrl}`, err);
           return;
         }
+
+        const { description, copyright, owner, categories } = data;
+        Podcasts.upsert(podcastId, {
+          $set: { description, copyright, owner, categories },
+        });
 
         // eslint-disable-next-line no-console
         console.info(`Importing ${data.episodes.length} episodes for ${podcastId}`);
