@@ -32,25 +32,31 @@ class PodcastPage extends Component {
         {!podcast ? null : (
           <div>
             <FancyHeader extraClass={styles.header}>
-              <div className={styles.image}>
-                <img src={podcast.artworkUrl600} alt={podcast.collectionName} />
-              </div>
-              <div className={styles.content}>
+              <div className={styles.title}>
                 <h1>{podcast.collectionName}</h1>
                 <h2>
                   By <span className={styles.artistName}>{podcast.artistName}</span>
                 </h2>
-                <p>{podcast.description && podcast.description.long || ''}</p>
-                <div className="buttons">
-                  <button onClick={this.refreshPodcast}>
-                    <Spinner icon="refresh" loading={this.state.refreshing} />
-                    Refresh
-                  </button>
-                </div>
               </div>
             </FancyHeader>
-            <Container>
-              <EpisodeList podcastId={podcast._id} />
+            <Container extraClass={styles.content}>
+              <aside className={styles.sidebar}>
+                <img src={podcast.artworkUrl600} alt={podcast.collectionName} />
+                <div className={styles.sidebarContent}>
+                  <button onClick={this.refreshPodcast} className="block">
+                    <Spinner icon="refresh" loading={this.state.refreshing} /> Refresh
+                  </button>
+                  <p>{podcast.description && podcast.description.long || ''}</p>
+
+                  {podcast.link ? (
+                    <p><a href={podcast.link}><i className="fa fa-globe"></i> Website</a></p>)
+                    : null }
+                  {podcast.copyright ? <p className="small">&copy; {podcast.copyright}</p> : null }
+                </div>
+              </aside>
+              <div className={styles.episodeList}>
+                <EpisodeList podcastId={podcast._id} />
+              </div>
             </Container>
           </div>
         )}

@@ -26,7 +26,7 @@
  */
 
 /*******************************************************************************
- * Default width settins
+ * Default width settings
  ******************************************************************************/
 $xs-max: 768px !default;
 $s-max: 992px !default;
@@ -165,7 +165,7 @@ $m-max: 1200px !default;
 /**
  * laptop media query
  */
-@mixin laptop {
+@mixin laptop() {
   @include _double-mq($s-max, $m-max) {
     @content;
   }

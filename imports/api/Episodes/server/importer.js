@@ -22,7 +22,7 @@ Episodes.methods.import = new ValidatedMethod({
     });
 
     // eslint-disable-next-line no-console
-    console.info('Fetching podcast episodes from', feedUrl);
+    console.info('Fetching podcast episodes and info from', feedUrl);
     const request = HTTP.get(feedUrl);
 
     if (request.statusCode === 200) {
@@ -33,9 +33,9 @@ Episodes.methods.import = new ValidatedMethod({
           return;
         }
 
-        const { description, copyright, owner, categories } = data;
+        const { description, copyright, owner, categories, link } = data;
         Podcasts.upsert(podcastId, {
-          $set: { description, copyright, owner, categories },
+          $set: { description, copyright, owner, categories, link },
         });
 
         // eslint-disable-next-line no-console

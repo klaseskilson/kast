@@ -1,46 +1,75 @@
 @import 'client/stylesheets/includes/_variables.scss',
         'client/stylesheets/includes/_mixins.scss';
 
-.header {
-  display: flex;
-  padding: $padding-huge 0;
+$sidebar-width: 30%;
+$image-offset: 100px;
+$title-size: 2.5rem;
+$author-size: 1.5rem;
+$title-height: "#{$padding-large + $padding-huge} + #{$title-size + $author-size}";
 
-  @include phone() {
+.header {
+  position: relative;
+  padding: $padding-huge 0;
+  line-height: 1;
+
+  @include below($s-max) {
     padding: $padding-large 0;
   }
 }
 
-.image {
-  width: 20%;
-  max-width: 200px;
+.title {
+  width: (100% - $sidebar-width);
+  padding-left: $padding-huge;
+  position: relative;
+  left: $sidebar-width;
+  text-wrap: none;
+  text-overflow: ellipsis;
+
+  h1 {
+    font-size: $title-size;
+    margin-top: 0;
+    margin-bottom: $padding-large;
+  }
+  h2 {
+    font-size: $author-size;
+    margin: 0;
+    font-weight: normal;
+  }
+  .artistName {
+    font-weight: bold;
+  }
+
+  @include below($s-max) {
+    padding-left: $padding-large;
+  }
+}
+
+.content {
+  display: flex;
+}
+
+.sidebar {
+  z-index: 20;
+  margin-top: unquote("calc(-1 * (#{$title-height}))");
+  width: $sidebar-width;
+  height: 0%;
+  background: darken($gray, 10%);
 
   img {
     width: 100%;
   }
 
-  @include phone() {
-    max-width: 70px;
+  p {
+    line-height: 1.4;
+    color: #fff;
   }
 }
 
-.content {
-  width: 80%;
-  padding-left: $padding-huge;
-
-  h1 {
-    margin-top: 0;
-    margin-bottom: $padding-large;
-  }
-  h2 {
-    margin: 0;
-    font-weight: normal;
-  }
-
-  @include phone() {
-    padding-left: $padding-large;
-  }
+.sidebarContent {
+  padding: $padding;
 }
 
-.artistName {
-  font-weight: bold;
+.episodeList {
+  width: (100% - $sidebar-width);
+  background: #fff;
 }

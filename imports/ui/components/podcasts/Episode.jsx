@@ -26,11 +26,11 @@ Episode.propTypes = {
   episode: PropTypes.object.isRequired,
 };
 
-const EpisodeList = ({ loading, episodes }) => (
+const EpisodeList = ({ loading, episodes, className }) => (
   <FadeInLoader loading={loading}>
     <h1>Episodes</h1>
     { !episodes ? null : (
-      <div>
+      <div className={className || 'episode-list'}>
         { episodes.map(episode => <Episode episode={episode} key={episode.guid} />)}
       </div>
     ) }
@@ -40,14 +40,16 @@ const EpisodeList = ({ loading, episodes }) => (
 EpisodeList.propTypes = {
   loading: PropTypes.bool.isRequired,
   episodes: PropTypes.array,
+  className: PropTypes.string,
 };
 
-export default createContainer(({ podcastId }) => {
+export default createContainer(({ podcastId, className }) => {
   const episodeHandle = Meteor.subscribe('Episodes.pubs.all', podcastId);
   const loading = !episodeHandle.ready();
   const episodes = Episodes.find({ podcastId }).fetch();
   return {
     loading,
     episodes,
+    className,
   };
 }, EpisodeList);
