@@ -73,3 +73,10 @@ $title-height: "#{$padding-large + $padding-huge} + #{$title-size + $author-size
   width: (100% - $sidebar-width);
   background: #fff;
 }
+
+.episodesTitle {
+  @extend .block-text;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 300;
+}

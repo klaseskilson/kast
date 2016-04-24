@@ -55,6 +55,7 @@ class PodcastPage extends Component {
                 </div>
               </aside>
               <div className={styles.episodeList}>
+                <h2 className={styles.episodesTitle}>Episodes</h2>
                 <EpisodeList podcastId={podcast._id} />
               </div>
             </Container>
