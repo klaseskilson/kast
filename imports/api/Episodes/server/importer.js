@@ -22,11 +22,10 @@ Episodes.methods.import = new ValidatedMethod({
     });
 
     // eslint-disable-next-line no-console
-    console.info('Fetching podcast episodes from', feedUrl);
+    console.info('Fetching podcast episodes and info from', feedUrl);
     const request = HTTP.get(feedUrl);
 
     if (request.statusCode === 200) {
-      // parse using podcast parsing library
       parsePodcast(request.content, (err, data) => {
         if (err) {
           // eslint-disable-next-line no-console
@@ -34,8 +33,14 @@ Episodes.methods.import = new ValidatedMethod({
           return;
         }
 
+        const { description, copyright, owner, categories, link } = data;
+        const episodeCount = data.episodes.length;
+        Podcasts.upsert(podcastId, {
+          $set: { description, copyright, owner, categories, link, episodeCount },
+        });
+
         // eslint-disable-next-line no-console
-        console.info(`Importing ${data.episodes.length} episodes for ${podcastId}`);
+        console.info(`Importing ${episodeCount} episodes for ${podcastId}`);
 
         data.episodes.forEach(episode => {
           const updatedEpisode = _.extend(episode, {

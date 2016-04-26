@@ -1,4 +1,4 @@
-@import 'client/stylesheets/includes/_variables';
+@import 'client/stylesheets/includes/_variables.scss';
 
 .mainHeader {
   background: rgba(#fff, 0.8);

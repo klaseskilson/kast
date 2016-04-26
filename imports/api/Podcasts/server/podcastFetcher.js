@@ -46,8 +46,11 @@ Podcasts.methods.fetchPodcast = new ValidatedMethod({
         });
       }
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
+      /* eslint-disable no-console */
+      console.error('Failed fetching podcast info:', error);
+      console.trace();
+      /* eslint-enable */
+      throw error;
     }
   },
 });

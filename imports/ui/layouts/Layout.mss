@@ -1,6 +1,4 @@
-@import 'client/stylesheets/includes/_variables';
-
-$header-height: unquote("calc(#{2 * $padding-large + $header-border-width} + .9rem)");
+@import 'client/stylesheets/includes/_variables.scss';
 
 .wrapper {
   width: 100%;
