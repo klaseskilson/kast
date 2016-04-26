@@ -1,3 +1,6 @@
+import { Meteor } from 'meteor/meteor';
+import { _ } from 'meteor/underscore';
+
 import SearchCache from '../SearchCache.js';
 
 SearchCache.methods = SearchCache.methods || {};
@@ -41,6 +44,9 @@ SearchCache.methods.setCacheForSearch = (searchUrl, searchContent) => {
   // eslint-disable-next-line no-console
   console.info('Setting cache for iTunes search', searchUrl, 'at', createdAt);
 
+  // async call to cache cleaner
+  _.defer(Meteor.bindEnvironment(SearchCache.methods.cleanCache));
+
   // upsert cache cache
   return SearchCache.upsert({
     searchUrl,
@@ -48,5 +54,19 @@ SearchCache.methods.setCacheForSearch = (searchUrl, searchContent) => {
     searchUrl,
     searchContent,
     createdAt,
+  });
+};
+
+SearchCache.methods.cleanCache = () => {
+  const halfDayAgo = new Date();
+  halfDayAgo.setTime(Date.now() - halfDay);
+
+  // eslint-disable-next-line no-console
+  console.info('Cleaning cache older than', halfDayAgo);
+
+  SearchCache.remove({
+    createdAt: {
+      $lt: halfDayAgo,
+    },
   });
 };
