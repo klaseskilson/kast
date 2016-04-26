@@ -3,6 +3,21 @@
 
 $image-width: 60px;
 
+.loadMore {
+  @extend .block-text;
+
+  line-height: $image-width;
+  text-align: center;
+  width: 100%;
+  cursor: pointer;
+  background: $olive;
+  color: $white;
+
+  &:hover {
+    background: darken($olive, 10%);
+  }
+}
+
 .episode {
   display: flex;
   padding: $padding;

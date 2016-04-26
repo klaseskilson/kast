@@ -4,7 +4,7 @@ import Episodes from '../Episodes.js';
 
 Episodes.pubs = {};
 
-Meteor.publish('Episodes.pubs.all', (podcastId, limit = 20) => {
+Meteor.publish('Episodes.pubs.limit', (podcastId, limit = 20) => {
   const search = Episodes.find({ podcastId }, {
     sort: {
       published: -1,

@@ -34,12 +34,13 @@ Episodes.methods.import = new ValidatedMethod({
         }
 
         const { description, copyright, owner, categories, link } = data;
+        const episodeCount = data.episodes.length;
         Podcasts.upsert(podcastId, {
-          $set: { description, copyright, owner, categories, link },
+          $set: { description, copyright, owner, categories, link, episodeCount },
         });
 
         // eslint-disable-next-line no-console
-        console.info(`Importing ${data.episodes.length} episodes for ${podcastId}`);
+        console.info(`Importing ${episodeCount} episodes for ${podcastId}`);
 
         data.episodes.forEach(episode => {
           const updatedEpisode = _.extend(episode, {
