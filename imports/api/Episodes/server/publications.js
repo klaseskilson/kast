@@ -18,3 +18,5 @@ Meteor.publish('Episodes.pubs.limit', (podcastId, limit = 20) => {
 
   return search;
 });
+
+Meteor.publish('Episodes.pubs.single', episodeId => Episodes.find(episodeId));

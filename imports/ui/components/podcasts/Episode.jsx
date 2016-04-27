@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Meteor } from 'meteor/meteor';
+import { Session } from 'meteor/session';
 import { createContainer } from 'meteor/react-meteor-data';
 import { moment } from 'meteor/momentjs:moment';
 
@@ -9,24 +10,43 @@ import { FadeInLoader, Spinner } from '../common.jsx';
 
 import styles from './Episode.mss';
 
-const Episode = ({ episode }) => {
-  const { title, published, image, duration } = episode;
-  const date = moment(published).format('ddd MMM Do YYYY');
-  const seconds = duration % 60;
-  const length = `${Math.floor(duration / 60)}:${seconds < 10 ? 0 : ''}${seconds}`;
+class Episode extends Component {
+  constructor(props) {
+    super(props);
 
-  return (
-    <article className={styles.episode}>
-      <div className={styles.image} style={{ backgroundImage: `url(${image})` }}>
-        <i className={`${styles.playback} fa fa-play-circle`}></i>
-      </div>
-      <div className={styles.info}>
-        <span className={styles.title}>{title}</span>
-        <span className={styles.date}>{length} - {date}</span>
-      </div>
-    </article>
-  );
-};
+    this.togglePlayback = this.togglePlayback.bind(this);
+  }
+
+  togglePlayback() {
+    const { _id } = this.props.episode;
+    const { playing } = Session.get('nowPlaying') || {};
+    // TODO: use collection here, too
+    Session.set('nowPlaying', {
+      episodeId: _id,
+      current: true,
+      playing: !playing,
+    });
+  }
+
+  render() {
+    const { title, published, image, duration } = this.props.episode;
+    const date = moment(published).format('ddd MMM Do YYYY');
+    const seconds = duration % 60;
+    const length = `${Math.floor(duration / 60)}:${seconds < 10 ? 0 : ''}${seconds}`;
+
+    return (
+      <article className={styles.episode}>
+        <div className={styles.image} style={{ backgroundImage: `url(${image})` }} onClick={this.togglePlayback}>
+          <i className={`${styles.playback} fa fa-play-circle`}></i>
+        </div>
+        <div className={styles.info}>
+          <span className={styles.title}>{title}</span>
+          <span className={styles.date}>{length} - {date}</span>
+        </div>
+      </article>
+    );
+  }
+}
 
 Episode.propTypes = {
   episode: PropTypes.object.isRequired,
@@ -80,7 +100,11 @@ export default createContainer(({ podcastId, className }) => {
   const limit = 20;
   const episodeHandle = Meteor.subscribe('Episodes.pubs.limit', podcastId);
   const loading = !episodeHandle.ready();
-  const episodes = Episodes.find({ podcastId }).fetch();
+  const episodes = Episodes.find({ podcastId }, {
+    sort: {
+      published: -1,
+    },
+  }).fetch();
   const { episodeCount } = Podcasts.findOne(podcastId);
   return {
     podcastId,

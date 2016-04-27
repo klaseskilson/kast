@@ -23,7 +23,7 @@ $image-width: 60px;
   padding: $padding;
 
   &:hover {
-    background: $silver;
+    background: $light-gray;
 
     .playback {
       opacity: 0.2;
@@ -49,7 +49,6 @@ $image-width: 60px;
   cursor: pointer;
 
   &:hover {
-    //background: rgba($black, 0.8);
     text-shadow: 0 0 1em $black;
     color: #fff;
     opacity: 1 !important;

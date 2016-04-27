@@ -10,16 +10,17 @@ import styles from './common.mss';
  * @returns {XML}
  * @constructor
  */
-export const Spinner = ({ loading, icon }) => {
-  const className = `fa fa-${loading ? 'circle-o-notch fa-spin' : icon}`;
+export const Spinner = ({ loading, icon, className }) => {
+  const classes = `${className || ''} fa fa-${loading ? 'circle-o-notch fa-spin' : icon}`;
   return (
-    <i className={className}> </i>
+    <i className={classes}> </i>
   );
 };
 
 Spinner.propTypes = {
   loading: PropTypes.bool.isRequired,
   icon: PropTypes.string.isRequired,
+  className: PropTypes.string,
 };
 
 /**
