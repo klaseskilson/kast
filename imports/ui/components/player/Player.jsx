@@ -8,6 +8,7 @@ import Episodes from '/imports/api/Episodes/Episodes.js';
 import Podcasts from '/imports/api/Podcasts/Podcasts.js';
 
 import { Spinner } from '../common.jsx';
+import ProgressBar from './ProgressBar.jsx';
 
 import styles from './Player.mss';
 
@@ -38,7 +39,6 @@ class Player extends Component {
     let durationSeconds = duration % 60;
     durationSeconds = `${durationSeconds < 10 ? 0 : ''}${durationSeconds}`;
     const durationText = `${Math.floor(duration / 60)}:${durationSeconds}`;
-    const progress = 100 * currentlyAt / duration;
 
     return (
       <div className={styles.player}>
@@ -57,11 +57,7 @@ class Player extends Component {
               <span className={styles.title}>{currentlyText}</span> / {durationText}
             </span>
           </div>
-          <div className={styles.progress}>
-            <div className={styles.bar}></div>
-            <div className={styles.filledBar} style={{ width: `${progress}%` }}></div>
-            <div className={styles.indicator} style={{ left: `${progress}%` }}></div>
-          </div>
+          <ProgressBar duration={duration} currentlyAt={currentlyAt} />
         </div>
       </div>
     );
