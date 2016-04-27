@@ -1,7 +1,6 @@
 @import 'client/stylesheets/includes/_variables.scss',
         './_variables.mss';
 
-
 .player {
   position: fixed;
   bottom: 0;
