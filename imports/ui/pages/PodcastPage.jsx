@@ -4,7 +4,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 
 import { Container, FadeInLoader, FancyHeader, Spinner } from '../components/common.jsx';
 import Podcasts from '../../api/Podcasts/Podcasts.js';
-import EpisodeList from '../components/podcasts/Episode.jsx';
+import EpisodeList from '../components/podcasts/EpisodeList.jsx';
 
 import styles from './PodcastPage.mss';
 
@@ -26,7 +26,7 @@ class PodcastPage extends Component {
   }
 
   render() {
-    const { loading, podcast, user } = this.props;
+    const { loading, podcast } = this.props;
     return (
       <FadeInLoader loading={loading}>
         {!podcast ? null : (

@@ -32,10 +32,12 @@ class Player extends Component {
 
     const { duration } = episode;
 
-    const currSeconds = currentlyAt % 60;
-    const currentlyText = `${Math.floor(currentlyAt / 60)}:${currSeconds < 10 ? 0 : ''}${currSeconds}`;
-    const durationSeconds = duration % 60;
-    const durationText = `${Math.floor(duration / 60)}:${durationSeconds < 10 ? 0 : ''}${durationSeconds}`;
+    let currentSeconds = currentlyAt % 60;
+    currentSeconds = `${currentSeconds < 10 ? 0 : ''}${currentSeconds}`;
+    const currentlyText = `${Math.floor(currentlyAt / 60)}:${currentSeconds}`;
+    let durationSeconds = duration % 60;
+    durationSeconds = `${durationSeconds < 10 ? 0 : ''}${durationSeconds}`;
+    const durationText = `${Math.floor(duration / 60)}:${durationSeconds}`;
     const progress = 100 * currentlyAt / duration;
 
     return (
@@ -57,8 +59,8 @@ class Player extends Component {
           </div>
           <div className={styles.progress}>
             <div className={styles.bar}></div>
-            <div className={styles.filledBar} style={{ width: `${progress}%`}}></div>
-            <div className={styles.indicator} style={{ left: `${progress}%`}}></div>
+            <div className={styles.filledBar} style={{ width: `${progress}%` }}></div>
+            <div className={styles.indicator} style={{ left: `${progress}%` }}></div>
           </div>
         </div>
       </div>
