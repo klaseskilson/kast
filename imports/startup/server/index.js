@@ -6,6 +6,7 @@ import './ServiceConfiguration.js';
 import '../../api/api.js';
 import '../../api/Episodes/server/publications.js';
 import '../../api/Episodes/server/importer.js';
+import '../../api/PlayHistory/server/publications.js';
 import '../../api/Podcasts/server/publications.js';
 import '../../api/Podcasts/server/podcastFetcher.js';
 import '../../api/SearchCache/server/cacheChecker.js';

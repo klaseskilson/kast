@@ -67,7 +67,7 @@ Player.propTypes = {
 export default createContainer(() => {
   const userId = Meteor.userId();
 
-  const playHistoryHandle = Meteor.subscribe('PlayHistory.pubs.current', userId);
+  const playHistoryHandle = Meteor.subscribe('PlayHistory.pubs.current', userId, ready => console.log(ready));
   const nowPlaying = userId ? PlayHistory.findOne({ current: true }) : Session.get('nowPlaying');
   const { episodeId } = nowPlaying || {};
 

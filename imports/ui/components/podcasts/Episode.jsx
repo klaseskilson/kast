@@ -1,8 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { Session } from 'meteor/session';
+import { Meteor } from 'meteor/meteor';
 import { moment } from 'meteor/momentjs:moment';
 
 import styles from './Episode.mss';
+
+import PlayHistory from '../../../api/PlayHistory/methods.js';
 
 class Episode extends Component {
   constructor(props) {
@@ -13,13 +16,18 @@ class Episode extends Component {
 
   togglePlay() {
     const { _id } = this.props.episode;
-    const { playing } = Session.get('nowPlaying') || {};
-    // TODO: use collection here, too
-    Session.set('nowPlaying', {
-      episodeId: _id,
-      current: true,
-      playing: !playing,
-    });
+
+    const userId = Meteor.userId();
+    if (userId) {
+      PlayHistory.methods.setCurrent.call(_id);
+    } else {
+      const { playing } = Session.get('nowPlaying') || {};
+      Session.set('nowPlaying', {
+        episodeId: _id,
+        current: true,
+        playing: !playing,
+      });
+    }
   }
 
   render() {
