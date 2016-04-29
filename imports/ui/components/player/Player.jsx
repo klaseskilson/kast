@@ -15,7 +15,7 @@ import styles from './Player.mss';
 
 class Player extends Component {
   render() {
-    const { loading, episode, podcast } = this.props;
+    const { loading, episode, podcast, nowPlaying } = this.props;
 
     if (!episode || !podcast) {
       return null;
@@ -30,8 +30,7 @@ class Player extends Component {
     }
 
     const image = episode.image || podcast.artworkUrl100;
-    const currentlyAt = 1359; // todo: change
-
+    const currentlyAt = nowPlaying.progress;
     const { duration } = episode;
 
     return (
@@ -67,7 +66,7 @@ Player.propTypes = {
 export default createContainer(() => {
   const userId = Meteor.userId();
 
-  const playHistoryHandle = Meteor.subscribe('PlayHistory.pubs.current', userId, ready => console.log(ready));
+  const playHistoryHandle = Meteor.subscribe('PlayHistory.pubs.current', userId);
   const nowPlaying = userId ? PlayHistory.findOne({ current: true }) : Session.get('nowPlaying');
   const { episodeId } = nowPlaying || {};
 

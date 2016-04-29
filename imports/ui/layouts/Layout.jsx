@@ -10,8 +10,8 @@ const { wrapper, mainLayout } = styles;
 const Layout = ({ content }) => (
   <div className={wrapper}>
     <Header />
-    <main className={mainLayout}>{content}</main>
     <Player />
+    <main className={mainLayout}>{content}</main>
   </div>
 );
 

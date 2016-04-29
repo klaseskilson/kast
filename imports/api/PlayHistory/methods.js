@@ -32,10 +32,10 @@ PlayHistory.methods.setCurrent = new ValidatedMethod({
         userId,
         episodeId,
         current: true,
+        playing: true,
       },
       $setOnInsert: {
         progress: 0,
-        playing: true,
       },
     });
   },

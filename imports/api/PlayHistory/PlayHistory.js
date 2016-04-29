@@ -5,7 +5,7 @@ const PlayHistory = new Mongo.Collection('playHistory');
 PlayHistory.methods = {};
 
 PlayHistory.schema = new SimpleSchema({
-  progress: { type: Number },
+  progress: { type: Number, defaultValue: 0 },
   episodeId: { type: String },
   userId: { type: String },
   current: { type: Boolean, defaultValue: false },

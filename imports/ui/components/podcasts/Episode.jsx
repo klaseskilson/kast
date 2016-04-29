@@ -21,12 +21,19 @@ class Episode extends Component {
     if (userId) {
       PlayHistory.methods.setCurrent.call(_id);
     } else {
-      const { playing } = Session.get('nowPlaying') || {};
-      Session.set('nowPlaying', {
+      const { playing, progress, episodeId } = Session.get('nowPlaying') || {};
+      const nowPlaying = {
         episodeId: _id,
         current: true,
-        playing: !playing,
-      });
+      };
+      if (episodeId === _id) {
+        nowPlaying.playing = !playing;
+        nowPlaying.progress = progress;
+      } else {
+        nowPlaying.playing = true;
+        nowPlaying.progress = 0;
+      }
+      Session.set('nowPlaying', nowPlaying);
     }
   }
 

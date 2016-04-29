@@ -2,13 +2,15 @@ import React, { PropTypes } from 'react';
 
 import styles from './Timer.mss';
 
+const secondsToTime = seconds => {
+  let remainingSeconds = seconds % 60;
+  remainingSeconds = `${remainingSeconds < 10 ? 0 : ''}${remainingSeconds}`;
+  return `${Math.floor(seconds / 60)}:${remainingSeconds}`;
+};
+
 const Timer = ({ duration, currentlyAt }) => {
-  let currentSeconds = currentlyAt % 60;
-  currentSeconds = `${currentSeconds < 10 ? 0 : ''}${currentSeconds}`;
-  const currentlyText = `${Math.floor(currentlyAt / 60)}:${currentSeconds}`;
-  let durationSeconds = duration % 60;
-  durationSeconds = `${durationSeconds < 10 ? 0 : ''}${durationSeconds}`;
-  const durationText = `${Math.floor(duration / 60)}:${durationSeconds}`;
+  const currentlyText = secondsToTime(currentlyAt);
+  const durationText = secondsToTime(duration);
 
   return (
     <span className={styles.time}>
