@@ -6,6 +6,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 import PlayHistory from '/imports/api/PlayHistory/PlayHistory.js';
 import Episodes from '/imports/api/Episodes/Episodes.js';
 import Podcasts from '/imports/api/Podcasts/Podcasts.js';
+import AudioControl from './AudioControl.js';
 
 import { Spinner } from '../common.jsx';
 import ProgressBar from './ProgressBar.jsx';
@@ -14,6 +15,45 @@ import Timer from './Timer.jsx';
 import styles from './Player.mss';
 
 class Player extends Component {
+  constructor(props) {
+    super(props);
+
+    this.control = new AudioControl();
+    //this.control = null;
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (!this.urlExists(newProps)) {
+      return;
+    }
+
+    if (this.shouldResetSound(newProps)) {
+      this.control.destroy();
+      this.control = new AudioControl();
+    }
+
+    const { _id } = newProps.episode;
+    this.control.load(_id);
+  }
+
+  urlExists(props) {
+    return !!(props.episode && props.episode.enclosure && props.episode.enclosure.url);
+  }
+
+  shouldResetSound(newProps) {
+    // check if we have old url, if no, no need to reset
+    if (!this.urlExists(this.props)) {
+      return false;
+    }
+
+    return this.urlIsChanged(newProps.episode.enclosure);
+  }
+
+  urlIsChanged(newEnclosure) {
+    const { enclosure } = this.props.episode;
+    return enclosure.url !== newEnclosure.url;
+  }
+
   render() {
     const { loading, episode, podcast, nowPlaying } = this.props;
 
