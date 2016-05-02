@@ -17,9 +17,9 @@ import styles from './Player.mss';
 class Player extends Component {
   constructor(props) {
     super(props);
-
-    this.control = new AudioControl();
-    //this.control = null;
+    this.state = { loadingSound: true, playing: false };
+    this.toggle = this.toggle.bind(this);
+    this.setupAudio();
   }
 
   componentWillReceiveProps(newProps) {
@@ -29,11 +29,37 @@ class Player extends Component {
 
     if (this.shouldResetSound(newProps)) {
       this.control.destroy();
-      this.control = new AudioControl();
+      this.setState({ loadingSound: true, playing: false });
+      this.setupAudio();
     }
 
-    const { _id } = newProps.episode;
-    this.control.load(_id);
+    const { url } = newProps.episode.enclosure;
+    this.control.load(url);
+    this.setState({ loadingSound: true });
+  }
+
+  setupAudio() {
+    this.control = new AudioControl();
+    this.control.cb.onLoaded = this.onLoaded.bind(this);
+    this.control.cb.onPlay = this.onPlay.bind(this);
+    this.control.cb.onPause = this.onPause.bind(this);
+  }
+
+  onLoaded() {
+    this.setState({ loadingSound: false });
+    this.control.play();
+  }
+
+  onPlay() {
+    this.setState({ playing: this.control.isRunning() });
+  }
+
+  onPause(time) {
+    this.setState({ playing: this.control.isRunning() });
+  }
+
+  toggle(event) {
+    this.control.toggle();
   }
 
   urlExists(props) {
@@ -72,12 +98,14 @@ class Player extends Component {
     const image = episode.image || podcast.artworkUrl100;
     const currentlyAt = nowPlaying.progress;
     const { duration } = episode;
+    const icon = this.state.playing ? 'pause' : 'play';
+    const { loadingSound } = this.state;
 
     return (
       <div className={styles.player}>
         <div className={styles.controls}>
           <i className="fa fa-undo"></i>
-          <Spinner icon="pause" loading={false} className={styles.pause} />
+          <Spinner icon={icon} loading={loadingSound} className={styles.pause} onClick={this.toggle} />
           <i className="fa fa-repeat"></i>
         </div>
         <div className={styles.image} style={{ backgroundImage: `url(${image})` }}></div>

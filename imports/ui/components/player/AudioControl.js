@@ -1,24 +1,8 @@
 import { _ } from 'meteor/underscore';
 
-const createCORSRequest = (method, url) => {
-  let xhr = new XMLHttpRequest();
-  if ('withCredentials' in xhr) {
-    xhr.withCredentials = true;
-    xhr.open(method, url, true);
-  } else if (typeof XDomainRequest !== 'undefined') {
-    xhr = new XDomainRequest();
-    xhr.open(method, url);
-  } else {
-    xhr = null;
-  }
-  return xhr;
-};
-
 class AudioControl {
   constructor() {
-    this.context = new window.AudioContext();
-    this.audioBuffer = null;
-    this.source = null;
+    this.context = new Audio();
     this.cb = {
       onPause: _.identity,
       onPlay: _.identity,
@@ -26,24 +10,16 @@ class AudioControl {
     };
   }
 
-  load(id) {
+  load(url) {
     const control = this;
-    const url = `/media/episode/${id}`;
-    const request = createCORSRequest('GET', url);
-    request.responseType = 'arraybuffer';
+    control.context.src = url;
 
-    // decode async
-    request.onload = () => {
-      control.context.decodeAudioData(request.response).then(buffer => {
-        control.audioBuffer = buffer;
+    control.context.addEventListener('loadeddata', () => {
+      if (control.isReady()) {
         control.onLoaded();
-      }).catch(control.onError);
-    };
-
-    request.onerror = this.onError.bind(this, 'XHR error loading sound');
-
-    // fire away!
-    request.send();
+        control.play();
+      }
+    });
   }
 
   onError(error) {
@@ -63,56 +39,48 @@ class AudioControl {
     return this.cb.onLoaded();
   }
 
-  init() {
-    // create sound source and set its audio
-    const source = this.context.createBufferSource();
-    source.buffer = this.audioBuffer;
-
-    // link sound to context's destination (that is, the speakers)
-    source.connect(this.context.destination);
-    this.source = source;
+  playFromTime(time = this.context.currentTime) {
+    if (this.isPaused()) {
+      this.seek(time);
+      this.play();
+    } else {
+      this.pause();
+    }
   }
 
-  playFromTime(time = this.context.currentTime) {
-    // make sure source is initiated
-    if (!this.source) this.init();
-
-    if (this.isSuspended()) {
-      this.resume();
-    } else {
-      this.source.start(time);
-      this.onPlay(time);
-    }
+  seek(time) {
+    const newTime = Math.min(Math.max(time, 0), this.context.duration);
+    this.context.currentTime = newTime;
   }
 
   pause() {
     const time = this.context.currentTime;
-    this.context.suspend().then(this.onPause(time));
+    this.context.pause();
+    this.onPause(time);
   }
 
-  resume() {
-    this.context.resume().then(this.onPlay);
+  play() {
+    this.context.play().then(this.onPlay.bind(this));
   }
 
   toggle() {
-    switch (this.context.state) {
-      case 'suspended':
-        this.resume();
-        break;
-      case 'running':
-        this.pause();
-        break;
-      default:
-        console.log('I dunno');
+    if (this.isPaused()) {
+      this.play();
+    } else {
+      this.pause();
     }
   }
 
-  isSuspended() {
-    return this.context.state === 'suspended';
+  isPaused() {
+    return this.context.paused;
   }
 
   isRunning() {
-    return this.context.state === 'running';
+    return !this.context.paused;
+  }
+
+  isReady() {
+    return this.context.readyState >= 2;
   }
 
   getTime() {
@@ -120,7 +88,10 @@ class AudioControl {
   }
 
   destroy() {
-    this.context.close();
+    this.pause();
+    this.context.src = '';
+    this.context.load();
+    delete this.context;
   }
 }
 

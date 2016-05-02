@@ -5,15 +5,14 @@ import styles from './common.mss';
 /**
  * create a font-awesome spinning icon if loading is true, otherwise use the icon
  * class provided in icon
- * @param {boolean} loading
- * @param {String} icon
  * @returns {XML}
  * @constructor
  */
-export const Spinner = ({ loading, icon, className }) => {
+export const Spinner = props => {
+  const { loading, icon, className } = props;
   const classes = `${className || ''} fa fa-${loading ? 'circle-o-notch fa-spin' : icon}`;
   return (
-    <i className={classes}> </i>
+    <i {...props} className={classes}> </i>
   );
 };
 
