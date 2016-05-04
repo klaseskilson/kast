@@ -1,12 +1,13 @@
 import React, { PropTypes, Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
+import { _ } from 'meteor/stevezhu:lodash';
 import { createContainer } from 'meteor/react-meteor-data';
 
 import PlayHistory from '/imports/api/PlayHistory/PlayHistory.js';
 import Episodes from '/imports/api/Episodes/Episodes.js';
 import Podcasts from '/imports/api/Podcasts/Podcasts.js';
-import AudioControl from './AudioControl.js';
+import AudioControl from '../../../api/Audio/AudioControl.js';
 
 import { Spinner } from '../common.jsx';
 import ProgressBar from './ProgressBar.jsx';
@@ -17,9 +18,14 @@ import styles from './Player.mss';
 class Player extends Component {
   constructor(props) {
     super(props);
-    this.state = { loadingSound: true, playing: false };
+    const { progress } = props.nowPlaying || {};
+    this.state = { loadingSound: true, playing: false, progress: progress || 0 };
     this.toggle = this.toggle.bind(this);
+    this.updateProgress = this.updateProgress.bind(this);
     this.setupAudio();
+    this.saveProgres = _.debounce(this.storeProgress.bind(this), 5000, {
+      //maxWait: 60000,
+    });
   }
 
   componentWillReceiveProps(newProps) {
@@ -33,9 +39,33 @@ class Player extends Component {
       this.setupAudio();
     }
 
-    const { url } = newProps.episode.enclosure;
-    this.control.load(url);
-    this.setState({ loadingSound: true });
+    if (!this.urlIsChanged(newProps)) {
+      const { progress } = newProps.nowPlaying;
+      console.log('url is unchanged. progress:', progress);
+      this.control.seek(progress);
+    } else {
+      const { url } = newProps.episode.enclosure;
+      this.control.load(url);
+      this.setState({ loadingSound: true });
+    }
+  }
+
+  onLoaded() {
+    this.setState({ loadingSound: false });
+    const { progress } = this.props.nowPlaying;
+    this.control.seek(progress);
+    this.control.play();
+  }
+
+  onPlay() {
+    this.setState({ playing: this.control.isRunning() });
+    this.updateProgress();
+  }
+
+  onPause() {
+    this.setState({ playing: this.control.isRunning() });
+    this.saveProgres.cancel();
+    this.storeProgress(this.control.getTime());
   }
 
   setupAudio() {
@@ -45,20 +75,30 @@ class Player extends Component {
     this.control.cb.onPause = this.onPause.bind(this);
   }
 
-  onLoaded() {
-    this.setState({ loadingSound: false });
-    this.control.play();
+  updateProgress() {
+    this.saveProgres(this.control.getTime());
+    this.setState({ progress: this.control.getTime() });
+    if (this.control.isRunning()) {
+      // update again in 1 second
+      setTimeout(this.updateProgress, 1000);
+    }
   }
 
-  onPlay() {
-    this.setState({ playing: this.control.isRunning() });
+  storeProgress(time) {
+    console.log('Saving time');
+    if (Meteor.user()) {
+      // update collection!
+    } else {
+      const nowPlaying = Session.get('nowPlaying');
+      _.extend(nowPlaying, {
+        progress: time,
+        playing: this.control.isRunning(),
+      });
+      Session.set('nowPlaying', nowPlaying);
+    }
   }
 
-  onPause(time) {
-    this.setState({ playing: this.control.isRunning() });
-  }
-
-  toggle(event) {
+  toggle() {
     this.control.toggle();
   }
 
@@ -76,8 +116,9 @@ class Player extends Component {
   }
 
   urlIsChanged(newEnclosure) {
-    const { enclosure } = this.props.episode;
-    return enclosure.url !== newEnclosure.url;
+    const oldUrl = _.get(this.props, 'episode.enclosure.url', null);
+    const newUrl = newEnclosure.url;
+    return oldUrl !== newUrl;
   }
 
   render() {
@@ -96,7 +137,7 @@ class Player extends Component {
     }
 
     const image = episode.image || podcast.artworkUrl100;
-    const currentlyAt = nowPlaying.progress;
+    const { progress } = this.state;
     const { duration } = episode;
     const icon = this.state.playing ? 'pause' : 'play';
     const { loadingSound } = this.state;
@@ -114,9 +155,9 @@ class Player extends Component {
             <span className={styles.titleAndCollection}>
               <span className={styles.title}>{episode.title}</span> &ndash; {podcast.collectionName}
             </span>
-            <Timer duration={duration} currentlyAt={currentlyAt} />
+            <Timer duration={duration} currentlyAt={progress} />
           </div>
-          <ProgressBar duration={duration} currentlyAt={currentlyAt} />
+          <ProgressBar duration={duration} currentlyAt={progress} />
         </div>
       </div>
     );

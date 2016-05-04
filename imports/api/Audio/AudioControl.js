@@ -11,20 +11,28 @@ class AudioControl {
   }
 
   load(url) {
-    const control = this;
-    control.context.src = url;
+    this.context.src = url;
 
-    control.context.addEventListener('loadeddata', () => {
-      if (control.isReady()) {
-        control.onLoaded();
-        control.play();
+    debugger;
+
+    this.context.addEventListener('loadeddata', () => {
+      if (this.isReady()) {
+        this.onLoaded();
+        this.play();
+      } else {
+        const { error } = this.context;
+        if (error) {
+          this.onError(error);
+        }
       }
     });
+
+    this.context.addEventListener('error', this.onError.bind(this));
   }
 
   onError(error) {
     // eslint-disable-next-line no-console
-    console.error(error);
+    console.error('Error!', error, this);
   }
 
   onPause() {
@@ -49,6 +57,7 @@ class AudioControl {
   }
 
   seek(time) {
+    console.log('seeking', time);
     const newTime = Math.min(Math.max(time, 0), this.context.duration);
     this.context.currentTime = newTime;
   }
@@ -84,7 +93,7 @@ class AudioControl {
   }
 
   getTime() {
-    return this.context.currentTime;
+    return Math.round(this.context.currentTime);
   }
 
   destroy() {

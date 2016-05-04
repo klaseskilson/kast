@@ -9,7 +9,6 @@
   .filledBar,
   .indicator {
     position: absolute;
-    transition: all 0.3s ease;
   }
 
   .bar {
@@ -18,10 +17,12 @@
   }
 
   .filledBar {
+    transition: width 1s linear;
     border-top: $bar-width solid $progress-color;
   }
 
   .indicator {
+    transition: left 1s linear;
     border-radius: 50%;
     width: (4 * $bar-width);
     height: (4 * $bar-width);

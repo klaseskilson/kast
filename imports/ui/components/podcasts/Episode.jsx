@@ -5,7 +5,8 @@ import { moment } from 'meteor/momentjs:moment';
 
 import styles from './Episode.mss';
 
-import PlayHistory from '../../../api/PlayHistory/methods.js';
+import AudioManager from '/imports/api/Audio/AudioManager.js';
+//import PlayHistory from '../../../api/PlayHistory/methods.js';
 
 class Episode extends Component {
   constructor(props) {
@@ -16,25 +17,7 @@ class Episode extends Component {
 
   togglePlay() {
     const { _id } = this.props.episode;
-
-    const userId = Meteor.userId();
-    if (userId) {
-      PlayHistory.methods.setCurrent.call(_id);
-    } else {
-      const { playing, progress, episodeId } = Session.get('nowPlaying') || {};
-      const nowPlaying = {
-        episodeId: _id,
-        current: true,
-      };
-      if (episodeId === _id) {
-        nowPlaying.playing = !playing;
-        nowPlaying.progress = progress;
-      } else {
-        nowPlaying.playing = true;
-        nowPlaying.progress = 0;
-      }
-      Session.set('nowPlaying', nowPlaying);
-    }
+    AudioManager.setEpisode(_id);
   }
 
   render() {

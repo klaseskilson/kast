@@ -4,6 +4,15 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 
 import PlayHistory from './PlayHistory.js';
 
+const stopAllPreviousEpisodes = userId => {
+  PlayHistory.update({ userId }, {
+    $set: {
+      playing: false,
+      current: false,
+    },
+  }, { multi: true });
+};
+
 PlayHistory.methods.setCurrent = new ValidatedMethod({
   name: 'PlayHistory.methods.setCurrent',
 
@@ -12,17 +21,9 @@ PlayHistory.methods.setCurrent = new ValidatedMethod({
   },
 
   run(episodeId) {
-    const user = Meteor.user();
-    if (!user) return;
+    const userId = Meteor.userId();
 
-    const userId = user._id;
-
-    PlayHistory.update({ userId }, {
-      $set: {
-        playing: false,
-        current: false,
-      },
-    }, { multi: true });
+    stopAllPreviousEpisodes(userId);
 
     PlayHistory.upsert({
       userId,
@@ -36,6 +37,27 @@ PlayHistory.methods.setCurrent = new ValidatedMethod({
       },
       $setOnInsert: {
         progress: 0,
+      },
+    });
+  },
+});
+
+PlayHistory.methods.togglePauseCurrent = new ValidatedMethod({
+  name: 'PlayHistory.methods.togglePauseCurrent',
+
+  validate() {
+    check(Meteor.user(), Object);
+  },
+
+  run() {
+    const userId = Meteor.userId();
+    const { playing } = PlayHistory.findOne({ userId, current: true }) || {};
+    PlayHistory.update({
+      userId,
+      current: true,
+    }, {
+      $set: {
+        playing: !playing,
       },
     });
   },
