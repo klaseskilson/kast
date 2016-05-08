@@ -1,9 +1,14 @@
-@import 'client/stylesheets/includes/_variables.scss';
+@import 'client/stylesheets/includes/_variables.scss',
+        'client/stylesheets/includes/_mixins.scss';
 
 .container {
   margin: 0 auto;
   width: 100%;
   max-width: $s-max;
+
+  @include phone() {
+    padding: 0 $padding-large;
+  }
 }
 
 .nothingFound {

@@ -1,0 +1,29 @@
+@import './includes/variables',
+        './includes/mixins';
+
+$column-padding: $padding-large;
+
+.row {
+  display: flex;
+  margin: 0 (-$column-padding);
+  flex-wrap: nowrap;
+
+  @include phone() {
+    flex-flow: column;
+  }
+}
+
+.col {
+  padding: 0 $column-padding;
+
+  @include phone() {
+    width: 100% !important;
+  }
+}
+
+@for $i from 2 through 6 {
+  .col-#{$i} {
+    @extend .col;
+    width: (100% / $i);
+  }
+}

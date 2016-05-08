@@ -22,33 +22,6 @@ body {
   display: flex;
 }
 
-// no borders on inputs!
-input, button {
-  border: none;
-}
-
-button.block {
-  @extend .block-text;
-  width: 100%;
-  padding: $padding;
-  transition: 0.3s border-color ease;
-  background: $white;
-  border-bottom: 3px solid darken($white, 15%);
-
-  &:hover {
-    border-color: darken($white, 30%);
-  }
-
-  &.blue {
-    background: $blue;
-    border-bottom: 3px solid darken($blue, 15%);
-
-    &:hover {
-      border-color: darken($blue, 30%);
-    }
-  }
-}
-
 .small {
   font-size: 0.8rem;
 }
