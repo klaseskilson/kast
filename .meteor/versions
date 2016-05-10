@@ -106,6 +106,7 @@ standard-minifier-css@1.0.6
 standard-minifier-js@1.0.6
 static-html@1.0.7
 stevezhu:lodash@4.11.1
+sungwoncho:mailman@0.1.2
 templating@1.1.9
 templating-tools@1.0.4
 tmeasday:check-npm-versions@0.2.0
