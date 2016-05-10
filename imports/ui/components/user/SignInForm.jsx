@@ -2,7 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 
-import { Spinner } from '../common.jsx';
+import { Spinner, BigHeader, Container } from '../common.jsx';
+import styles from './SignInForm.mss';
 
 class SignInForm extends Component {
   constructor(props) {
@@ -49,13 +50,19 @@ class SignInForm extends Component {
   render() {
     const { loggingIn } = this.props;
     return (
-      <div>
-        <button onClick={this.signInWithFacebook}>
-          <Spinner icon="facebook" loading={loggingIn} /> Sign in with Facebook
-        </button>
-        <button onClick={this.signInWithGoogle}>
-          <Spinner icon="google" loading={loggingIn} /> Sign in with Google
-        </button>
+      <div className="div">
+        <BigHeader>
+          <h1>Sign in</h1>
+          <h2>Kast is better with an account!</h2>
+        </BigHeader>
+        <Container extraClass="narrow">
+          <button onClick={this.signInWithFacebook} className={`block ${styles.facebook}`}>
+            <Spinner icon="facebook" loading={loggingIn} /> Sign in with Facebook
+          </button>
+          <button onClick={this.signInWithGoogle} className={`block ${styles.google}`}>
+            <Spinner icon="google" loading={loggingIn} /> Sign in with Google
+          </button>
+        </Container>
       </div>
     );
   }
