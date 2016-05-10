@@ -20,7 +20,6 @@ Meteor.methods({
 
 Factory.define('user', Meteor.users, {
   username: () => faker.internet.userName(),
-  password: () => 'password',
   profile: () => ({ name: faker.name.findName() }),
   createdAt: () => new Date(),
 });
@@ -28,14 +27,8 @@ Factory.define('user', Meteor.users, {
 // client tests
 describe('users', function () {
   beforeEach(function (done) {
-    const user = Factory.create('user');
-    Meteor.call('setPassword', user._id, 'password', () => {
-      if (Meteor.isClient) {
-        Meteor.loginWithPassword(user.username, 'password', done);
-      } else {
-        done();
-      }
-    });
+    Factory.create('user');
+    done();
   });
 
   it('should not update user directly on client but on server', function (done) {
@@ -58,21 +51,4 @@ describe('users', function () {
       done();
     });
   });
-
-  if (Meteor.isClient) {
-    it('should change user profile name through update method', function (done) {
-      const newName = faker.name.findName();
-
-      // update user
-      updateUser.call({
-        key: 'profile.name',
-        value: newName,
-      }, (error) => {
-        const updatedUser = Meteor.user();
-        chai.assert.equal(error, null);
-        chai.assert.equal(updatedUser.profile.name, newName);
-        done();
-      });
-    });
-  }
 });
