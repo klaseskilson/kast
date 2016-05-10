@@ -2,14 +2,15 @@ import React, { PropTypes, Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { _ } from 'meteor/stevezhu:lodash';
 import { createContainer } from 'meteor/react-meteor-data';
+import { Accounts } from 'meteor/accounts-base'
 
-import { Spinner } from '../components/common.jsx';
+import { Spinner, FadeInLoader, Container } from '../components/common.jsx';
 import { updateUser, setUsername } from '../../api/users/methods.js';
 
 class SettingsPage extends Component {
   constructor(props) {
     super(props);
-    this.state = { user: props.user, loading: false, message: '' };
+    this.state = { user: props.user, loading: false, message: '', savingPassword: false };
     this.handleChange = this.handleChange.bind(this);
     this.startUpdate = this.startUpdate.bind(this);
     this.finishedUpdate = this.finishedUpdate.bind(this);
@@ -19,6 +20,10 @@ class SettingsPage extends Component {
       this.startUpdate();
       method.call(params, this.finishedUpdate);
     }, 1000);
+  }
+
+  componentWillReceiveProps({ user }) {
+    this.setState({ user });
   }
 
   handleChange(event) {
@@ -54,42 +59,63 @@ class SettingsPage extends Component {
 
   finishedUpdate(error) {
     this.setState({
-      message: error && error.message || 'All changes saved!',
+      message: error && error.reason || 'All changes saved!',
       loading: false,
     });
   }
 
   render() {
     const { user, loading, message } = this.state;
+
     const profileName = user && user.profile && user.profile.name || '';
     return (
-      <div>
-        <h1>
-          <Spinner loading={loading} icon="user" /> Settings
-        </h1>
-        { message ? (<p>{message}</p>) : ''}
-        { user ? (
-          <form onSubmit={event => event.preventDefault()}>
-            <input value={profileName} name="profile.name"
-              placeholder="Your name..." onChange={this.handleChange}
-            />
-            <input value={user.username || ''}
-              placeholder="Username..." onChange={this.handleUsername}
-            />
-          </form>
-        ) : 'loading...'}
-        <pre>
-          {JSON.stringify(user)}
-        </pre>
-      </div>
+      <FadeInLoader loading={!user}>
+        <Container>
+          <h1>
+            <Spinner loading={loading} icon="user" /> Settings
+          </h1>
+          {message ? (<p>{message}</p>) : ''}
+          <div className="row">
+            <div className="col-3">
+              <h2>Profile</h2>
+              {user ? (
+                <form onSubmit={event => event.preventDefault()}>
+                  <div className="input-group">
+                    <label htmlFor="profileName">Your name</label>
+                    <input
+                      value={profileName}
+                      name="profile.name"
+                      id="profileName"
+                      placeholder="Your name..."
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                  <div className="input-group">
+                    <label htmlFor="username">Username</label>
+                    <input
+                      id="username"
+                      value={user.username || ''}
+                      placeholder="Username..."
+                      onChange={this.handleUsername}
+                    />
+                  </div>
+                </form>
+              ) : null}
+            </div>
+          </div>
+        </Container>
+      </FadeInLoader>
     );
   }
 }
 
 SettingsPage.propTypes = {
-  user: PropTypes.object.isRequired,
+  user: PropTypes.object,
 };
 
-export default createContainer(() => ({
-  user: Meteor.user(),
-}), SettingsPage);
+export default createContainer(() => {
+  const user = Meteor.user();
+  return {
+    user,
+  };
+}, SettingsPage);

@@ -1,9 +1,18 @@
-@import 'client/stylesheets/includes/_variables.scss';
+@import 'client/stylesheets/includes/_variables.scss',
+        'client/stylesheets/includes/_mixins.scss';
 
 .container {
   margin: 0 auto;
   width: 100%;
   max-width: $s-max;
+
+  &:global(.narrow) {
+    max-width: 400px;
+  }
+
+  @include phone() {
+    padding: 0 $padding-large;
+  }
 }
 
 .nothingFound {
@@ -28,6 +37,24 @@
   & > * {
     z-index: 10;
     position: relative;
+  }
+}
+
+.bigHeader {
+  @extend .fancyHeader;
+  background: #444444;
+  background: linear-gradient(135deg, $sorbet-2, $sorbet-3);
+  text-align: center;
+
+  h1 {
+    font-weight: 300;
+    font-size: 3em;
+  }
+  h2 {
+    font-weight: 300;
+  }
+  .container {
+    padding: $padding-huge 0;
   }
 }
 

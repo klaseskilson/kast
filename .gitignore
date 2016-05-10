@@ -9,3 +9,5 @@ settings.json
 settings.production.json
 
 npm-debug.log
+
+.tmp/

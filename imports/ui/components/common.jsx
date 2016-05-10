@@ -87,3 +87,20 @@ FancyHeader.propTypes = {
   background: PropTypes.string,
   extraClass: PropTypes.string,
 };
+
+export const BigHeader = ({ children, extraClass }) => (
+  <header className={styles.bigHeader}>
+    <Container extraClass={extraClass}>
+      {children || null}
+    </Container>
+  </header>
+);
+
+
+BigHeader.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.object,
+  ]),
+  extraClass: PropTypes.string,
+};
