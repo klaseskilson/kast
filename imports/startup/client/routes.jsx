@@ -7,7 +7,6 @@ import { mount } from 'react-mounter';
 import Layout from '/imports/ui/layouts/Layout.jsx';
 import WelcomePage from '/imports/ui/pages/WelcomePage.jsx';
 import SignInPage from '/imports/ui/pages/SignInPage.jsx';
-import SignUpPage from '/imports/ui/pages/SignUpPage.jsx';
 import SettingsPage from '/imports/ui/pages/SettingsPage.jsx';
 import SearchPage from '/imports/ui/pages/SearchPage.jsx';
 import PodcastPage from '/imports/ui/pages/PodcastPage.jsx';
@@ -60,16 +59,6 @@ userRoutes.route('/sign_in', {
     setTitle('Sign in');
     mount(Layout, {
       content: (<SignInPage />),
-    });
-  },
-});
-
-userRoutes.route('/sign_up', {
-  name: 'signUp',
-  action() {
-    setTitle('Sign up');
-    mount(Layout, {
-      content: (<SignUpPage />),
     });
   },
 });

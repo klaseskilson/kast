@@ -15,7 +15,6 @@ class SettingsPage extends Component {
     this.startUpdate = this.startUpdate.bind(this);
     this.finishedUpdate = this.finishedUpdate.bind(this);
     this.handleUsername = this.handleUsername.bind(this);
-    this.setPassword = this.setPassword.bind(this);
 
     this.update = _.debounce((method, params) => {
       this.startUpdate();
@@ -65,26 +64,8 @@ class SettingsPage extends Component {
     });
   }
 
-  setPassword(event) {
-    event.preventDefault();
-    this.setState({ savingPassword: true, loading: true });
-    const { oldPassword, newPassword } = event.currentTarget;
-    Accounts.changePassword(oldPassword.value, newPassword.value, error => {
-      this.setState({
-        savingPassword: false,
-        loading: false,
-        message: error && error.reason || 'Your password has been updated!',
-      });
-
-      if (!error) {
-        oldPassword.value = '';
-        newPassword.value = '';
-      }
-    });
-  }
-
   render() {
-    const { user, loading, message, savingPassword } = this.state;
+    const { user, loading, message } = this.state;
 
     const profileName = user && user.profile && user.profile.name || '';
     return (
@@ -121,30 +102,6 @@ class SettingsPage extends Component {
                 </form>
               ) : null}
             </div>
-            <form className="col-3" onSubmit={this.setPassword}>
-              <h2>Password</h2>
-              <div className="input-group">
-                <label htmlFor="oldPassword">Old password</label>
-                <input
-                  type="password"
-                  id="oldPassword"
-                  name="oldPassword"
-                  placeholder="Old password..."
-                />
-              </div>
-              <div className="input-group">
-                <label htmlFor="newPassword">New password</label>
-                <input
-                  type="password"
-                  id="newPassword"
-                  name="newPassword"
-                  placeholder="New password..."
-                />
-              </div>
-              <button className="block green" disabled={savingPassword}>
-                <Spinner loading={savingPassword} icon="check-circle" /> Save password
-              </button>
-            </form>
           </div>
         </Container>
       </FadeInLoader>

@@ -21,7 +21,6 @@ kadira:flow-router
 mdg:validated-method
 static-html
 practicalmeteor:mocha
-accounts-password
 accounts-facebook
 accounts-google
 msavin:mongol
