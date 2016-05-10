@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { ServiceConfiguration } from 'meteor/service-configuration';
 
-['facebook', 'google'].forEach(service => {
+['google'].forEach(service => {
   if (!Meteor.settings[service]) return;
 
   ServiceConfiguration.configurations.upsert({
@@ -14,3 +14,16 @@ import { ServiceConfiguration } from 'meteor/service-configuration';
     },
   });
 });
+
+// facebook needs to be treated specially
+if (Meteor.settings.facebook) {
+  ServiceConfiguration.configurations.upsert({
+    service: 'facebook',
+  }, {
+    $set: {
+      appId: Meteor.settings.facebook.clientId,
+      loginStyle: 'popup',
+      secret: Meteor.settings.facebook.secret,
+    },
+  });
+}
