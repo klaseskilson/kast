@@ -50,8 +50,8 @@ class PodcastPage extends Component {
 
                   {podcast.link ? (
                     <p><a href={podcast.link}><i className="fa fa-globe"></i> Website</a></p>)
-                    : null }
-                  {podcast.copyright ? <p className="small">&copy; {podcast.copyright}</p> : null }
+                    : null}
+                  {podcast.copyright ? <p className="small">&copy; {podcast.copyright}</p> : null}
                 </div>
               </aside>
               <div className={styles.episodeList}>

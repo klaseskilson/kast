@@ -14,7 +14,7 @@ const MainMenu = ({ currentRoute }) => {
   const routeName = currentRoute.route.name;
   return (
     <nav className={styles.common}>
-      { menuItems.map(routeMap.bind(this, routeName, styles)) }
+      {menuItems.map(routeMap.bind(this, routeName, styles))}
     </nav>
   );
 };

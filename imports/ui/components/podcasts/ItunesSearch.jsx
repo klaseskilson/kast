@@ -51,10 +51,10 @@ class ItunesSearch extends Component {
     // return list of found podcasts or the NothingFound-component
     return searchResult.length === 0 ? (<NothingFound />) : (
       <div className={styles.searchResults}>
-        { searchResult.map(podcast => (
+        {searchResult.map(podcast => (
           <PodcastBox podcast={podcast} key={podcast.collectionId} />
-        )) }
-        { dummies }
+        ))}
+        {dummies}
       </div>
     );
   }

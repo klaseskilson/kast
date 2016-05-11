@@ -11,6 +11,14 @@
       "jsx": true
     }
   },
+  "rules": {
+    "meteor/eventmap-params": [
+      2, { "templateInstanceParamName": "instance" }
+    ],
+    "import/no-unresolved": [
+      2, { "ignore": ["^meteor/"] }
+    ]
+  },
   "globals": {
   }
 }

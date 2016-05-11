@@ -52,16 +52,16 @@ class EpisodeList extends Component {
     const { loading, episodes, className, episodeCount } = this.props;
     return (
       <FadeInLoader loading={loading}>
-        { !episodes ? null : (
+        {!episodes ? null : (
           <div className={className || 'episode-list'}>
-            { episodes.map(episode => <Episode episode={episode} key={episode.guid} />)}
+            {episodes.map(episode => <Episode episode={episode} key={episode.guid} />)}
           </div>
-        ) }
-        { episodeCount > episodes.length ? (
+        )}
+        {episodeCount > episodes.length ? (
           <div onClick={this.loadMore} className={styles.loadMore}>
             <Spinner loading={this.state.fetchingMore} icon="chevron-circle-down" /> More
           </div>
-        ) : null }
+        ) : null}
       </FadeInLoader>
     );
   }
