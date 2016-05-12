@@ -25,6 +25,8 @@ PlayHistory.methods.setCurrent = new ValidatedMethod({
 
     stopAllPreviousEpisodes(userId);
 
+    console.log('Setting episode!', episodeId);
+
     PlayHistory.upsert({
       userId,
       episodeId,
@@ -60,6 +62,22 @@ PlayHistory.methods.togglePauseCurrent = new ValidatedMethod({
         playing: !playing,
       },
     });
+  },
+});
+
+PlayHistory.methods.updateCurrent = new ValidatedMethod({
+  name: 'PlayHistory.methods.updateCurrent',
+
+  validate: PlayHistory.schema.validator(),
+
+  run(updated) {
+    const userId = Meteor.userId();
+    if (updated.userId !== userId) return;
+
+    PlayHistory.update({
+      current: true,
+      userId,
+    }, updated);
   },
 });
 

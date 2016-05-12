@@ -13,12 +13,9 @@ class AudioControl {
   load(url) {
     this.context.src = url;
 
-    debugger;
-
     this.context.addEventListener('loadeddata', () => {
       if (this.isReady()) {
         this.onLoaded();
-        this.play();
       } else {
         const { error } = this.context;
         if (error) {
@@ -32,7 +29,7 @@ class AudioControl {
 
   onError(error) {
     // eslint-disable-next-line no-console
-    console.error('Error!', error, this);
+    console.error('Error from audio element event listener!', error);
   }
 
   onPause() {
@@ -57,9 +54,12 @@ class AudioControl {
   }
 
   seek(time) {
-    console.log('seeking', time);
     const newTime = Math.min(Math.max(time, 0), this.context.duration);
-    this.context.currentTime = newTime;
+    if (Number.isFinite(newTime)) {
+      this.context.currentTime = newTime;
+    } else {
+      console.log('non-finite time:', newTime);
+    }
   }
 
   pause() {

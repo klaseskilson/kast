@@ -8,12 +8,17 @@ import PlayHistory from '/imports/api/PlayHistory/PlayHistory.js';
 import Episodes from '/imports/api/Episodes/Episodes.js';
 import Podcasts from '/imports/api/Podcasts/Podcasts.js';
 import AudioControl from '../../../api/Audio/AudioControl.js';
+import AudioManager from '../../../api/Audio/AudioManager.js';
 
 import { Spinner } from '../common.jsx';
 import ProgressBar from './ProgressBar.jsx';
 import Timer from './Timer.jsx';
 
 import styles from './Player.mss';
+
+// maximum progress saving timeout
+const UPDATE_INTERVAL = 5;
+const MAX_WAIT = 3 * UPDATE_INTERVAL;
 
 class Player extends Component {
   constructor(props) {
@@ -22,9 +27,10 @@ class Player extends Component {
     this.state = { loadingSound: true, playing: false, progress: progress || 0 };
     this.toggle = this.toggle.bind(this);
     this.updateProgress = this.updateProgress.bind(this);
+    this.hasSeeked = this.hasSeeked.bind(this);
     this.setupAudio();
-    this.saveProgres = _.debounce(this.storeProgress.bind(this), 5000, {
-      //maxWait: 60000,
+    this.saveProgres = _.debounce(AudioManager.setProgress, UPDATE_INTERVAL * 1000, {
+      maxWait: MAX_WAIT * 1000,
     });
   }
 
@@ -39,22 +45,33 @@ class Player extends Component {
       this.setupAudio();
     }
 
-    if (!this.urlIsChanged(newProps)) {
-      const { progress } = newProps.nowPlaying;
-      console.log('url is unchanged. progress:', progress);
-      this.control.seek(progress);
-    } else {
+    // should another podcast be loaded?
+    if (this.urlIsChanged(newProps.episode.enclosure)) {
       const { url } = newProps.episode.enclosure;
       this.control.load(url);
       this.setState({ loadingSound: true });
+    }
+
+    // should we seek to another time?
+    const { progress } = newProps.nowPlaying;
+    if (this.hasSeeked(progress)) {
+      this.control.seek(progress);
+    }
+
+    // should we change playing status?
+    const { playing } = newProps.nowPlaying;
+    if (this.hasChangedPause(playing)) {
+      this.control.toggle();
     }
   }
 
   onLoaded() {
     this.setState({ loadingSound: false });
-    const { progress } = this.props.nowPlaying;
+    const { progress, playing } = this.props.nowPlaying;
     this.control.seek(progress);
-    this.control.play();
+    if (playing) {
+      this.control.play();
+    }
   }
 
   onPlay() {
@@ -65,7 +82,7 @@ class Player extends Component {
   onPause() {
     this.setState({ playing: this.control.isRunning() });
     this.saveProgres.cancel();
-    this.storeProgress(this.control.getTime());
+    AudioManager.setProgress(this.control.getTime());
   }
 
   setupAudio() {
@@ -73,6 +90,21 @@ class Player extends Component {
     this.control.cb.onLoaded = this.onLoaded.bind(this);
     this.control.cb.onPlay = this.onPlay.bind(this);
     this.control.cb.onPause = this.onPause.bind(this);
+  }
+
+  /**
+   * detect if user has seeked knowingly
+   * @param {Number} newProgress the new progress
+   * @param {Number} [limit=5] the required seeked time in seconds
+   */
+  hasSeeked(newProgress, limit = MAX_WAIT) {
+    const progress = this.control.getTime();
+    return progress && Math.abs(progress - newProgress) > limit || false;
+  }
+
+  hasChangedPause(newStatus) {
+    const { playing } = this.props.nowPlaying || {};
+    return playing !== newStatus;
   }
 
   updateProgress() {
@@ -84,22 +116,8 @@ class Player extends Component {
     }
   }
 
-  storeProgress(time) {
-    console.log('Saving time');
-    if (Meteor.user()) {
-      // update collection!
-    } else {
-      const nowPlaying = Session.get('nowPlaying');
-      _.extend(nowPlaying, {
-        progress: time,
-        playing: this.control.isRunning(),
-      });
-      Session.set('nowPlaying', nowPlaying);
-    }
-  }
-
   toggle() {
-    this.control.toggle();
+    AudioManager.togglePause();
   }
 
   urlExists(props) {
