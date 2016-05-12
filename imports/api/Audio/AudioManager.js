@@ -10,14 +10,6 @@ import PlayHistory from '../PlayHistory/methods.js';
 const SESSION_KEY = 'nowPlaying';
 
 class AudioManager {
-  comstructor() {
-    console.log('duh');
-  }
-
-  pause() {
-    AudioManager.pause();
-  }
-
   /* Static methods */
 
   /**
