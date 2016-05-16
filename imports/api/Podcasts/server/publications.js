@@ -26,3 +26,5 @@ Podcasts.pubs.collection = Meteor.publish('Podcasts.pubs.collection', collection
   return search;
 });
 
+Podcasts.pubs.single = Meteor.publish('Podcasts.pubs.single',
+  podcastId => Podcasts.find(podcastId));
