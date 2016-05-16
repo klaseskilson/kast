@@ -1,4 +1,5 @@
 import { _ } from 'meteor/underscore';
+import AudioManager from './AudioManager.js';
 
 class AudioControl {
   constructor() {
@@ -25,6 +26,7 @@ class AudioControl {
     });
 
     this.context.addEventListener('error', this.onError.bind(this));
+    this.context.addEventListener('ended', this.onEnded.bind(this));
   }
 
   onError(error) {
@@ -42,6 +44,10 @@ class AudioControl {
 
   onLoaded() {
     return this.cb.onLoaded();
+  }
+
+  onEnded() {
+    AudioManager.markCurrentAsPlayed();
   }
 
   playFromTime(time = this.context.currentTime) {

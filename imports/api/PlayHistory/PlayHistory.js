@@ -10,6 +10,7 @@ PlayHistory.schema = new SimpleSchema({
   userId: { type: String },
   current: { type: Boolean, defaultValue: false },
   playing: { type: Boolean, defaultValue: false },
+  playedAt: { type: Date, optional: true },
 });
 
 export default PlayHistory;

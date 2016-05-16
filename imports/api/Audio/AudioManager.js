@@ -97,7 +97,6 @@ class AudioManager {
    * @param {Number} progress
    */
   static setProgress(progress) {
-    console.info('Storing progress!');
     AudioManager.updateParams({ progress });
   }
 
@@ -115,6 +114,12 @@ class AudioManager {
       PlayHistory.methods.updateCurrent.call(updatedPlaying);
     } else {
       Session.set(SESSION_KEY, updatedPlaying);
+    }
+  }
+
+  static markCurrentAsPlayed() {
+    if (Meteor.user()) {
+      PlayHistory.methods.markCurrentAsPlayed.call();
     }
   }
 }

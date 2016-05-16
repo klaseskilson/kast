@@ -25,8 +25,6 @@ PlayHistory.methods.setCurrent = new ValidatedMethod({
 
     stopAllPreviousEpisodes(userId);
 
-    console.log('Setting episode!', episodeId);
-
     PlayHistory.upsert({
       userId,
       episodeId,
@@ -78,6 +76,28 @@ PlayHistory.methods.updateCurrent = new ValidatedMethod({
       current: true,
       userId,
     }, updated);
+  },
+});
+
+PlayHistory.methods.markCurrentAsPlayed = new ValidatedMethod({
+  name: 'PlayHistory.methods.markCurrentAsPlayed',
+
+  validate() {
+    check(Meteor.user(), Object);
+  },
+
+  run() {
+    const userId = Meteor.userId();
+    PlayHistory.update({
+      current: true,
+      userId,
+    }, {
+      $set: {
+        playedAt: new Date(),
+        playing: false,
+        progress: 0,
+      },
+    });
   },
 });
 

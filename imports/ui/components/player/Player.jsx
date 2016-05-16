@@ -61,7 +61,11 @@ class Player extends Component {
     // should we change playing status?
     const { playing } = newProps.nowPlaying;
     if (this.hasChangedPause(playing)) {
-      this.control.toggle();
+      if (playing) {
+        this.control.play();
+      } else {
+        this.control.pause();
+      }
     }
   }
 
