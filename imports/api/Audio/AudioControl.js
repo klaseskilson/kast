@@ -60,11 +60,10 @@ class AudioControl {
   }
 
   seek(time) {
-    const newTime = Math.min(Math.max(time, 0), this.context.duration);
+    const { duration } = this.context;
+    const newTime = Math.min(Math.max(time, 0), duration || Infinity);
     if (Number.isFinite(newTime)) {
       this.context.currentTime = newTime;
-    } else {
-      console.log('non-finite time:', newTime);
     }
   }
 
