@@ -28,6 +28,7 @@ class Player extends Component {
     this.toggle = this.toggle.bind(this);
     this.updateProgress = this.updateProgress.bind(this);
     this.hasSeeked = this.hasSeeked.bind(this);
+    this.applySeek = this.applySeek.bind(this);
     this.setupAudio();
     this.saveProgres = _.debounce(AudioManager.setProgress, UPDATE_INTERVAL * 1000, {
       maxWait: MAX_WAIT * 1000,
@@ -46,16 +47,18 @@ class Player extends Component {
     }
 
     // should another podcast be loaded?
+    let { progress } = newProps.nowPlaying;
     if (this.urlIsChanged(newProps.episode.enclosure)) {
       const { url } = newProps.episode.enclosure;
       this.control.load(url);
+      this.control.seek(progress);
       this.setState({ loadingSound: true });
     }
 
     // should we seek to another time?
-    const { progress } = newProps.nowPlaying;
     if (this.hasSeeked(progress)) {
       this.control.seek(progress);
+      this.setState({ progress });
     }
 
     // should we change playing status?
@@ -72,7 +75,7 @@ class Player extends Component {
   onLoaded() {
     this.setState({ loadingSound: false });
     const { progress, playing } = this.props.nowPlaying;
-    this.control.seek(progress);
+    //this.control.seek(progress);
     if (playing) {
       this.control.play();
     }
@@ -101,7 +104,7 @@ class Player extends Component {
    * @param {Number} newProgress the new progress
    * @param {Number} [limit=5] the required seeked time in seconds
    */
-  hasSeeked(newProgress, limit = MAX_WAIT) {
+  hasSeeked(newProgress, limit = UPDATE_INTERVAL) {
     const progress = this.control.getTime();
     return progress && Math.abs(progress - newProgress) > limit || false;
   }
@@ -143,8 +146,14 @@ class Player extends Component {
     return oldUrl !== newUrl;
   }
 
+  applySeek(amount) {
+    return () => {
+      AudioManager.setProgress(this.control.getTime() + amount);
+    };
+  }
+
   render() {
-    const { loading, episode, podcast, nowPlaying } = this.props;
+    const { loading, episode, podcast } = this.props;
 
     if (!episode || !podcast) {
       return null;
@@ -167,9 +176,9 @@ class Player extends Component {
     return (
       <div className={styles.player}>
         <div className={styles.controls}>
-          <i className="fa fa-undo"></i>
+          <i className="fa fa-undo" onClick={this.applySeek(-15)}></i>
           <Spinner icon={icon} loading={loadingSound} className={styles.pause} onClick={this.toggle} />
-          <i className="fa fa-repeat"></i>
+          <i className="fa fa-repeat" onClick={this.applySeek(15)}></i>
         </div>
         <div className={styles.image} style={{ backgroundImage: `url(${image})` }}></div>
         <div className={styles.info}>
