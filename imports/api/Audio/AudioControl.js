@@ -31,7 +31,7 @@ class AudioControl {
   onError({ currentTarget }) {
     const { error } = currentTarget || this.context;
     // eslint-disable-next-line no-console
-    console.error('Error from audio element event listener!', currentTarget.error);
+    console.error('Error from audio element event listener!', error);
   }
 
   onPause() {

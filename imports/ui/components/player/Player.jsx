@@ -176,7 +176,12 @@ class Player extends Component {
       <div className={styles.player}>
         <div className={styles.controls}>
           <i className="fa fa-undo" onClick={this.applySeek(-15)}></i>
-          <Spinner icon={icon} loading={loadingSound} className={styles.pause} onClick={this.toggle} />
+          <Spinner
+            icon={icon}
+            loading={loadingSound}
+            className={styles.pause}
+            onClick={this.toggle}
+          />
           <i className="fa fa-repeat" onClick={this.applySeek(15)}></i>
         </div>
         <div className={styles.image} style={{ backgroundImage: `url(${image})` }}></div>

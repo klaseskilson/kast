@@ -50,7 +50,6 @@ Podcasts.methods.fetchPodcast = new ValidatedMethod({
       console.error('Failed fetching podcast info:', error);
       console.trace();
       /* eslint-enable */
-      //throw error;
     }
   },
 });

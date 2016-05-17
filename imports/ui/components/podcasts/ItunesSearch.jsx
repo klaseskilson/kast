@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 
-import { Spinner, NothingFound } from '/imports/ui/components/common.jsx';
-import PodcastBox from '/imports/ui/components/podcasts/PodcastBox.jsx';
-import ItunesSearchCache from '/imports/api/SearchCache/methods.js';
+import { Spinner, NothingFound } from '../common.jsx';
+import PodcastBox from '../podcasts/PodcastBox.jsx';
+import ItunesSearchCache from '../../../api/SearchCache/methods.js';
 
 import styles from './ItunesSearch.mss';
 

@@ -35,6 +35,7 @@ const UserMenu = ({ user, currentRoute }) => {
 
 UserMenu.propTypes = {
   user: PropTypes.object,
+  currentRoute: PropTypes.object,
 };
 
 export default createContainer(({ currentRoute }) => {

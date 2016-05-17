@@ -4,16 +4,16 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import { mount } from 'react-mounter';
 
 // import our components
-import Layout from '/imports/ui/layouts/Layout.jsx';
-import WelcomePage from '/imports/ui/pages/WelcomePage.jsx';
-import SignInPage from '/imports/ui/pages/SignInPage.jsx';
-import SettingsPage from '/imports/ui/pages/SettingsPage.jsx';
-import SearchPage from '/imports/ui/pages/SearchPage.jsx';
-import PodcastPage from '/imports/ui/pages/PodcastPage.jsx';
+import Layout from '../../ui/layouts/Layout.jsx';
+import WelcomePage from '../../ui/pages/WelcomePage.jsx';
+import SignInPage from '../../ui/pages/SignInPage.jsx';
+import SettingsPage from '../../ui/pages/SettingsPage.jsx';
+import SearchPage from '../../ui/pages/SearchPage.jsx';
+import PodcastPage from '../../ui/pages/PodcastPage.jsx';
 
-import { urlDecode } from '/imports/helpers/urlHelpers.js';
+import { urlDecode } from '../../helpers/urlHelpers.js';
 
-import Podcasts from '/imports/api/Podcasts/Podcasts.js';
+import Podcasts from '../../api/Podcasts/Podcasts.js';
 
 /**
  * set page title

@@ -1,11 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import { Session } from 'meteor/session';
-import { Meteor } from 'meteor/meteor';
 import { moment } from 'meteor/momentjs:moment';
 
 import styles from './Episode.mss';
 
-import AudioManager from '/imports/api/Audio/AudioManager.js';
+import AudioManager from '../../../api/Audio/AudioManager.js';
 
 class Episode extends Component {
   constructor(props) {
