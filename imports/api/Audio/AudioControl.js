@@ -18,9 +18,8 @@ class AudioControl {
       if (this.isReady()) {
         this.onLoaded();
       } else {
-        const { error } = this.context;
-        if (error) {
-          this.onError(error);
+        if (this.context.error) {
+          this.onError(this);
         }
       }
     });
@@ -29,9 +28,10 @@ class AudioControl {
     this.context.addEventListener('ended', this.onEnded.bind(this));
   }
 
-  onError(error) {
+  onError({ currentTarget }) {
+    const { error } = currentTarget || this.context;
     // eslint-disable-next-line no-console
-    console.error('Error from audio element event listener!', error);
+    console.error('Error from audio element event listener!', currentTarget.error);
   }
 
   onPause() {
@@ -48,15 +48,6 @@ class AudioControl {
 
   onEnded() {
     AudioManager.markCurrentAsPlayed();
-  }
-
-  playFromTime(time = this.context.currentTime) {
-    if (this.isPaused()) {
-      this.seek(time);
-      this.play();
-    } else {
-      this.pause();
-    }
   }
 
   seek(time) {
@@ -103,8 +94,8 @@ class AudioControl {
 
   destroy() {
     this.pause();
-    this.context.src = '';
-    this.context.load();
+    this.context.removeEventListener('error', this.onError);
+    this.context.removeEventListener('ended', this.onEnded);
     delete this.context;
   }
 }

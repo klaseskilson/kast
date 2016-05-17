@@ -4,9 +4,9 @@ import { Session } from 'meteor/session';
 import { _ } from 'meteor/stevezhu:lodash';
 import { createContainer } from 'meteor/react-meteor-data';
 
-import PlayHistory from '/imports/api/PlayHistory/PlayHistory.js';
-import Episodes from '/imports/api/Episodes/Episodes.js';
-import Podcasts from '/imports/api/Podcasts/Podcasts.js';
+import PlayHistory from '../../../api/PlayHistory/PlayHistory.js';
+import Episodes from '../../../api/Episodes/Episodes.js';
+import Podcasts from '../../../api/Podcasts/Podcasts.js';
 import AudioControl from '../../../api/Audio/AudioControl.js';
 import AudioManager from '../../../api/Audio/AudioManager.js';
 
@@ -47,15 +47,14 @@ class Player extends Component {
     }
 
     // should another podcast be loaded?
-    let { progress } = newProps.nowPlaying;
     if (this.urlIsChanged(newProps.episode.enclosure)) {
       const { url } = newProps.episode.enclosure;
       this.control.load(url);
-      this.control.seek(progress);
       this.setState({ loadingSound: true });
     }
 
     // should we seek to another time?
+    const { progress } = newProps.nowPlaying;
     if (this.hasSeeked(progress)) {
       this.control.seek(progress);
       this.setState({ progress });
@@ -74,8 +73,8 @@ class Player extends Component {
 
   onLoaded() {
     this.setState({ loadingSound: false });
-    const { progress, playing } = this.props.nowPlaying;
-    //this.control.seek(progress);
+    const { playing, progress } = this.props.nowPlaying;
+    this.control.seek(progress);
     if (playing) {
       this.control.play();
     }
@@ -221,10 +220,10 @@ export default createContainer(() => {
     && !podcastHandle.ready();
 
   return {
+    nowPlaying,
     userId,
     episode,
     podcast,
     loading,
-    nowPlaying,
   };
 }, Player);
