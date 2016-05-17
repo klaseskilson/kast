@@ -4,7 +4,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { _ } from 'meteor/stevezhu:lodash';
 
-import { urlEncode, urlDecode } from '/imports/helpers/urlHelpers.js';
+import { urlEncode, urlDecode } from '../../../helpers/urlHelpers.js';
 import styles from './SearchForm.mss';
 
 class SearchForm extends Component {
@@ -43,8 +43,13 @@ class SearchForm extends Component {
   render() {
     return (
       <form onSubmit={this.onSubmit} className={styles.form}>
-        <input type="text" placeholder="Search..." ref="search" value={this.state.search}
-          onChange={this.onType} className={styles.textField}
+        <input
+          type="text"
+          placeholder="Search..."
+          ref="search"
+          value={this.state.search}
+          onChange={this.onType}
+          className={styles.textField}
         />
       </form>
     );

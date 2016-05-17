@@ -5,21 +5,21 @@ import styles from './common.mss';
 /**
  * create a font-awesome spinning icon if loading is true, otherwise use the icon
  * class provided in icon
- * @param {boolean} loading
- * @param {String} icon
  * @returns {XML}
  * @constructor
  */
-export const Spinner = ({ loading, icon }) => {
-  const className = `fa fa-${loading ? 'circle-o-notch fa-spin' : icon}`;
+export const Spinner = props => {
+  const { loading, icon, className } = props;
+  const classes = `${className || ''} fa fa-${loading ? 'circle-o-notch fa-spin' : icon}`;
   return (
-    <i className={className}> </i>
+    <i {...props} className={classes}> </i>
   );
 };
 
 Spinner.propTypes = {
   loading: PropTypes.bool.isRequired,
   icon: PropTypes.string.isRequired,
+  className: PropTypes.string,
 };
 
 /**

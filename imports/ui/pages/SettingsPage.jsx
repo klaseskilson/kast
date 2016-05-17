@@ -2,7 +2,6 @@ import React, { PropTypes, Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { _ } from 'meteor/stevezhu:lodash';
 import { createContainer } from 'meteor/react-meteor-data';
-import { Accounts } from 'meteor/accounts-base'
 
 import { Spinner, FadeInLoader, Container } from '../components/common.jsx';
 import { updateUser, setUsername } from '../../api/users/methods.js';

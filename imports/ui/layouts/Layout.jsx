@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 
 import Header from '../components/header/Header.jsx';
+import Player from '../components/player/Player.jsx';
 
 import styles from './Layout.mss';
 const { wrapper, mainLayout } = styles;
@@ -9,6 +10,7 @@ const { wrapper, mainLayout } = styles;
 const Layout = ({ content }) => (
   <div className={wrapper}>
     <Header />
+    <Player />
     <main className={mainLayout}>{content}</main>
   </div>
 );

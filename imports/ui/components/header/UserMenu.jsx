@@ -28,13 +28,14 @@ const UserMenu = ({ user, currentRoute }) => {
 
   return (
     <nav className={styles.common}>
-      { menuItems.map(routeMap.bind(this, routeName, styles)) }
+      {menuItems.map(routeMap.bind(this, routeName, styles))}
     </nav>
   );
 };
 
 UserMenu.propTypes = {
   user: PropTypes.object,
+  currentRoute: PropTypes.object,
 };
 
 export default createContainer(({ currentRoute }) => {

@@ -17,3 +17,5 @@ $s-max: 992px;
 $header-border-width: 3px;
 $header-height-unquote: "#{2 * $padding-large + $header-border-width} + .9rem";
 $header-height: unquote("calc(#{$header-height-unquote})");
+
+$player-height: 70px;

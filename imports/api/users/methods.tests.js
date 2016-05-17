@@ -8,7 +8,6 @@ import { Factory } from 'meteor/dburles:factory';
 import { chai } from 'meteor/practicalmeteor:chai';
 
 import './users.js';
-import { updateUser } from './methods.js';
 
 Meteor.methods({
   setPassword(userId, password) {

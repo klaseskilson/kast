@@ -16,6 +16,10 @@ body {
   background: #f7f7f7;
   background: radial-gradient(ellipse at center, #f7f7f7 0%, #e0e0e0 100%);
   background-attachment: fixed;
+
+  > :last-child {
+    padding-bottom: $player-height;
+  }
 }
 
 .flex {
