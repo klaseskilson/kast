@@ -8,6 +8,7 @@
   left: 0;
   z-index: 100;
   line-height: 1;
+  background: linear-gradient(180deg, rgba($black, 0.12), rgba($black, 0));
 
   &.top {
     a {
