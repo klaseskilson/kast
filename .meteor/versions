@@ -2,6 +2,7 @@ accounts-base@1.2.7
 accounts-facebook@1.0.9
 accounts-google@1.0.9
 accounts-oauth@1.1.12
+accounts-password@1.1.8
 aldeed:simple-schema@1.5.3
 allow-deny@1.0.4
 autoupdate@1.2.9
@@ -74,6 +75,7 @@ mongo-livedata@1.0.12
 msavin:mongol@1.6.2
 nathantreid:css-modules@1.1.1
 nathantreid:css-modules-import-path-helpers@0.1.2
+npm-bcrypt@0.8.5
 npm-mongo@1.4.43
 oauth@1.1.10
 oauth2@1.1.9
@@ -96,8 +98,10 @@ retry@1.0.7
 routepolicy@1.0.10
 service-configuration@1.0.9
 session@1.1.5
+sha@1.0.7
 spacebars@1.0.11
 spacebars-compiler@1.0.11
+srp@1.0.8
 standard-minifier-css@1.0.6
 standard-minifier-js@1.0.6
 static-html@1.0.7
