@@ -9,6 +9,7 @@
   z-index: 100;
   line-height: 1;
   background: linear-gradient(180deg, rgba($black, 0.12), rgba($black, 0));
+  transition: 0.2s background ease;
 
   &.top {
     a {
