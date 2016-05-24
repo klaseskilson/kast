@@ -98,12 +98,22 @@ podcastRoutes.route('/itunes/:collectionId/:slug', {
   name: 'itunes',
   action() {
     const collectionId = FlowRouter.getParam('collectionId');
-    setDataTitle('Podcasts.pubs.collection', collectionId, () => {
-      const { collectionName } = Podcasts.findOne({ collectionId });
-      return collectionName;
-    });
+    setDataTitle('Podcasts.pubs.collection', collectionId, () =>
+      Podcasts.findOne({ collectionId }).collectionName);
     mount(Layout, {
       content: (<PodcastPage collectionId={collectionId} />),
+    });
+  },
+});
+
+podcastRoutes.route('/:podcastId/:slug', {
+  name: 'podcast',
+  action() {
+    const podcastId = FlowRouter.getParam('podcastId');
+    setDataTitle('Podcasts.pubs.single', podcastId,
+      () => Podcasts.findOne(podcastId).collectionName);
+    mount(Layout, {
+      content: (<PodcastPage podcastId={podcastId} />),
     });
   },
 });
