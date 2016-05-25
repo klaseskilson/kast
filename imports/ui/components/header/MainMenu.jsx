@@ -1,6 +1,9 @@
 import React, { PropTypes } from 'react';
 
 import { routeMap } from './routeWatcher.jsx';
+
+import SearchForm from './SearchForm.jsx';
+
 import styles from './Menu.mss';
 
 const menuItems = [
@@ -15,6 +18,7 @@ const MainMenu = ({ currentRoute }) => {
   return (
     <nav className={styles.common}>
       {menuItems.map(routeMap.bind(this, routeName, styles))}
+      <SearchForm />
     </nav>
   );
 };

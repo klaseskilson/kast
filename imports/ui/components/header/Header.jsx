@@ -4,7 +4,6 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import UserMenu from './UserMenu.jsx';
 import MainMenu from './MainMenu.jsx';
-import SearchForm from './SearchForm.jsx';
 import { Container } from '../common.jsx';
 
 import header from './Header.mss';
@@ -36,7 +35,6 @@ class Header extends Component {
         <Container extraClass={menu.container}>
           <MainMenu currentRoute={currentRoute} />
           <div className={menu.container}>
-            <SearchForm />
             <UserMenu currentRoute={currentRoute} />
           </div>
         </Container>

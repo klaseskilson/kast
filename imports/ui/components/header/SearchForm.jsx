@@ -5,7 +5,7 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 import { _ } from 'meteor/stevezhu:lodash';
 
 import { urlEncode, urlDecode } from '../../../helpers/urlHelpers.js';
-import styles from './SearchForm.mss';
+import styles from './Header.mss';
 
 class SearchForm extends Component {
   constructor(props) {
@@ -45,12 +45,15 @@ class SearchForm extends Component {
       <form onSubmit={this.onSubmit} className={styles.form}>
         <input
           type="text"
-          placeholder="Search..."
+          placeholder="Search podcasts..."
           ref="search"
           value={this.state.search}
           onChange={this.onType}
           className={styles.textField}
         />
+        <button className={styles.submit}>
+          <i className="fa fa-search"></i>
+        </button>
       </form>
     );
   }
