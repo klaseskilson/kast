@@ -8,7 +8,7 @@ import './users.js';
 const loginError = new Meteor.Error('users.updateUser.notLoggedIn',
   'Must be logged in to update user.');
 
-export const updateUser = new ValidatedMethod({
+Meteor.users.methods.updateUser = new ValidatedMethod({
   name: 'users.updateUser',
 
   validate({ key, value }) {
@@ -31,7 +31,7 @@ export const updateUser = new ValidatedMethod({
   },
 });
 
-export const setUsername = new ValidatedMethod({
+Meteor.users.methods.setUsername = new ValidatedMethod({
   name: 'user.setUsername',
 
   validate(newUsername) {
@@ -48,3 +48,23 @@ export const setUsername = new ValidatedMethod({
     Accounts.setUsername(this.userId, newUsername);
   },
 });
+
+Meteor.users.methods.subscribeToPodcast = new ValidatedMethod({
+  name: 'Meteor.users.methods.subscribeToPodcast',
+
+  validate(podcastId) {
+    check(podcastId, String);
+    check(Meteor.user(), Object);
+  },
+
+  run(podcastId) {
+    const user = Meteor.user();
+    Meteor.users.update(user._id, {
+      $addToSet: {
+        podcastSubscriptions: podcastId,
+      },
+    });
+  },
+});
+
+export default Meteor.users.methods;
