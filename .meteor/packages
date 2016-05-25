@@ -44,3 +44,5 @@ sungwoncho:mailman
 random
 session
 accounts-password
+percolate:migrations
+aldeed:collection2
