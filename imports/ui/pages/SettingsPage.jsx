@@ -4,7 +4,7 @@ import { _ } from 'meteor/stevezhu:lodash';
 import { createContainer } from 'meteor/react-meteor-data';
 
 import { Spinner, FadeInLoader, Container } from '../components/common.jsx';
-import { updateUser, setUsername } from '../../api/users/methods.js';
+import userMethods from '../../api/users/methods.js';
 
 class SettingsPage extends Component {
   constructor(props) {
@@ -34,7 +34,7 @@ class SettingsPage extends Component {
     this.setState({ user });
 
     // avoid clogging server with method calls, update only once
-    this.update(updateUser, { key: name, value });
+    this.update(userMethods.updateUser, { key: name, value });
   }
 
   handleUsername(event) {
@@ -46,7 +46,7 @@ class SettingsPage extends Component {
     this.setState({ user });
 
     // make debounced call to not be clogging server with calls
-    this.update(setUsername, value);
+    this.update(userMethods.setUsername, value);
   }
 
   startUpdate() {
