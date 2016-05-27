@@ -27,6 +27,12 @@ const UserProfile = new SimpleSchema({
     type: String,
     optional: true,
   },
+
+  // kast-related keys
+  podcastSubscriptions: {
+    type: [String],
+    defaultValue: [],
+  },
 });
 
 const UserSchema = new SimpleSchema({
@@ -61,7 +67,6 @@ const UserSchema = new SimpleSchema({
   },
   profile: {
     type: UserProfile,
-    optional: true,
   },
   // Make sure this services field is in your schema if you're using any of the accounts packages
   services: {
@@ -73,12 +78,6 @@ const UserSchema = new SimpleSchema({
   heartbeat: {
     type: Date,
     optional: true,
-  },
-
-  // kast-related keys
-  podcastSubscriptions: {
-    type: [String],
-    defaultValue: [],
   },
 });
 

@@ -61,7 +61,7 @@ Meteor.users.methods.subscribeToPodcast = new ValidatedMethod({
     const user = Meteor.user();
     Meteor.users.update(user._id, {
       $addToSet: {
-        podcastSubscriptions: podcastId,
+        'profile.podcastSubscriptions': podcastId,
       },
     });
   },
