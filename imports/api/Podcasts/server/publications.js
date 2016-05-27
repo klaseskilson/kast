@@ -28,3 +28,7 @@ Podcasts.pubs.collection = Meteor.publish('Podcasts.pubs.collection', collection
 
 Podcasts.pubs.single = Meteor.publish('Podcasts.pubs.single',
   podcastId => Podcasts.find(podcastId));
+
+Podcasts.pubs.user = Meteor.publish('Podcasts.pubs.user', function userPodcasts() {
+  return Podcasts.userPodcasts(Meteor.users.findOne(this.userId));
+});

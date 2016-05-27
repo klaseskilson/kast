@@ -46,3 +46,4 @@ session
 accounts-password
 percolate:migrations
 aldeed:collection2
+perak:fuzzy-search
