@@ -1,51 +1,32 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
-const Schema = {};
-
-const UserCountry = new SimpleSchema({
-  name: {
-    type: String
-  },
-  code: {
-    type: String,
-    regEx: /^[A-Z]{2}$/
-  }
-});
 
 const UserProfile = new SimpleSchema({
-  firstName: {
+  name: {
     type: String,
-    optional: true
-  },
-  lastName: {
-    type: String,
-    optional: true
+    optional: true,
   },
   birthday: {
     type: Date,
-    optional: true
+    optional: true,
   },
   gender: {
     type: String,
     allowedValues: ['Male', 'Female'],
-    optional: true
+    optional: true,
   },
-  organization : {
+  organization: {
     type: String,
-    optional: true
+    optional: true,
   },
   website: {
     type: String,
     regEx: SimpleSchema.RegEx.Url,
-    optional: true
+    optional: true,
   },
   bio: {
     type: String,
-    optional: true
+    optional: true,
   },
-  country: {
-    type: Schema.UserCountry,
-    optional: true
-  }
 });
 
 const UserSchema = new SimpleSchema({
@@ -79,7 +60,7 @@ const UserSchema = new SimpleSchema({
     type: Date,
   },
   profile: {
-    type: Schema.UserProfile,
+    type: UserProfile,
     optional: true,
   },
   // Make sure this services field is in your schema if you're using any of the accounts packages
@@ -94,7 +75,11 @@ const UserSchema = new SimpleSchema({
     optional: true,
   },
 
-  podcastSubscriptions: { type: [String], defaultValue: [] },
+  // kast-related keys
+  podcastSubscriptions: {
+    type: [String],
+    defaultValue: [],
+  },
 });
 
 export default UserSchema;

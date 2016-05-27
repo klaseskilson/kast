@@ -10,11 +10,11 @@ class PodcastBox extends Component {
     super(props);
     this.subscribe = this.subscribe.bind(this);
   }
-  
+
   subscribe() {
-    
+
   }
-  
+
   render() {
     const { collectionName, artistName, artworkUrl100, collectionId } = this.props.podcast;
     const slug = prettyUrl(collectionName);
