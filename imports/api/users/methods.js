@@ -8,6 +8,27 @@ import './users.js';
 const loginError = new Meteor.Error('users.updateUser.notLoggedIn',
   'Must be logged in to update user.');
 
+Meteor.users.methods.isSubscribed = podcastId => {
+  const { profile } = Meteor.user();
+  return profile.podcastSubscriptions.indexOf(podcastId) > -1;
+};
+
+const subscribe = podcastId => {
+  Meteor.users.update(Meteor.userId(), {
+    $addToSet: {
+      'profile.podcastSubscriptions': podcastId,
+    },
+  });
+};
+
+const unSubscribe = podcastId => {
+  Meteor.users.update(Meteor.userId(), {
+    $pull: {
+      'profile.podcastSubscriptions': podcastId,
+    },
+  });
+};
+
 Meteor.users.methods.updateUser = new ValidatedMethod({
   name: 'users.updateUser',
 
@@ -49,8 +70,8 @@ Meteor.users.methods.setUsername = new ValidatedMethod({
   },
 });
 
-Meteor.users.methods.subscribeToPodcast = new ValidatedMethod({
-  name: 'Meteor.users.methods.subscribeToPodcast',
+Meteor.users.methods.togglePodcastSubscription = new ValidatedMethod({
+  name: 'Meteor.users.methods.togglePodcastSubscription',
 
   validate(podcastId) {
     check(podcastId, String);
@@ -58,13 +79,34 @@ Meteor.users.methods.subscribeToPodcast = new ValidatedMethod({
   },
 
   run(podcastId) {
-    const user = Meteor.user();
-    Meteor.users.update(user._id, {
-      $addToSet: {
-        'profile.podcastSubscriptions': podcastId,
-      },
-    });
+    if (Meteor.users.methods.isSubscribed(podcastId)) {
+      unSubscribe(podcastId);
+    } else {
+      subscribe(podcastId);
+    }
   },
+});
+
+Meteor.users.methods.subscribeToPodcast = new ValidatedMethod({
+  name: 'Meteor.users.methods.subscribeToPodcast',
+
+  validate(podcastId) {
+    check(podcastId, String);
+    check(Meteor.userId(), String);
+  },
+
+  run: subscribe,
+});
+
+Meteor.users.methods.unSubscribeFromPodcast = new ValidatedMethod({
+  name: 'Meteor.users.methods.unSubscribeFromPodcast',
+
+  validate(podcastId) {
+    check(podcastId, String);
+    check(Meteor.userId(), String);
+  },
+
+  run: unSubscribe,
 });
 
 export default Meteor.users.methods;

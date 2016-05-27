@@ -32,12 +32,22 @@ class PodcastPage extends Component {
   subscribe(event) {
     event.preventDefault();
     const { _id } = this.props.podcast;
-    methods.subscribeToPodcast.call(_id);
+    methods.togglePodcastSubscription.call(_id);
   }
 
   render() {
     const { loading, podcast, user } = this.props;
-    const icon = user && _.includes(user.subscriptions, podcast && podcast._id) ? 'check' : 'plus';
+
+    let icon;
+    let buttonText;
+    if (user && methods.isSubscribed(podcast && podcast._id)) {
+      icon = 'check';
+      buttonText = 'Subscribed';
+    } else {
+      icon = 'plus';
+      buttonText = 'Subscribe';
+    }
+
     return (
       <FadeInLoader loading={loading}>
         {!podcast ? null : (
@@ -58,7 +68,7 @@ class PodcastPage extends Component {
                     <Spinner icon="refresh" loading={this.state.refreshing} /> Refresh
                   </button>
                   <button onClick={this.subscribe} className="block green">
-                    <Spinner icon={icon} loading={this.state.subscribing} /> Subscribe
+                    <Spinner icon={icon} loading={this.state.subscribing} /> {buttonText}
                   </button>
                   <p>{podcast.description && podcast.description.long || ''}</p>
 
