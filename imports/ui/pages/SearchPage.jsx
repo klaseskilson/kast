@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 
 import { Container } from '../components/common.jsx';
 import ItunesSearch from '../components/podcasts/ItunesSearch.jsx';
-import Library from '../components/podcasts/Library.jsx';
+import Library from '../components/podcasts/LibrarySearch.jsx';
 
 const SearchPage = ({ searchString }) => (
   <Container>
