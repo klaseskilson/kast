@@ -2,9 +2,10 @@ import React, { Component, PropTypes } from 'react';
 
 import { Spinner, NothingFound } from '../common.jsx';
 import PodcastBox from '../podcasts/PodcastBox.jsx';
+import PodcastList from '../podcasts/PodcastList.jsx';
 import ItunesSearchCache from '../../../api/SearchCache/methods.js';
 
-import styles from './ItunesSearch.mss';
+import styles from './PodcastList.mss';
 
 class ItunesSearch extends Component {
   constructor(props) {
@@ -60,14 +61,15 @@ class ItunesSearch extends Component {
   }
 
   render() {
-    const { loading } = this.state;
+    const { loading, searchResult } = this.state;
+
     return (
       <div>
         <h2>iTunes podcasts search</h2>
         {
           this.state.loading ?
             (<Spinner loading={loading} icon="" />) :
-            this.resultList()
+            <PodcastList podcasts={searchResult || []} />
         }
       </div>
     );

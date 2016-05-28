@@ -1,7 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
-import { _ } from 'meteor/stevezhu:lodash';
 
 import { Container, FadeInLoader, FancyHeader, Spinner } from '../components/common.jsx';
 import Podcasts from '../../api/Podcasts/Podcasts.js';

@@ -6,16 +6,13 @@ import { mostSimilarString } from 'meteor/perak:fuzzy-search';
 
 import Podcasts from '../../../api/Podcasts/Podcasts';
 import { FadeInLoader } from '../../components/common.jsx';
+import PodcastList from './PodcastList.jsx';
 
 const Library = ({ user, loading, podcasts }) => (user ? (
   <div>
     <h2>Your library</h2>
     <FadeInLoader loading={loading}>
-      {loading ? null :
-        <div>
-          {podcasts.length}
-        </div>
-      }
+      {loading ? null : <PodcastList podcasts={podcasts} />}
     </FadeInLoader>
   </div>
 ) : null);
