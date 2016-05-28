@@ -20,3 +20,15 @@ Meteor.publish('Episodes.pubs.limit', (podcastId, limit = 20) => {
 });
 
 Meteor.publish('Episodes.pubs.single', episodeId => Episodes.find(episodeId));
+
+Meteor.publish('Episodes.pubs.user', function userEpisodes(limit = 20) {
+  const { profile } = this.user;
+  return Episodes.find({
+    podcastId: {
+      $in: profile.podcastSubscriptions,
+    },
+  }, {
+    sort: { published: -1 },
+    limit,
+  });
+});
