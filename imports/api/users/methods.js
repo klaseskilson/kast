@@ -8,7 +8,28 @@ import './users.js';
 const loginError = new Meteor.Error('users.updateUser.notLoggedIn',
   'Must be logged in to update user.');
 
-export const updateUser = new ValidatedMethod({
+Meteor.users.methods.isSubscribed = podcastId => {
+  const { profile } = Meteor.user();
+  return profile.podcastSubscriptions.indexOf(podcastId) > -1;
+};
+
+const subscribe = podcastId => {
+  Meteor.users.update(Meteor.userId(), {
+    $addToSet: {
+      'profile.podcastSubscriptions': podcastId,
+    },
+  });
+};
+
+const unSubscribe = podcastId => {
+  Meteor.users.update(Meteor.userId(), {
+    $pull: {
+      'profile.podcastSubscriptions': podcastId,
+    },
+  });
+};
+
+Meteor.users.methods.updateUser = new ValidatedMethod({
   name: 'users.updateUser',
 
   validate({ key, value }) {
@@ -31,7 +52,7 @@ export const updateUser = new ValidatedMethod({
   },
 });
 
-export const setUsername = new ValidatedMethod({
+Meteor.users.methods.setUsername = new ValidatedMethod({
   name: 'user.setUsername',
 
   validate(newUsername) {
@@ -48,3 +69,44 @@ export const setUsername = new ValidatedMethod({
     Accounts.setUsername(this.userId, newUsername);
   },
 });
+
+Meteor.users.methods.togglePodcastSubscription = new ValidatedMethod({
+  name: 'Meteor.users.methods.togglePodcastSubscription',
+
+  validate(podcastId) {
+    check(podcastId, String);
+    check(Meteor.user(), Object);
+  },
+
+  run(podcastId) {
+    if (Meteor.users.methods.isSubscribed(podcastId)) {
+      unSubscribe(podcastId);
+    } else {
+      subscribe(podcastId);
+    }
+  },
+});
+
+Meteor.users.methods.subscribeToPodcast = new ValidatedMethod({
+  name: 'Meteor.users.methods.subscribeToPodcast',
+
+  validate(podcastId) {
+    check(podcastId, String);
+    check(Meteor.userId(), String);
+  },
+
+  run: subscribe,
+});
+
+Meteor.users.methods.unSubscribeFromPodcast = new ValidatedMethod({
+  name: 'Meteor.users.methods.unSubscribeFromPodcast',
+
+  validate(podcastId) {
+    check(podcastId, String);
+    check(Meteor.userId(), String);
+  },
+
+  run: unSubscribe,
+});
+
+export default Meteor.users.methods;

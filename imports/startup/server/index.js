@@ -11,3 +11,5 @@ import '../../api/PlayHistory/server/publications.js';
 import '../../api/Podcasts/server/publications.js';
 import '../../api/Podcasts/server/podcastFetcher.js';
 import '../../api/SearchCache/server/cacheChecker.js';
+
+import './migrations.js';

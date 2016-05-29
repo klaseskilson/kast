@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 import { _ } from 'meteor/stevezhu:lodash';
 import { createContainer } from 'meteor/react-meteor-data';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import PlayHistory from '../../../api/PlayHistory/PlayHistory.js';
 import Episodes from '../../../api/Episodes/Episodes.js';
@@ -13,6 +14,7 @@ import AudioManager from '../../../api/Audio/AudioManager.js';
 import { Spinner } from '../common.jsx';
 import ProgressBar from './ProgressBar.jsx';
 import Timer from './Timer.jsx';
+import { prettyUrl } from '../../../helpers/urlHelpers';
 
 import styles from './Player.mss';
 
@@ -171,6 +173,10 @@ class Player extends Component {
     const { duration } = episode;
     const icon = this.state.playing ? 'pause' : 'play';
     const { loadingSound } = this.state;
+    const path = FlowRouter.path('podcast', {
+      podcastId: podcast._id,
+      slug: prettyUrl(podcast.collectionName),
+    });
 
     return (
       <div className={styles.player}>
@@ -188,7 +194,8 @@ class Player extends Component {
         <div className={styles.info}>
           <div className={styles.nowPlaying}>
             <span className={styles.titleAndCollection}>
-              <span className={styles.title}>{episode.title}</span> &ndash; {podcast.collectionName}
+              <span className={styles.title}>{episode.title}</span>&nbsp;
+              <a href={path}>{podcast.collectionName}</a>
             </span>
             <Timer duration={duration} currentlyAt={progress} />
           </div>

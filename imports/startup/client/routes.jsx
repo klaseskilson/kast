@@ -10,6 +10,7 @@ import SignInPage from '../../ui/pages/SignInPage.jsx';
 import SettingsPage from '../../ui/pages/SettingsPage.jsx';
 import SearchPage from '../../ui/pages/SearchPage.jsx';
 import PodcastPage from '../../ui/pages/PodcastPage.jsx';
+import LibraryPage from '../../ui/pages/LibraryPage.jsx';
 
 import { urlDecode } from '../../helpers/urlHelpers.js';
 
@@ -23,9 +24,9 @@ const setTitle = title => (document.title = title ? `${title} - Kast` : 'Kast');
 
 /**
  * set page title from subscription
- * @param {String} sub name of subscription
- * @param param
- * @param {function} titleMethod method to find title
+ * @param {String} sub            name of subscription
+ * @param {String} param          param to send to subscription
+ * @param {function} titleMethod  method to find title
  */
 const setDataTitle = (sub, param, titleMethod) => {
   Meteor.subscribe(sub, param, () => {
@@ -82,6 +83,16 @@ userRoutes.route('/settings', {
   },
 });
 
+podcastRoutes.route('/', {
+  name: 'library',
+  action() {
+    setTitle('My library');
+    mount(Layout, {
+      content: (<LibraryPage/>),
+    });
+  },
+});
+
 podcastRoutes.route('/search/:search', {
   name: 'search',
   action() {
@@ -98,12 +109,22 @@ podcastRoutes.route('/itunes/:collectionId/:slug', {
   name: 'itunes',
   action() {
     const collectionId = FlowRouter.getParam('collectionId');
-    setDataTitle('Podcasts.pubs.collection', collectionId, () => {
-      const { collectionName } = Podcasts.findOne({ collectionId });
-      return collectionName;
-    });
+    setDataTitle('Podcasts.pubs.collection', collectionId, () =>
+      Podcasts.findOne({ collectionId }).collectionName);
     mount(Layout, {
       content: (<PodcastPage collectionId={collectionId} />),
+    });
+  },
+});
+
+podcastRoutes.route('/:podcastId/:slug', {
+  name: 'podcast',
+  action() {
+    const podcastId = FlowRouter.getParam('podcastId');
+    setDataTitle('Podcasts.pubs.single', podcastId,
+      () => Podcasts.findOne(podcastId).collectionName);
+    mount(Layout, {
+      content: (<PodcastPage podcastId={podcastId} />),
     });
   },
 });

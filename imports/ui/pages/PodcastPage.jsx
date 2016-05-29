@@ -5,15 +5,17 @@ import { createContainer } from 'meteor/react-meteor-data';
 import { Container, FadeInLoader, FancyHeader, Spinner } from '../components/common.jsx';
 import Podcasts from '../../api/Podcasts/Podcasts.js';
 import EpisodeList from '../components/podcasts/EpisodeList.jsx';
+import methods from '../../api/users/methods.js';
 
 import styles from './PodcastPage.mss';
 
 class PodcastPage extends Component {
   constructor(props) {
     super(props);
-    this.state = { refreshing: false };
+    this.state = { refreshing: false, subscribing: false };
 
     this.refreshPodcast = this.refreshPodcast.bind(this);
+    this.subscribe = this.subscribe.bind(this);
   }
 
   refreshPodcast(event) {
@@ -22,11 +24,29 @@ class PodcastPage extends Component {
 
     this.setState({ refreshing: true });
     const { podcast } = this.props;
-    Meteor.call('Episodes.methods.import', podcast._id, () => this.setState({ refreshing: false }));
+    Meteor.call('Episodes.methods.import', podcast._id,
+      () => this.setState({ refreshing: false }));
+  }
+
+  subscribe(event) {
+    event.preventDefault();
+    const { _id } = this.props.podcast;
+    methods.togglePodcastSubscription.call(_id);
   }
 
   render() {
-    const { loading, podcast } = this.props;
+    const { loading, podcast, user } = this.props;
+
+    let icon;
+    let buttonText;
+    if (user && methods.isSubscribed(podcast && podcast._id)) {
+      icon = 'check';
+      buttonText = 'Subscribed';
+    } else {
+      icon = 'plus';
+      buttonText = 'Subscribe';
+    }
+
     return (
       <FadeInLoader loading={loading}>
         {!podcast ? null : (
@@ -45,6 +65,9 @@ class PodcastPage extends Component {
                 <div className={styles.sidebarContent}>
                   <button onClick={this.refreshPodcast} className="block">
                     <Spinner icon="refresh" loading={this.state.refreshing} /> Refresh
+                  </button>
+                  <button onClick={this.subscribe} className="block green">
+                    <Spinner icon={icon} loading={this.state.subscribing} /> {buttonText}
                   </button>
                   <p>{podcast.description && podcast.description.long || ''}</p>
 
@@ -72,10 +95,19 @@ PodcastPage.propTypes = {
   user: PropTypes.object,
 };
 
-export default createContainer(({ collectionId }) => {
-  const collectionHandle = Meteor.subscribe('Podcasts.pubs.collection', collectionId);
-  const loading = !collectionHandle.ready();
-  const podcast = Podcasts.findOne({ collectionId });
+export default createContainer(({ collectionId, podcastId }) => {
+  let collectionHandle;
+  let loading;
+  let podcast;
+  if (collectionId) {
+    collectionHandle = Meteor.subscribe('Podcasts.pubs.collection', collectionId);
+    loading = !collectionHandle.ready();
+    podcast = Podcasts.findOne({ collectionId });
+  } else {
+    collectionHandle = Meteor.subscribe('Podcasts.pubs.single', podcastId);
+    loading = !collectionHandle.ready();
+    podcast = Podcasts.findOne(podcastId);
+  }
   const user = Meteor.user();
   return {
     loading,

@@ -1,13 +1,13 @@
 @import 'client/stylesheets/includes/_mixins.scss',
         'client/stylesheets/includes/_variables.scss';
 
-.searchResults {
+.podcastList {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
 }
 
-.searchResults article {
+.podcastList article {
   //flex-grow: 1;
   width: unquote("calc(25% - #{$padding-large})");
 
@@ -20,6 +20,6 @@
   }
 }
 
-//.searchResults > article ~ article {
+//.podcastList > article ~ article {
 //  margin-left: $padding-large;
 //}

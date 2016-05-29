@@ -4,6 +4,7 @@
 
 [![Circle CI](https://circleci.com/gh/klaseskilson/kast/tree/develop.svg?style=svg)](https://circleci.com/gh/klaseskilson/kast)
 [![Dependency Status](https://david-dm.org/klaseskilson/kast.svg)](https://david-dm.org/klaseskilson/kast)
+[![devDependency Status](https://david-dm.org/klaseskilson/kast/dev-status.svg)](https://david-dm.org/klaseskilson/kast#info=devDependencies)
 
 [Deployed staging](https://kast-staging.herokuapp.com/)
 
