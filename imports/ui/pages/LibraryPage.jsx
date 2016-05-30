@@ -16,7 +16,7 @@ const LibraryPage = ({ loading, podcasts, episodes }) => (<div>
     {loading ? null :
       <Container>
         <h1>Latest episodes</h1>
-        {episodes.map(episode => <Episode episode={episode} />)}
+        {episodes.map(episode => <Episode episode={episode} key={episode._id} />)}
         <h1>Podcasts</h1>
         <PodcastList podcasts={podcasts} />
       </Container>
