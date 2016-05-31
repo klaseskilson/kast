@@ -67,7 +67,9 @@ PlayHistory.methods.togglePauseCurrent = new ValidatedMethod({
 PlayHistory.methods.updateCurrent = new ValidatedMethod({
   name: 'PlayHistory.methods.updateCurrent',
 
-  validate: PlayHistory.schema.validator(),
+  validate() {
+    check(Meteor.userId(), String);
+  },
 
   run(updated) {
     const userId = Meteor.userId();
@@ -76,7 +78,9 @@ PlayHistory.methods.updateCurrent = new ValidatedMethod({
     PlayHistory.update({
       current: true,
       userId,
-    }, updated);
+    }, {
+      $set: updated,
+    });
   },
 });
 

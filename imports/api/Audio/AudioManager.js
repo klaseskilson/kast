@@ -105,11 +105,6 @@ class AudioManager {
 
     if (updatedPlaying._id) delete updatedPlaying._id;
 
-    if (!PlayHistory.schema.newContext().validate(updatedPlaying)) {
-      // eslint-disable-next-line no-console
-      console.error('Invalid PlayHistory object:', updatedPlaying);
-    }
-
     if (Meteor.user()) {
       PlayHistory.methods.updateCurrent.call(updatedPlaying);
     } else {
