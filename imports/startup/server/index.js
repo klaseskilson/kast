@@ -12,4 +12,5 @@ import '../../api/Podcasts/server/publications.js';
 import '../../api/Podcasts/server/podcastFetcher.js';
 import '../../api/SearchCache/server/cacheChecker.js';
 
+// db migrations
 import './migrations.js';

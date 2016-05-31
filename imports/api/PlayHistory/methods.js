@@ -18,6 +18,7 @@ PlayHistory.methods.setCurrent = new ValidatedMethod({
 
   validate(episodeId) {
     check(episodeId, String);
+    check(Meteor.userId(), String);
   },
 
   run(episodeId) {
