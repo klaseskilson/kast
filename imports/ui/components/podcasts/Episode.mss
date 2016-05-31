@@ -29,6 +29,15 @@ $image-width: 60px;
       opacity: 0.2;
     }
   }
+
+  a {
+    color: lighten($black, 40%);
+    text-decoration: none;
+
+    &:hover {
+      color: $black;
+    }
+  }
 }
 
 .image {
