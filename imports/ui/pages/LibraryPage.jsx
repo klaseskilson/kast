@@ -15,10 +15,17 @@ const LibraryPage = ({ loading, podcasts, episodes }) => (<div>
   <FadeInLoader loading={loading}>
     {loading ? null :
       <Container>
-        <h1>Latest episodes</h1>
-        {episodes.map(episode => <Episode episode={episode} key={episode._id} />)}
-        <h1>Podcasts</h1>
-        <PodcastList podcasts={podcasts} />
+        <div className="row">
+          <div className="col-4">
+            <h2>Latest episodes</h2>
+            {episodes.map(
+              episode => <Episode episode={episode} key={episode._id} showPodcast />)}
+          </div>
+          <div className="col-2">
+            <h2>Podcasts</h2>
+            <PodcastList podcasts={podcasts} />
+          </div>
+        </div>
       </Container>
     }
   </FadeInLoader>

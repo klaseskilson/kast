@@ -2,6 +2,7 @@
         './includes/mixins';
 
 $column-padding: $padding-large;
+$columns: 6;
 
 .row {
   display: flex;
@@ -21,9 +22,9 @@ $column-padding: $padding-large;
   }
 }
 
-@for $i from 2 through 6 {
+@for $i from 1 through $columns {
   .col-#{$i} {
     @extend .col;
-    width: (100% / $i);
+    width: (100% * $i / $columns);
   }
 }
