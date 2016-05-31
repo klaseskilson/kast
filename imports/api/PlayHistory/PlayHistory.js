@@ -13,4 +13,6 @@ PlayHistory.schema = new SimpleSchema({
   playedAt: { type: Date, optional: true },
 });
 
+PlayHistory.attachSchema(PlayHistory.schema);
+
 export default PlayHistory;
