@@ -30,6 +30,10 @@ $image-width: 60px;
     }
   }
 
+  &.nowPlaying {
+    background: $sorbet-1;
+  }
+
   a {
     color: lighten($black, 40%);
     text-decoration: none;

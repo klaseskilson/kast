@@ -36,7 +36,7 @@ class Episode extends Component {
       );
     }
 
-    const { title, published, duration } = this.props.episode;
+    const { title, published, duration, _id } = this.props.episode;
     let { image } = this.props.episode;
     if (!image && podcast) {
       image = podcast.artworkUrl100;
@@ -46,8 +46,10 @@ class Episode extends Component {
     const length = `${Math.floor(duration / 60)}:${seconds < 10 ? 0 : ''}${seconds}`;
     const style = { backgroundImage: `url(${image})` };
 
+    const extraClass = this.props.isPlaying ? styles.nowPlaying : '';
+
     return (
-      <article className={styles.episode}>
+      <article className={`${styles.episode} ${extraClass}`}>
         <div className={styles.image} style={style} onClick={this.togglePlay}>
           <i className={`${styles.playback} fa fa-play-circle`}></i>
         </div>
@@ -66,6 +68,7 @@ Episode.propTypes = {
   episode: PropTypes.object.isRequired,
   podcast: PropTypes.object.isRequired,
   loadingPodcast: PropTypes.bool.isRequired,
+  isPlaying: PropTypes.bool.isRequired,
   showPodcast: PropTypes.bool.isRequired,
 };
 
@@ -75,6 +78,7 @@ export default createContainer(({ episode, showPodcast = false }) => {
   const podcast = Podcasts.findOne(episode.podcastId);
 
   return {
+    isPlaying: AudioManager.isCurrentEpisode(episode._id),
     episode,
     showPodcast,
     loadingPodcast,
