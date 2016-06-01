@@ -5,6 +5,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 import { Container, BigHeader, FadeInLoader } from '../components/common.jsx';
 import PodcastList from '../components/podcasts/PodcastList.jsx';
 import Episode from '../components/podcasts/Episode.jsx';
+import SmallPodcast from '../components/podcasts/SmallPodcast.jsx';
 import Podcasts from '../../api/Podcasts/Podcasts';
 import Episodes from '../../api/Episodes/Episodes';
 
@@ -22,7 +23,7 @@ const LibraryPage = ({ loading, podcasts, episodes }) => (<div>
           </div>
           <div className="col-2">
             <h2>Podcasts</h2>
-            <PodcastList podcasts={podcasts} />
+            {podcasts.map(p => <SmallPodcast podcast={p} key={p._id} />)}
           </div>
         </div>
       </Container>
@@ -42,7 +43,11 @@ export default createContainer(() => {
   const podcastHandle = Meteor.subscribe('Podcasts.pubs.user');
   const episodeHandle = Meteor.subscribe('Episodes.pubs.user');
   const loading = !podcastHandle.ready() || !episodeHandle.ready();
-  const podcasts = Podcasts.userPodcasts(user).fetch();
+  const podcasts = Podcasts.userPodcasts(user, {}, {
+    sort: {
+      collectionName: 1,
+    },
+  }).fetch();
   const episodes = Episodes.find({
     podcastId: {
       $in: user && user.profile.podcastSubscriptions || [],
