@@ -5,7 +5,7 @@ import PodcastBox from './PodcastBox.jsx';
 
 import styles from './PodcastList.mss';
 
-const PodcastList = ({ podcasts }) => {
+const PodcastList = ({ podcasts, View = PodcastBox }) => {
   // calculate if we should fill the search result with dummy content (ugly and hacky)
   let rest = podcasts.length % 4;
   const dummies = [];
@@ -17,7 +17,7 @@ const PodcastList = ({ podcasts }) => {
   return podcasts.length === 0 ? (<NothingFound />) : (
     <div className={styles.podcastList}>
       {podcasts.map(podcast => (
-        <PodcastBox podcast={podcast} key={podcast.collectionId} />
+        <View podcast={podcast} key={podcast.collectionId} />
       ))}
       {dummies}
     </div>
@@ -25,7 +25,8 @@ const PodcastList = ({ podcasts }) => {
 };
 
 PodcastList.propTypes = {
-  podcasts: PropTypes.array,
+  podcasts: PropTypes.array.isRequired,
+  View: PropTypes.func,
 };
 
 export default PodcastList;

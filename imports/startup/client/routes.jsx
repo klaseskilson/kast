@@ -88,7 +88,7 @@ podcastRoutes.route('/', {
   action() {
     setTitle('My library');
     mount(Layout, {
-      content: (<LibraryPage/>),
+      content: (<LibraryPage />),
     });
   },
 });

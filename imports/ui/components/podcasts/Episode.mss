@@ -19,7 +19,6 @@ $image-width: 60px;
 }
 
 .episode {
-  display: flex;
   padding: $padding;
 
   &:hover {
@@ -28,7 +27,28 @@ $image-width: 60px;
     .playback {
       opacity: 0.2;
     }
+
+    .infoToggle {
+      opacity: 0.5;
+    }
   }
+
+  &.nowPlaying {
+    background: $sorbet-1;
+  }
+
+  a {
+    color: lighten($black, 40%);
+    text-decoration: none;
+
+    &:hover {
+      color: $black;
+    }
+  }
+}
+
+.titleLine {
+  display: flex;
 }
 
 .image {
@@ -40,13 +60,25 @@ $image-width: 60px;
   background-size: cover;
 }
 
+.infoToggle,
 .playback {
+  cursor: pointer;
+  line-height: $image-width;
   width: $image-width;
   text-align: center;
-  line-height: $image-width;
-  color: $black;
   font-size: 1.7rem;
-  cursor: pointer;
+}
+
+.infoToggle {
+  opacity: 0;
+
+  &:hover {
+    opacity: 1.0 !important;
+  }
+}
+
+.playback {
+  color: $black;
 
   &:hover {
     text-shadow: 0 0 1em $black;
@@ -56,9 +88,19 @@ $image-width: 60px;
 }
 
 .info {
-  width: unquote("calc(100% - #{$image-width})");
+  width: unquote("calc(100% - #{2 * $image-width})");
   align-self: center;
   padding: 0 $padding-horizontal;
+}
+
+.moreInfo {
+  padding-top: $padding-small;
+  font-size: 0.9em;
+
+  h3 {
+    font-size: 1em;
+    margin: 0;
+  }
 }
 
 .title {
