@@ -13,13 +13,20 @@ import styles from './Episode.mss';
 class Episode extends Component {
   constructor(props) {
     super(props);
-
+    this.state = { showInfo: false };
     this.togglePlay = this.togglePlay.bind(this);
+    this.toggleInfo = this.toggleInfo.bind(this);
   }
 
   togglePlay() {
     const { _id } = this.props.episode;
     AudioManager.setEpisode(_id);
+  }
+
+  toggleInfo() {
+    this.setState({
+      showInfo: !this.state.showInfo,
+    });
   }
 
   render() {
@@ -36,7 +43,7 @@ class Episode extends Component {
       );
     }
 
-    const { title, published, duration, _id } = this.props.episode;
+    const { title, published, duration, description, enclosure } = this.props.episode;
     let { image } = this.props.episode;
     if (!image && podcast) {
       image = podcast.artworkUrl100;
@@ -45,20 +52,58 @@ class Episode extends Component {
     const seconds = duration % 60;
     const length = `${Math.floor(duration / 60)}:${seconds < 10 ? 0 : ''}${seconds}`;
     const style = { backgroundImage: `url(${image})` };
+    const size = enclosure.filesize ? `(${Math.floor(enclosure.filesize / 1000000)} MB)` : '';
+    const link = (
+      <a href={enclosure.url}>
+        <i className="fa fa-cloud-download"></i> Download {size}
+      </a>
+    );
+
+    const markup = () => {
+      let trimmed = 'Not provided.';
+      if (description) {
+        trimmed = description.replace(/<(?!br\s*\/?)[^>]+>/ig,'').replace(/\n\r/g, '<br>');
+      }
+
+      return { __html: trimmed };
+    };
 
     const extraClass = this.props.isPlaying ? styles.nowPlaying : '';
 
     return (
       <article className={`${styles.episode} ${extraClass}`}>
-        <div className={styles.image} style={style} onClick={this.togglePlay}>
-          <i className={`${styles.playback} fa fa-play-circle`}></i>
+        <div className={styles.titleLine}>
+          <div className={styles.image} style={style} onClick={this.togglePlay}>
+            <i className={`${styles.playback} fa fa-play-circle`}></i>
+          </div>
+          <div className={styles.info}>
+            <span className={styles.title}>{title}</span>
+            <span className={styles.date}>
+              {podcastInfo} {length} - {date}
+            </span>
+          </div>
+          <div className={styles.infoToggle} onClick={this.toggleInfo}>
+            <i className="fa fa-info-circle"></i>
+          </div>
         </div>
-        <div className={styles.info}>
-          <span className={styles.title}>{title}</span>
-          <span className={styles.date}>
-            {podcastInfo} {length} - {date}
-          </span>
-        </div>
+        {!this.state.showInfo ? null : (
+          <div className={styles.moreInfo}>
+            <div className="row">
+              <div className="col-2">
+                <h3>Published</h3>
+                {date}
+                <h3>Duration</h3>
+                {length}
+                <h3>Download</h3>
+                {link}
+              </div>
+              <div className="col-4">
+                <h3>Description</h3>
+                <div dangerouslySetInnerHTML={markup()}></div>
+              </div>
+            </div>
+          </div>
+        )}
       </article>
     );
   }
