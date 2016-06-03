@@ -4,7 +4,6 @@ import { HTTP } from 'meteor/http';
 import { EJSON } from 'meteor/ejson';
 
 import Podcasts from '../Podcasts.js';
-import '../methods.js';
 
 Podcasts.methods.fetchPodcast = new ValidatedMethod({
   name: 'Podcasts.methods.fetchPodcast',
