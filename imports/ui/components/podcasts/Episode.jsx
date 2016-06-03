@@ -62,7 +62,7 @@ class Episode extends Component {
     const markup = () => {
       let trimmed = 'Not provided.';
       if (description) {
-        trimmed = description.replace(/<(?!br\s*\/?)[^>]+>/ig,'').replace(/\n\r/g, '<br>');
+        trimmed = description.replace(/<(?!br\s*\/?)[^>]+>/ig, '').replace(/\n\r/g, '<br>');
       }
 
       return { __html: trimmed };
