@@ -76,13 +76,15 @@ class Episode extends Component {
     };
 
     let extraClass = '';
-    let playedIcon = 'check'
+    let playedIcon = 'check';
+    let playedText = 'Mark as played';
     if (this.props.isPlaying) {
       extraClass += ` ${styles.nowPlaying}`;
     }
     if (this.props.history) {
       extraClass += ` ${styles.played}`;
       playedIcon = 'times-circle';
+      playedText = 'Mark as unplayed';
     }
     if (this.props.user) {
       extraClass += ` ${styles.loggedIn}`;
@@ -101,7 +103,7 @@ class Episode extends Component {
             </span>
           </div>
           {!this.props.user ? null : (
-            <div className={styles.button} onClick={this.togglePlayedStatus}>
+            <div className={styles.button} onClick={this.togglePlayedStatus} title={playedText}>
               <i className={`fa fa-${playedIcon}`}></i>
             </div>
           )}
