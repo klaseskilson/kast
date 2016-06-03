@@ -28,7 +28,7 @@ $image-width: 60px;
       opacity: 0.2;
     }
 
-    .infoToggle {
+    .button {
       opacity: 0.5;
     }
   }
@@ -60,7 +60,7 @@ $image-width: 60px;
   background-size: cover;
 }
 
-.infoToggle,
+.button,
 .playback {
   cursor: pointer;
   line-height: $image-width;
@@ -69,7 +69,7 @@ $image-width: 60px;
   font-size: 1.7rem;
 }
 
-.infoToggle {
+.button {
   opacity: 0;
 
   &:hover {
@@ -93,6 +93,10 @@ $image-width: 60px;
   padding: 0 $padding-horizontal;
 }
 
+.loggedIn .info {
+  width: unquote("calc(100% - #{3 * $image-width})");
+}
+
 .moreInfo {
   padding-top: $padding-small;
   font-size: 0.9em;
@@ -110,4 +114,8 @@ $image-width: 60px;
 .date {
   display: block;
   color: $gray;
+}
+
+.played .title {
+  color: lighten($black, 40%);
 }
