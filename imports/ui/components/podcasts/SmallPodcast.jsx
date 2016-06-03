@@ -35,12 +35,15 @@ class SmallPodcast extends Component {
             <span className={styles.artist}>{artistName}</span>
           </div>
         </a>
-        <div className={styles.trash} title="Unsubscribe from this podcast" onClick={this.unsubscribe}>
-          <i className="fa fa-trash"></i>
+        <div
+          className={styles.trash}
+          title="Unsubscribe from this podcast"
+          onClick={this.unsubscribe}
+        >
+          <i className="fa fa-trash" />
         </div>
       </article>
     );
-
   }
 }
 

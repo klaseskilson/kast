@@ -6,6 +6,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 
 import AudioManager from '../../../api/Audio/AudioManager.js';
 import Podcasts from '../../../api/Podcasts/Podcasts';
+import PlayHistory from '../../../api/PlayHistory/methods';
 import { prettyUrl } from '../../../helpers/urlHelpers';
 
 import styles from './Episode.mss';
@@ -16,11 +17,17 @@ class Episode extends Component {
     this.state = { showInfo: false };
     this.togglePlay = this.togglePlay.bind(this);
     this.toggleInfo = this.toggleInfo.bind(this);
+    this.togglePlayedStatus = this.togglePlayedStatus.bind(this);
   }
 
   togglePlay() {
     const { _id } = this.props.episode;
     AudioManager.setEpisode(_id);
+  }
+
+  togglePlayedStatus() {
+    const { _id } = this.props.episode;
+    PlayHistory.methods.togglePlayedStatus.call(_id);
   }
 
   toggleInfo() {
@@ -62,13 +69,26 @@ class Episode extends Component {
     const markup = () => {
       let trimmed = 'Not provided.';
       if (description) {
-        trimmed = description.replace(/<(?!br\s*\/?)[^>]+>/ig,'').replace(/\n\r/g, '<br>');
+        trimmed = description.replace(/<(?!br\s*\/?)[^>]+>/ig, '').replace(/\n\r/g, '<br>');
       }
 
       return { __html: trimmed };
     };
 
-    const extraClass = this.props.isPlaying ? styles.nowPlaying : '';
+    let extraClass = '';
+    let playedIcon = 'check';
+    let playedText = 'Mark as played';
+    if (this.props.isPlaying) {
+      extraClass += ` ${styles.nowPlaying}`;
+    }
+    if (this.props.history) {
+      extraClass += ` ${styles.played}`;
+      playedIcon = 'times-circle';
+      playedText = 'Mark as unplayed';
+    }
+    if (this.props.user) {
+      extraClass += ` ${styles.loggedIn}`;
+    }
 
     return (
       <article className={`${styles.episode} ${extraClass}`}>
@@ -82,7 +102,12 @@ class Episode extends Component {
               {podcastInfo} {length} - {date}
             </span>
           </div>
-          <div className={styles.infoToggle} onClick={this.toggleInfo}>
+          {!this.props.user ? null : (
+            <div className={styles.button} onClick={this.togglePlayedStatus} title={playedText}>
+              <i className={`fa fa-${playedIcon}`}></i>
+            </div>
+          )}
+          <div className={styles.button} onClick={this.toggleInfo}>
             <i className="fa fa-info-circle"></i>
           </div>
         </div>
@@ -115,12 +140,23 @@ Episode.propTypes = {
   loadingPodcast: PropTypes.bool.isRequired,
   isPlaying: PropTypes.bool.isRequired,
   showPodcast: PropTypes.bool.isRequired,
+  history: PropTypes.object,
+  user: PropTypes.object,
 };
 
 export default createContainer(({ episode, showPodcast = false }) => {
+  const user = Meteor.user();
   const podcastHandle = Meteor.subscribe('Podcasts.pubs.single', episode.podcastId);
+  Meteor.subscribe('PlayHistory.pubs.playedEpisode', episode._id);
   const loadingPodcast = !podcastHandle.ready();
   const podcast = Podcasts.findOne(episode.podcastId);
+  const history = PlayHistory.findOne({
+    episodeId: episode._id,
+    userId: user && user._id,
+    playedAt: {
+      $exists: true,
+    },
+  });
 
   return {
     isPlaying: AudioManager.isCurrentEpisode(episode._id),
@@ -128,5 +164,7 @@ export default createContainer(({ episode, showPodcast = false }) => {
     showPodcast,
     loadingPodcast,
     podcast,
+    history,
+    user,
   };
 }, Episode);

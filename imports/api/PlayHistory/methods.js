@@ -13,6 +13,39 @@ const stopAllPreviousEpisodes = userId => {
   }, { multi: true });
 };
 
+const markAsPlayed = episodeId => {
+  const userId = Meteor.userId();
+
+  PlayHistory.upsert({
+    userId,
+    episodeId,
+  }, {
+    $set: {
+      playedAt: new Date(),
+    },
+    $setOnInsert: {
+      progress: 0,
+      current: false,
+      playing: false,
+      userId,
+      episodeId,
+    },
+  });
+};
+
+const unMarkAsPlayed = episodeId => {
+  const userId = Meteor.userId();
+
+  PlayHistory.update({
+    userId,
+    episodeId,
+  }, {
+    $unset: {
+      playedAt: 1,
+    },
+  });
+};
+
 PlayHistory.methods.setCurrent = new ValidatedMethod({
   name: 'PlayHistory.methods.setCurrent',
 
@@ -103,6 +136,52 @@ PlayHistory.methods.markCurrentAsPlayed = new ValidatedMethod({
         progress: 0,
       },
     });
+  },
+});
+
+PlayHistory.methods.markAsPlayed = new ValidatedMethod({
+  name: 'PlayHistory.methods.markAsPlayed',
+
+  validate(episodeId) {
+    check(episodeId, String);
+    check(Meteor.userId(), String);
+  },
+
+  run: markAsPlayed,
+});
+
+PlayHistory.methods.unMarkAsPlayed = new ValidatedMethod({
+  name: 'PlayHistory.methods.unMarkAsPlayed',
+
+  validate(episodeId) {
+    check(episodeId, String);
+    check(Meteor.userId(), String);
+  },
+
+  run: unMarkAsPlayed,
+});
+
+PlayHistory.methods.togglePlayedStatus = new ValidatedMethod({
+  name: 'PlayHistory.methods.togglePlayedStatus',
+
+  validate(episodeId) {
+    check(episodeId, String);
+    check(Meteor.userId(), String);
+  },
+
+  run(episodeId) {
+    const userId = Meteor.userId();
+    const existing = PlayHistory.findOne({
+      userId,
+      episodeId,
+      playedAt: {
+        $exists: true,
+      },
+    });
+    if (existing) {
+      return unMarkAsPlayed(episodeId);
+    }
+    return markAsPlayed(episodeId);
   },
 });
 
