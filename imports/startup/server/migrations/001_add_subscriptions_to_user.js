@@ -11,6 +11,8 @@ Migrations.add({
       $set: {
         podcastSubscriptions: [],
       },
+    }, {
+      validate: false,
     });
   },
 });
