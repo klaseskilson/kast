@@ -63,6 +63,10 @@ $title-height: "#{$padding-large + $padding-huge} + #{$title-size + $author-size
     line-height: 1.4;
     color: #fff;
   }
+
+  a {
+    color: white;
+  }
 }
 
 .sidebarContent {
