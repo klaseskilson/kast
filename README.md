@@ -8,6 +8,8 @@
 
 [Deployed staging](https://kast-staging.herokuapp.com/)
 
+[13 minute screen cast](https://www.youtube.com/watch?v=X_ML1s-dj2M)
+
 ## Getting started
 
 This is a `Meteor 1.3` app. First, you need to [install Meteor](https://meteor.com/install). When you've done that, copy the contents of [`settings.example.json`](settings.example.json) to `settings.json`, and enter the empty fields in that file. This file contains client IDs and secrets to the external services used in the app. Then run
